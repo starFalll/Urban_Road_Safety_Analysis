@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.web_first.mapper.UserMapper">
+
+    <!--用户映射结果集-->
+    <resultMap id="userResultMap" type="User">
+        <id property="userID" column="ur_id"/>
+        <result property="userName" column="ur_name"/>
+        <result property="userPassword" column="ur_password"/>
+        <result property="userCreateTime" column="ur_create_time" javaType="Date" jdbcType="TIMESTAMP"/>
+        <result property="userValidTime" column="ur_valid_time" javaType="Date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--用户名查询-->
+    <select id="getUserByName"
+            resultMap="userResultMap">select ur_id,ur_name,ur_password,ur_create_time,ur_valid_time from login_user where ur_name=#{userName}</select>
+
+    <!--用户绝对数据查询 （用户身份验证）-->
+    <select id="getUserByAbs"
+            resultMap="userResultMap">select ur_id,ur_name,ur_password,ur_create_time,ur_valid_time from login_user where ur_name=#{userName} AND ur_password=#{userPassword}</select>
+
+    <!--用户插入 （用户注册）-->
+    <insert id="addUser" parameterType="User"
+            useGeneratedKeys="true" keyProperty="userID">
+		insert into
+		login_user(ur_name,ur_password,ur_create_time,ur_valid_time)
+		values(#{userName},#{userPassword},#{userCreateTime},#{userValidTime})
+	</insert>
+
+</mapper>

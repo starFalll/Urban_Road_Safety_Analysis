@@ -1,0 +1,768 @@
+html {
+    height: 100%;
+}
+
+.navbar-fixed-top {
+    width: 60%;
+    left: 20%;
+    right: 20%;
+}
+
+body {
+    height: auto;
+    padding-top: 50px;
+    min-width: 320px;
+    margin: 0;
+    font-family: 'Open Sans', "Hiragino Sans GB", "Microsoft YaHei",
+    "WenQuanYi Micro Hei", sans-serif;
+    background: whitesmoke;
+}
+
+.container {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+body a {
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+}
+
+input[type="button"], input[type="submit"] {
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+label {
+    margin: 0;
+}
+
+.container {
+    width: 60%;
+}
+
+.radio-inline{
+    padding-left: 40px;
+    font-size: 1.5em;
+}
+
+input[type=checkbox], input[type=radio] {
+    margin: 6px 0 0;
+    width: 15px;
+    height: 15px;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.dropdown-menu {
+    border-radius: 0;
+    padding: 8px 0;
+    border-left: 1.5px solid rgba(0, 0, 0, .15);
+    min-width: 190px;
+    animation: move-menu 0.3s linear;
+    -webkit-animation: move-menu 0.3s linear; /* Safari 和 Chrome */
+}
+
+@keyframes move-menu {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@-webkit-keyframes move-menu {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+/*-----start-header----*/
+
+.logo {
+    background-color: #222;
+    padding: 3em 0;
+}
+
+.logo h1 {
+    color: #999;
+    letter-spacing: 0.2em;
+}
+
+.navbar {
+    border-radius: 0;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #9d9d9d
+}
+
+.navbar-inverse .navbar-brand:focus, .navbar-inverse .navbar-brand:hover {
+    color: #9d9d9d;
+    background-color: transparent
+}
+
+.navbar-header-login span {
+    margin: 0 5px 0 0;
+}
+
+.dropdown-menu span {
+    margin-right: 8px;
+}
+
+p.home {
+    padding: 0.7em 0.9em;
+    background: #e6e6e6;
+    font-size: 1.4em;
+    font-weight: 300;
+    margin-top: 1em;
+    margin-bottom: -0.5em;
+}
+
+p.home a {
+    text-decoration: none;
+    display: block;
+    width: 6%;
+    float: left;
+}
+
+.pie-content {
+    /*	background-color: #2c343c;*/
+    margin: 2em 0;
+    background-color: #1B242F;
+    position: relative;
+    width: 100%;
+    height: 60%;
+}
+
+.pie {
+    width: 100%;
+    height: 100%;
+}
+
+.calender-left {
+    width: 43%;
+    margin-right: 3%;
+    float: left;
+    background: #1b93e1;
+    padding: 3em;
+    position: relative;
+}
+
+.calender-left form input[type="text"], .calender-left form textarea {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    font-size: 1.2em;
+    margin-bottom: 1.2em;
+    color: #fff;
+    outline: none;
+    font-weight: 400;
+    background: #4db9ff;
+}
+
+.calender-left form textarea {
+    resize: none;
+    height: 201px;
+    border-radius: 0;
+}
+
+.calender-left form input[type="submit"] {
+    font-size: 1.5em;
+    font-weight: 400;
+    color: #fff;
+    outline: none;
+    border: none;
+    padding: 0.7em 0em;
+    display: block;
+    width: 100%;
+    background: #4db9ff;
+    margin-top: 0em;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+}
+
+.calender-left form input[type="submit"]:hover {
+    background: #fff;
+    color: #000;
+}
+
+.calender-left h3, .calender-right h3 {
+    margin-bottom: 1.5em;
+    font-size: 1.9em;
+    color: #fff;
+    font-weight: 400;
+}
+
+.calenders {
+    margin: 3em 0;
+}
+
+.alert-close {
+    background: url('../images/into.png') no-repeat 0px 0px;
+    cursor: pointer;
+    height: 22px;
+    width: 22px;
+    position: absolute;
+    right: 22px;
+    top: 22px;
+    -webkit-transition: color 0.2s ease-in-out;
+    -moz-transition: color 0.2s ease-in-out;
+    -o-transition: color 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out;
+    z-index: 1;
+}
+
+.quest-panel {
+    margin: 2em 0;
+    border-radius: 0;
+}
+
+.quest-content {
+    margin: 2em 0;
+}
+
+.form-control, .form-group-lg .input-lg {
+    border-radius: 0;
+}
+
+/*-- responsive-design starts-here --*/
+body.register, body.login {
+    height: 100%;
+    background-image: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.register-box, .login-box {
+    display: none;
+}
+
+.login-top {
+    padding: 0;
+    margin: 20% 33.333% 0 33.333%;
+}
+
+.login-img {
+    width: 140px;
+    height: 140px;
+}
+
+.register-form, .login-form {
+    padding: 0 20%;
+}
+
+.login-buttom {
+    padding: 0;
+    margin: 3% 33.33% 30% 33.33%;
+}
+
+.register-buttom {
+    padding: 0;
+    margin: 28% 33.333% 30% 33.333%;
+}
+
+.form-group.form-group-lg.has-error.has-feedback {
+    margin-bottom: -5px;
+}
+
+.register-remove {
+    display: none;
+    margin: 0 0 0 90%;
+    padding: 0;
+    color: #d9534f;
+    position: relative;
+    top: -31px;
+    font-size: 18px;
+}
+
+.login-failed {
+    display: none;
+    padding: 0;
+    margin: 5% 33.333% 30% 33.333%;
+}
+
+.login-failed p {
+    color: whitesmoke;
+    font-size: 18px;
+}
+
+.quest-panel {
+    min-height: 900px;
+}
+
+.form-horizontal {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.quest-submit{
+    margin-left: 45%;
+}
+
+.question{
+    background-color: whitesmoke;
+    border: 1px solid grey;
+    margin: 5% 20%;
+    padding: 10%;
+}
+
+.question{
+    width: 60%;
+    height: 50%;
+}
+
+.quest-option{
+    padding: 8% 20%;
+}
+
+.quest-option button{
+    padding: 10px 30px;;
+}
+
+@media screen and (max-width: 1440px) {
+    .login-buttom {
+        padding: 0;
+        margin: 3% 25% 30% 25%;
+    }
+
+    .register-buttom {
+        margin: 30% 25% 30% 25%;
+    }
+
+    p.home {
+        padding: 0.7em 0.5em;
+    }
+
+    button#focus-single, button#focus-multiple, button#focus-coords, button#focus-init {
+        padding: 5px 4px;
+        margin: 0 4px 0 0;
+    }
+
+}
+
+@media screen and (max-width: 1366px) {
+    .total-content {
+        margin: 3em 2em;
+    }
+
+    .side-bar {
+        margin-right: 2%;
+    }
+
+    button#focus-single, button#focus-multiple, button#focus-coords, button#focus-init {
+        font-size: 0.875em;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .world-map {
+        padding: 2em 1em 0 1em;
+    }
+
+    button#focus-single, button#focus-multiple, button#focus-coords, button#focus-init {
+        font-size: 0.85em;
+    }
+
+    .world-map h3 {
+        font-size: 1.8em;
+        padding: 0.85em 0 0.5em 0;
+    }
+
+    .world-map p {
+        font-size: 1.15em;
+    }
+
+    .site-report {
+        padding: 3em 2em 1em 2em;
+        min-height: 496px;
+    }
+
+    p.home {
+        font-size: 1.2em;
+        padding: 0.5em 01em;
+    }
+
+    p.home a {
+        margin-top: -1.4px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .container {
+        width: 80%;
+    }
+
+    .navbar-fixed-top {
+        width: 80%;
+        left: 10%;
+        right: 10%;
+    }
+
+    .btn-group-lg > .btn, .btn-lg {
+        padding: 10px 25px;
+    }
+
+    .col-md-1 {
+        width: 10%;
+    }
+
+    .col-md-offset-1 {
+        margin-left: 10%;
+    }
+
+    .register-form {
+        padding: 5% 10%;
+    }
+
+    .logo a img {
+        width: 68%;
+    }
+
+    .logo {
+        padding: 2.5em 0;
+    }
+
+    .login-top {
+        margin: 40% 33.333% 5% 33.333%;
+    }
+
+    .login-buttom {
+        margin: 3% 15% 30% 15%;
+    }
+
+    .register-buttom {
+        margin: 50% 25% 30% 25%
+    }
+
+    .register-remove {
+        margin: 0 0 0 92%;
+        top: -30px;
+        font-size: 16px
+    }
+
+    button#focus-single, button#focus-multiple, button#focus-coords, button#focus-init {
+        font-size: 0.71em;
+        padding: 4px 3px;
+        margin: 0 0px 0 0;
+    }
+
+    .calender-left {
+        padding: 3em 2em 2em 2em;
+    }
+
+    .calender-right {
+        padding: 3em 0em 2.55em 0em;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .col-xs-1 {
+        width: 13%;
+    }
+
+    .col-xs-offset-1 {
+        margin-left: 13%;
+    }
+
+    .logo a img {
+        width: 20%;
+    }
+
+    .logo {
+        padding: 2em 0;
+    }
+
+    .login-buttom {
+        margin: 3% 10% 30% 10%;
+    }
+
+    .register-buttom {
+        margin: 50% 20% 30% 20%;
+    }
+
+    .question{
+        margin: 5% auto;
+        width: 70%;
+        height: 50%;
+    }
+
+    .quest-option{
+        padding: 8% 20%;
+    }
+
+    .quest-option button{
+        padding: 10px 30px;;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .logo a img {
+        width: 24%;
+    }
+
+    .logo {
+        padding: 1.8em 0 1.4em 0;
+    }
+
+    p.home {
+        font-size: 1.1em;
+    }
+
+    p.home a {
+        width: 8%;
+    }
+
+    p.home a {
+        margin-top: -1.2px;
+    }
+
+    .login-top {
+        margin: 40% 20% 10% 20%;
+    }
+
+    .login-buttom {
+        margin: 0 -10px 30% -10px;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    .h1, h1 {
+        font-size: 20px;
+    }
+
+    html {
+        width: 100%;
+        height: 100%;
+    }
+
+    .logo {
+        padding: 1em 0 1em 0;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    .navbar-fixed-top {
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+
+    .col-xs-1 {
+        width: 20%;
+    }
+
+    .col-xs-offset-1 {
+        margin-left: 20%;
+    }
+
+    .calender-left {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 1.8em;
+    }
+
+    .calender-right {
+        width: 100%;
+    }
+
+    .logo a img {
+        width: 30%;
+    }
+
+    p.home a {
+        margin-top: -1px;
+        width: 11%;
+    }
+
+    body.register, body.login {
+        background: url("../images/phonebg.jpg") no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .register-box, .login-box {
+        display: block;
+        animation: move-box 0.3s linear;
+        -webkit-animation: move-box 0.3s linear; /* Safari 和 Chrome */
+    }
+
+    @keyframes move-box {
+        from {
+            opacity: 0
+        }
+        to {
+            opacity: 1
+        }
+    }
+
+    @-webkit-keyframes move-box {
+        from {
+            opacity: 0
+        }
+        to {
+            opacity: 1
+        }
+    }
+    .login-top {
+        padding: 0;
+        margin: 20% 20% 8% 20%;
+    }
+
+    .login-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .login-buttom {
+        padding: 0;
+        margin: 5% 12% 30% 12%;
+    }
+
+    .register-buttom {
+        margin: 40% 20% 30% 20%;
+    }
+
+    .register-remove {
+        display: none;
+        margin: 0 0 0 88%;
+        padding: 0;
+        color: #d9534f;
+        position: relative;
+        top: -21px;
+    }
+
+    .control-label {
+        margin-top: 3px;
+    }
+
+    .form-group-lg .form-control {
+        height: 30px;
+        padding: 10px 5px;
+        font-size: 18px;
+        line-height: 1.3333333;
+    }
+
+    .btn-group-lg > .btn, .btn-lg {
+        padding: 5px 13px;
+        font-size: 14px;
+        line-height: 1.3333333;
+    }
+
+    .question{
+        margin: 5% auto;
+        width: 80%;
+        height: 50%;
+    }
+
+    .quest-option{
+        padding: 8% 10%;
+    }
+
+    .quest-option button{
+        padding: 10px 30px;;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    html {
+        width: 320px;
+        height: 480px;
+    }
+
+    body {
+        width: 320px;
+        height: 480px;
+    }
+
+    .logo a img {
+        width: 38%;
+    }
+
+    .logo {
+        padding: 1.5em 0 1.1em 0;
+        margin-bottom: 2.5em;
+    }
+
+    p.home a {
+        margin-top: -1.1px;
+        width: 19%;
+    }
+
+    .calender-right h3 {
+        margin-left: 1em;
+        margin-bottom: 01em;
+        font-size: 1.7em;
+    }
+
+    .calender-right {
+        padding: 2.5em 0em 1em 0em;
+    }
+
+    .calender-left form input[type="text"], .calender-left form textarea {
+        padding: 13px;
+        font-size: 1em;
+        margin-bottom: 1em;
+    }
+
+    .calender-left form input[type="submit"] {
+        font-size: 1.2em;
+        padding: 0.5em 0em;
+    }
+
+    .calender-left form textarea {
+        height: 150px;
+    }
+
+    .calender-left h3 {
+        margin-bottom: 1em;
+        font-size: 1.7em;
+    }
+
+    .question{
+        margin: 5% auto;
+        width: 90%;
+        height: 50%;
+    }
+
+    .quest-option{
+        padding: 8% 10%;
+    }
+
+    .quest-option button{
+        padding: 10px 30px;;
+    }
+}

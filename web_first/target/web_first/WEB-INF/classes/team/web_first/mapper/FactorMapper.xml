@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.web_first.mapper.FactorMapper">
+
+    <!--FactorA 映射结果集-->
+    <resultMap id="factorAMap" type="FactorA">
+        <id property="riskPerceptionId" column="risk_perception_id"/>
+        <result property="getRiskPerceptionScore" column="risk_perception_score"/>
+        <result property="dagerInfluenceCoefficient" column="dager_influence_coefficient"/>
+        <result property="A1" column="A1"/>
+        <result property="A2" column="A2"/>
+        <result property="A3" column="A3"/>
+        <result property="A4" column="A4"/>
+        <result property="A5" column="A5"/>
+        <result property="A6" column="A6"/>
+    </resultMap>
+
+    <!--FactorB 映射结果集-->
+    <resultMap id="factorBMap" type="FactorB">
+        <id property="dangerousDrivingId" column="dangerous_driving_id"/>
+        <result property="dangerousDrivingScore" column="dangerous_driving_score"/>
+        <result property="dagerInfluenceCoefficient" column="dager_influence_coefficient"/>
+        <result property="B1" column="B1"/>
+        <result property="B2" column="B2"/>
+        <result property="B3" column="B3"/>
+        <result property="B4" column="B4"/>
+        <result property="B5" column="B5"/>
+        <result property="B6" column="B6"/>
+    </resultMap>
+
+    <!--FactorC 映射结果集-->
+    <resultMap id="factorCMap" type="FactorC">
+        <id property="confidenceId" column="confidence_id"/>
+        <result property="confidenceScore" column="confidence_score"/>
+        <result property="dangerousDrivingCoefficient" column="dangerous_driving_coefficient"/>
+        <result property="C1" column="C1"/>
+        <result property="C2" column="C2"/>
+        <result property="C3" column="C3"/>
+        <result property="C4" column="C4"/>
+        <result property="C5" column="C5"/>
+        <result property="C6" column="C6"/>
+    </resultMap>
+
+    <!--FactorD 映射结果集-->
+    <resultMap id="factorDMap" type="FactorD">
+        <id property="personalityId" column="personality_id"/>
+        <result property="PersonalityScore" column="personality_score"/>
+        <result property="dagerInfluenceCoefficient" column="dager_influence_coefficient"/>
+        <result property="D1" column="D1"/>
+        <result property="D2" column="D2"/>
+        <result property="D3" column="D3"/>
+        <result property="D4" column="D4"/>
+        <result property="D5" column="D5"/>
+        <result property="D6" column="D6"/>
+    </resultMap>
+
+    <!--获得所有FactorA 查询结果集-->
+    <select id="showFactorA" resultMap="factorAMap">
+        SELECT * FROM risk_perception;
+    </select>
+
+    <!--获得所有FactorB 查询结果集-->
+    <select id="showFactorB" resultMap="factorBMap">
+        SELECT * FROM dangerous_driving;
+    </select>
+
+    <!--获得所有FactorC 查询结果集-->
+    <select id="showFactorC" resultMap="factorCMap">
+         SELECT * FROM confidence;
+    </select>
+
+    <!--获得所有FactorD 查询结果集-->
+    <select id="showFactorD" resultMap="factorDMap">
+        SELECT * FROM personality;
+    </select>
+
+    <!--插入FactorA -->
+    <insert id="addFactorA" parameterType="FactorA" useGeneratedKeys="true" keyProperty="riskPerceptionId">
+        INSERT INTO risk_perception(A1,A2,A3,A4,A5,A6) VALUES (#{A1},#{A2},#{A3},#{A4},#{A5},#{A6})
+    </insert>
+
+    <!--插入FactorC -->
+    <insert id="addFactorB" parameterType="FactorB" useGeneratedKeys="true" keyProperty="dangerousDrivingId">
+        INSERT INTO dangerous_driving(B1,B2,B3,B4,B5,B6) VALUES (#{B1},#{B2},#{B3},#{B4},#{B5},#{B6})
+    </insert>
+
+    <!--插入FactorB -->
+    <insert id="addFactorC" parameterType="FactorC" useGeneratedKeys="true" keyProperty="confidenceId">
+        INSERT INTO confidence(C1,C2,C3,C4,C5,C6) VALUES (#{C1},#{C2},#{C3},#{C4},#{C5},#{C6})
+    </insert>
+
+    <!--插入FactorD -->
+    <insert id="addFactorD" parameterType="FactorD" useGeneratedKeys="true" keyProperty="personalityId">
+        INSERT INTO personality(D1,D2,D3,D4,D5,D6) VALUES (#{D1},#{D2},#{D3},#{D4},#{D5},#{D6})
+    </insert>
+
+</mapper>
