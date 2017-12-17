@@ -48,7 +48,7 @@ public class LoginFilter implements Filter {
         HttpSession session = httpRequest.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            ((HttpServletResponse) response).sendRedirect("/web_first/login.html");
+            ((HttpServletResponse) response).sendRedirect("/Urban_Road_Safety_Analysis/login.html");
         }
         // pass the request along the filter chain
         chain.doFilter(request, response);

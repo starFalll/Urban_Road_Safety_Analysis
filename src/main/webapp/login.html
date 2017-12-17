@@ -103,11 +103,11 @@
             <img src="images/my.jpg" class="img-circle login-img center-block">
         </div>
         <div class="login-buttom">
-            <form role="form" id="login" action="/web_first/LoginServlet" class="login-form" method="post">
+            <form role="form" id="login" action="/Urban_Road_Safety_Analysis/LoginServlet" class="login-form" method="post">
                 <div class="form-group form-group-lg"><input class="form-control input-lg" id="username" name="username"
                                                              type="text" placeholder="User Name"></div>
                 <div class="form-group form-group-lg"><input class="form-control input-lg" id="password" name="password"
-                                                             type="text" placeholder="Password"></div>
+                                                             type="password" placeholder="Password"></div>
                 <div class="form-group form-group-lg">
                     <button type="button" class="btn btn-success btn-lg" style="float:left "
                             onclick="location.href='register.html'">注册
@@ -174,7 +174,7 @@
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options};
             $.ajax({
-                url: "/web_first/QuestServlet",
+                url: "/Urban_Road_Safety_Analysis/QuestServlet",
                 data: result,
                 success: function () {
                     alert("上传成功！");
@@ -194,7 +194,7 @@
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options};
             $.ajax({
-                url: "/web_first/QuestServlet",
+                url: "/Urban_Road_Safety_Analysis/QuestServlet",
                 data: result,
                 success: function () {
                     alert("上传成功！");
@@ -206,6 +206,11 @@
         }
     })
 
+    $(".navbar-nav").click(function () {
+        if (screen.width < 768) {
+            $(".navbar-toggle").click();
+        }
+    })
 </script>
 </body>
 </html>

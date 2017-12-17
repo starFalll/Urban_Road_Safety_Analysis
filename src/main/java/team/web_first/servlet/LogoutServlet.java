@@ -35,7 +35,7 @@ public class LogoutServlet extends HttpServlet {
         //移除用户
         Logger logger = new Log4jUtil(LogoutServlet.class).getLogger();
         request.getSession().removeAttribute("user");
-        response.sendRedirect("/web_first/login.html");
+        response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
     }
 
     /**

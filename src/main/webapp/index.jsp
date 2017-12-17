@@ -1,12 +1,11 @@
 <%@ page import="team.web_first.javabean.User" %>
-<%@ page import="sun.font.Script" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%
     User user;
     user = (User) request.getSession().getAttribute("user");
     if (user == null) {
         response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-        String newLocn = "/web_first/login.html";
+        String newLocn = "/Urban_Road_Safety_Analysis/login.html";
         response.setHeader("Location", newLocn);
         return;
     }
@@ -40,8 +39,8 @@
     </script>
 
     <!--Close script-->
-    <script>$(document).ready(function (c) {
-        $('.alert-close').on('click', function (c) {
+    <script>$(document).ready(function () {
+        $('.alert-close').on('click', function () {
             $(this.parentNode).fadeOut();
         });
     });
@@ -143,7 +142,8 @@
                                 <li><a><span class="glyphicon glyphicon-user"></span><%= user.getUserName()%>
                                 </a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/web_first/LogoutServlet"><span class="glyphicon glyphicon-log-out"></span>Log
+                                <li><a href="/Urban_Road_Safety_Analysis/LogoutServlet"><span
+                                        class="glyphicon glyphicon-log-out"></span>Log
                                     out</a></li>
                             </ul>
                         </li>
@@ -227,7 +227,7 @@
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options};
             $.ajax({
-                url: "/web_first/QuestServlet",
+                url: "/Urban_Road_Safety_Analysis/QuestServlet",
                 data: result,
                 success: function () {
                     alert("上传成功！");
@@ -247,7 +247,7 @@
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options};
             $.ajax({
-                url: "/web_first/QuestServlet",
+                url: "/Urban_Road_Safety_Analysis/QuestServlet",
                 data: result,
                 success: function () {
                     alert("上传成功！");
@@ -259,6 +259,16 @@
         }
     })
 
+    $(".display").click(function () {
+        if (screen.width < 768) {
+            $(".navbar-toggle").click();
+        }
+    })
+    $(".quest").click(function () {
+        if (screen.width < 768) {
+            $(".navbar-toggle").click();
+        }
+    })
 
 </script>
 </body>
