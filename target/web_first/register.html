@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <meta http-equiv="expires" content="0"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <link rel="shortcut icon" href="images/title.png">
+    <link rel="icon" href="images/title.png">
+    <link rel="Bookmark" href="images/title.png">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+    <script>document.documentElement.style.overflow='hidden';
+
+    document.body.style.overflow='hidden';</script>
+    <title>Register</title>
+    <script>
+        $(document).ready(function showRegister() {
+            $(".register-box").fadeIn();
+        })
+    </script>
+</head>
+<body class="register">
+<div class="container register-box" style="display: none">
+    <div class="navigation">
+        <div class="logo text-center">
+            <h1>城市道路分析管理系统</h1>
+        </div>
+        <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#example-navbar-collapse">
+                        <span class="sr-only">切换导航</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <p class="navbar-brand"><span class="glyphicon glyphicon-chevron-right"></span></p>
+                </div>
+                <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active login"><a href="javascript:void(0)" onclick="login()">Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="register-buttom">
+        <form role="form" id="register" action="/web_first/RegisterServlet" class="register-form"
+              onsubmit="return checkValid()" method="post">
+            <div class="form-group form-group-lg"><input class="form-control input-lg" id="username" name="username"
+                                                         type="text" placeholder="User Name"></div>
+            <div class="form-group form-group-lg"><input class="form-control input-lg" id="password" name="password"
+                                                         type="text" placeholder="Password"
+                                                         onblur="checkPassword()"></div>
+            <div class="form-group form-group-lg">
+                <input class="form-control input-lg" id="confirmPassword" type="text" value=""
+                       placeholder="Confirmation"
+                       onblur="checkConPassword()">
+                <span class="glyphicon register-remove glyphicon-remove " aria-hidden="true"></span>
+            </div>
+            <div class="form-group form-group-lg">
+                <input class="btn btn-primary btn-group-justified btn-lg" style="float:right" id="submit" type="submit"
+                       value="提交">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+    function login() {
+        $(".register-buttom").hide();
+        location.assign("login.html");
+    }
+    function checkPassword() {
+        if ($("#confirmPassword").val()!="") {
+            if ($("#password").val() != $("#confirmPassword").val()) {
+                $("#register").attr("action", "#");
+                $("#confirmPassword").parent().attr("class", "form-group form-group-lg has-error has-feedback");
+                $(".register-remove").show();
+            }
+            else {
+                $("#register").attr("action", "/web_first/RegisterServlet");
+                $("#confirmPassword").parent().attr("class", "form-group form-group-lg");
+                $(".register-remove").hide();
+            }
+        }
+    }
+
+    function checkConPassword() {
+        if ($("#password").val() != $("#confirmPassword").val()) {
+            $("#register").attr("action", "#");
+            $("#confirmPassword").parent().attr("class", "form-group form-group-lg has-error has-feedback");
+            $(".register-remove").show();
+        }
+        else {
+            $("#register").attr("action", "/web_first/RegisterServlet");
+            $("#confirmPassword").parent().attr("class", "form-group form-group-lg");
+            $(".register-remove").hide();
+        }
+    }
+
+    function checkValid() {
+        if ($("#username").val().indexOf(" ") >= 0 || $("#password").val().indexOf(" ") >= 0) {
+            return false;
+        }
+    }
+</script>
+</html>
