@@ -63,7 +63,7 @@
         </nav>
     </div>
     <div class="register-buttom">
-        <form role="form" id="register" action="/web_first/RegisterServlet" class="register-form"
+        <form role="form" id="register" action="/Urban_Road_Safety_Analysis/RegisterServlet" class="register-form"
               onsubmit="return checkValid()" method="post">
             <div class="form-group form-group-lg"><input class="form-control input-lg" id="username" name="username"
                                                          type="text" placeholder="User Name"></div>
@@ -97,7 +97,7 @@
                 $(".register-remove").show();
             }
             else {
-                $("#register").attr("action", "/web_first/RegisterServlet");
+                $("#register").attr("action", "/Urban_Road_Safety_Analysis/RegisterServlet");
                 $("#confirmPassword").parent().attr("class", "form-group form-group-lg");
                 $(".register-remove").hide();
             }
@@ -111,7 +111,7 @@
             $(".register-remove").show();
         }
         else {
-            $("#register").attr("action", "/web_first/RegisterServlet");
+            $("#register").attr("action", "/Urban_Road_Safety_Analysis/RegisterServlet");
             $("#confirmPassword").parent().attr("class", "form-group form-group-lg");
             $(".register-remove").hide();
         }
@@ -122,5 +122,11 @@
             return false;
         }
     }
+
+    $(".navbar-nav").click(function () {
+        if (screen.width < 768) {
+            $(".navbar-toggle").click();
+        }
+    })
 </script>
 </html>

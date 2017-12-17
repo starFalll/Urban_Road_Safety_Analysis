@@ -34,15 +34,15 @@ public class Apriori {
 
          */
         String AllCol[]={"A1","A2","A3","A4","A5","B1", "B2", "B3", "B4", "B5", "B6","C1", "C2", "C3",
-                "C4", "C5", "C6","D1", "D2", "D3", "D4", "D5", "D6"}
+                "C4", "C5", "C6","D1", "D2", "D3", "D4", "D5", "D6"};
         for(int i=0;i<factorAlls.length;i++){
                 List<String> lineList = new ArrayList<String>();
                 boolean[] values=factorAlls[i].getAllBooleanValue();
-                for(int i=0;i<values.length;i++){
+/*                for(int i=0;i<values.length;i++){
                     if(values[i]==true){
                         lineList.add(AllCol[i]);
                     }
-                }
+                }*/
                 record.add(lineList);
             }
             return record;

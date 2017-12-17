@@ -66,7 +66,7 @@ public class RegisterServlet extends HttpServlet {
             tempUser.setUserCreateTime(userCurrentTime);
             tempUser.setUserValidTime(userValidTime);
         } catch (NullPointerException e) {
-            response.sendRedirect("/web_first/login.html");
+            response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
             e.printStackTrace();
         }
         //账户密码加密
@@ -78,13 +78,13 @@ public class RegisterServlet extends HttpServlet {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             checkedUser = userMapper.getUserByName(tempUser.getUserName());
             if (checkedUser != null) {
-                response.sendRedirect("/web_first/login.html?userExist=1");
+                response.sendRedirect("/Urban_Road_Safety_Analysis/login.html?userExist=1");
                 return;
             } else {
                 userMapper.addUser(tempUser);
                 sqlSession.commit();
                 request.getSession().setAttribute("user", tempUser);
-                response.sendRedirect("/web_first/index.jsp");
+                response.sendRedirect("/Urban_Road_Safety_Analysis/index.jsp");
                 return;
             }
         } catch (Exception e) {

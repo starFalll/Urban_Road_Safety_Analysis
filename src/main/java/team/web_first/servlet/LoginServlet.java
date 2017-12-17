@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
             userPassword = request.getParameter("password");
             userEncryptPassword = UserPasswordEncrypt.encrypt(userPassword);
         } catch (NullPointerException e) {
-            response.sendRedirect("/web_first/login.html?checkUnValid=1");
+            response.sendRedirect("/Urban_Road_Safety_Analysis/login.html?checkUnValid=1");
             e.printStackTrace();
         }
         //取得参数创建临时对象
@@ -66,16 +66,17 @@ public class LoginServlet extends HttpServlet {
             if (checkedUser != null) {
                 if (checkedUser.getUserValidTime() == null || checkedUser.getUserValidTime().after(new Date())) {
                     request.getSession().setAttribute("user", checkedUser);
-                    response.sendRedirect("/web_first/index.jsp");
+                    response.sendRedirect("/Urban_Road_Safety_Analysis/index.jsp");
                     return;
                 } else {
-                    response.sendRedirect("/web_first/login.html?userExpired=1");
+                    response.sendRedirect("/Urban_Road_Safety_Analysis/login.html?userExpired=1");
                 }
             } else {
-                response.sendRedirect("/web_first/login.html?checkUnValid=1");
+                response.sendRedirect("/Urban_Road_Safety_Analysis/login.html?checkUnValid=1");
             }
         } catch (Exception e) {
-            response.sendRedirect("/web_first/login.html?checkUnValid=1");
+            e.printStackTrace();
+            response.sendRedirect("/Urban_Road_Safety_Analysis/login.html?checkUnValid=1");
         }
 
     }

@@ -54,8 +54,8 @@
         <result property="D6" column="D6"/>
     </resultMap>
 
-    <!--FactorAll 映射结果集-->
-    <resultMap id="factorDMap" type="FactorD">
+    <!--占位用-->
+    <resultMap id="factorAllMap" type="FactorD">
         <id property="personalityId" column="personality_id"/>
         <result property="PersonalityScore" column="personality_score"/>
         <result property="dagerInfluenceCoefficient" column="dager_influence_coefficient"/>
