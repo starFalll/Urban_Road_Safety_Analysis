@@ -9,7 +9,7 @@ package team.web_first.javabean;
 public class FactorB {
     private int dangerousDrivingId;
     private int dangerousDrivingScore;
-    private int dagerInfluenceCoefficient;
+
     private boolean B1, B2, B3, B4, B5, B6;
 
     public int getDangerousDrivingId() {
@@ -30,14 +30,6 @@ public class FactorB {
         return this;
     }
 
-    public int getDagerInfluenceCoefficient() {
-        return dagerInfluenceCoefficient;
-    }
-
-    public FactorB setDagerInfluenceCoefficient(int dagerInfluenceCoefficient) {
-        this.dagerInfluenceCoefficient = dagerInfluenceCoefficient;
-        return this;
-    }
 
     public boolean isB1() {
         return B1;

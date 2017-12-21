@@ -38,11 +38,11 @@ public class Apriori {
         for(int i=0;i<factorAlls.length;i++){
                 List<String> lineList = new ArrayList<String>();
                 boolean[] values=factorAlls[i].getAllBooleanValue();
-/*                for(int i=0;i<values.length;i++){
+                   for(int i=0;i<values.length;i++){
                     if(values[i]==true){
                         lineList.add(AllCol[i]);
                     }
-                }*/
+                }
                 record.add(lineList);
             }
             return record;

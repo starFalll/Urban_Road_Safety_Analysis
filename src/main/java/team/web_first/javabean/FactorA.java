@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class FactorA implements Serializable {
     private int riskPerceptionId;
     private int getRiskPerceptionScore;
-    private int dagerInfluenceCoefficient;
+
     private boolean A1;
     private boolean A2;
     private boolean A3;
@@ -36,14 +36,6 @@ public class FactorA implements Serializable {
         return this;
     }
 
-    public int getDagerInfluenceCoefficient() {
-        return dagerInfluenceCoefficient;
-    }
-
-    public FactorA setDagerInfluenceCoefficient(int dagerInfluenceCoefficient) {
-        this.dagerInfluenceCoefficient = dagerInfluenceCoefficient;
-        return this;
-    }
 
     public boolean isA1() {
         return A1;

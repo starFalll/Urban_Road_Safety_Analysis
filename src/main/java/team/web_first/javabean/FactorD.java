@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class FactorD implements Serializable{
     private int personalityId;
     private int PersonalityScore;
-    private int dagerInfluenceCoefficient;
+
     private boolean D1, D2, D3, D4, D5, D6;
 
     public int getPersonalityId() {
@@ -32,14 +32,6 @@ public class FactorD implements Serializable{
         return this;
     }
 
-    public int getDagerInfluenceCoefficient() {
-        return dagerInfluenceCoefficient;
-    }
-
-    public FactorD setDagerInfluenceCoefficient(int dagerInfluenceCoefficient) {
-        this.dagerInfluenceCoefficient = dagerInfluenceCoefficient;
-        return this;
-    }
 
     public boolean isD1() {
         return D1;

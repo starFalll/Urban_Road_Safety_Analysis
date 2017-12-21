@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class FactorC implements Serializable {
     private int confidenceId;
     private int confidenceScore;
-    private int dangerousDrivingCoefficient;
+
     private boolean C1, C2, C3, C4, C5, C6;
 
     public int getConfidenceId() {
@@ -32,14 +32,7 @@ public class FactorC implements Serializable {
         return this;
     }
 
-    public int getDangerousDrivingCoefficient() {
-        return dangerousDrivingCoefficient;
-    }
 
-    public FactorC setDangerousDrivingCoefficient(int dangerousDrivingCoefficient) {
-        this.dangerousDrivingCoefficient = dangerousDrivingCoefficient;
-        return this;
-    }
 
     public boolean isC1() {
         return C1;
