@@ -6,7 +6,7 @@
     <resultMap id="factorAMap" type="FactorA">
         <id property="riskPerceptionId" column="risk_perception_id"/>
         <result property="getRiskPerceptionScore" column="risk_perception_score"/>
-        <result property="dagerInfluenceCoefficient" column="dager_influence_coefficient"/>
+
         <result property="A1" column="A1"/>
         <result property="A2" column="A2"/>
         <result property="A3" column="A3"/>
@@ -19,7 +19,7 @@
     <resultMap id="factorBMap" type="FactorB">
         <id property="dangerousDrivingId" column="dangerous_driving_id"/>
         <result property="dangerousDrivingScore" column="dangerous_driving_score"/>
-        <result property="dagerInfluenceCoefficient" column="dager_influence_coefficient"/>
+
         <result property="B1" column="B1"/>
         <result property="B2" column="B2"/>
         <result property="B3" column="B3"/>
@@ -32,7 +32,7 @@
     <resultMap id="factorCMap" type="FactorC">
         <id property="confidenceId" column="confidence_id"/>
         <result property="confidenceScore" column="confidence_score"/>
-        <result property="dangerousDrivingCoefficient" column="dangerous_driving_coefficient"/>
+
         <result property="C1" column="C1"/>
         <result property="C2" column="C2"/>
         <result property="C3" column="C3"/>
@@ -45,7 +45,7 @@
     <resultMap id="factorDMap" type="FactorD">
         <id property="personalityId" column="personality_id"/>
         <result property="PersonalityScore" column="personality_score"/>
-        <result property="dagerInfluenceCoefficient" column="dager_influence_coefficient"/>
+
         <result property="D1" column="D1"/>
         <result property="D2" column="D2"/>
         <result property="D3" column="D3"/>
@@ -54,17 +54,19 @@
         <result property="D6" column="D6"/>
     </resultMap>
 
-    <!--占位用-->
-    <resultMap id="factorAllMap" type="FactorD">
-        <id property="personalityId" column="personality_id"/>
-        <result property="PersonalityScore" column="personality_score"/>
-        <result property="dagerInfluenceCoefficient" column="dager_influence_coefficient"/>
-        <result property="D1" column="D1"/>
-        <result property="D2" column="D2"/>
-        <result property="D3" column="D3"/>
-        <result property="D4" column="D4"/>
-        <result property="D5" column="D5"/>
-        <result property="D6" column="D6"/>
+    <!--FactorAll 映射结果集-->
+    <resultMap id="factorAllMap" type="FactorAll">
+        <id property="riskPerceptionId" column="risk_perception_id"/>
+        <result property="getRiskPerceptionScore" column="risk_perception_score"/>
+        <result property="A1" column="A1"/>
+        <result property="A2" column="A2"/>
+        <result property="A3" column="A3"/>
+        <result property="A4" column="A4"/>
+        <result property="A5" column="A5"/>
+        <result property="A6" column="A6"/>
+        <collection property="factorb" ofType="FactorB" resultMap="factorBMap" />
+        <collection property="factorc" ofType="FactorC" resultMap="factorCMap" />
+        <collection property="factord" ofType="FactorD" resultMap="factorDMap" />
     </resultMap>
 
     <!--获得所有FactorA 查询结果集-->

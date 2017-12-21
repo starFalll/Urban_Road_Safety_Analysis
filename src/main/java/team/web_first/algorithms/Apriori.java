@@ -1,7 +1,6 @@
 package team.web_first.algorithms;
 
 import org.apache.ibatis.session.SqlSession;
-import team.web_first.algorithms.SqlSessionFactoryUtil;
 import team.web_first.javabean.FactorAll;
 import team.web_first.mapper.FactorMapper;
 
