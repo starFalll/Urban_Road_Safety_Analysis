@@ -52,8 +52,12 @@ public class QuestServlet extends HttpServlet {
             bValues[i - (NUM - 3)] = Boolean.valueOf(paramValues[i]);
         }
 
-        for (int i = NUM + 3; i < NUM + 9; i++) {
+        for (int i = NUM + 3; i < 2 * NUM + 3; i++) {
             dValues[i - (NUM + 3)] = Boolean.valueOf(paramValues[i]);
+        }
+
+        for (int i = NUM + 9; i < 3 * NUM + 3; i++) {
+            cValues[i - (NUM + 9)] = Boolean.valueOf(paramValues[i]);
         }
 
 
@@ -82,8 +86,17 @@ public class QuestServlet extends HttpServlet {
         factorD.setD5(dValues[4]);
         factorD.setD6(dValues[5]);
 
+        FactorC factorC = new FactorC();
+        factorC.setC1(cValues[0]);
+        factorC.setC2(cValues[1]);
+        factorC.setC3(cValues[2]);
+        factorC.setC4(cValues[3]);
+        factorC.setC5(cValues[4]);
+        factorC.setC6(cValues[5]);
+
         factorMapper.addFactorA(factorA);
         factorMapper.addFactorB(factorB);
+        factorMapper.addFactorC(factorC);
         factorMapper.addFactorD(factorD);
 
         /**
