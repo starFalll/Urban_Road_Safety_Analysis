@@ -11,23 +11,23 @@ import java.io.Serializable;
  */
 public class FactorAll implements Serializable {
     private int riskPerceptionId;
-    private int getRiskPerceptionScore;
+    //private int getRiskPerceptionScore;
 
     private boolean A1, A2, A3, A4, A5, A6;
 
-    private int dangerousDrivingId;
-    private int dangerousDrivingScore;
+    //private int dangerousDrivingId;
+    //private int dangerousDrivingScore;
 
     private boolean B1, B2, B3, B4, B5, B6;
 
-    private int confidenceId;
-    private int confidenceScore;
+    //private int confidenceId;
+    //private int confidenceScore;
 
     private boolean C1, C2, C3, C4, C5, C6;
 
-    private int personalityId;
-    private int personalityScore;
-
+    //private int personalityId;
+   // private int personalityScore;
+/*
     public int getPersonalityScore() {
         return personalityScore;
     }
@@ -36,9 +36,13 @@ public class FactorAll implements Serializable {
         this.personalityScore = personalityScore;
         return this;
     }
-
+*/
     private boolean D1, D2, D3, D4, D5, D6;
 
+    /**
+     * 和算法的接口，勿删
+     * @return
+     */
     public boolean[] getAllBooleanValue() {
         boolean[] All = {A1, A2, A3, A4, A5, B1, B2, B3, B4, B5, B6, C1, C2, C3, C4, C5, C6, D1, D2, D3, D4, D5, D6};
         return All;
@@ -52,7 +56,7 @@ public class FactorAll implements Serializable {
         this.riskPerceptionId = riskPerceptionId;
         return this;
     }
-
+/*
     public int getGetRiskPerceptionScore() {
         return getRiskPerceptionScore;
     }
@@ -61,7 +65,7 @@ public class FactorAll implements Serializable {
         this.getRiskPerceptionScore = getRiskPerceptionScore;
         return this;
     }
-
+*/
     public boolean isA1() {
         return A1;
     }
@@ -115,7 +119,7 @@ public class FactorAll implements Serializable {
         A6 = a6;
         return this;
     }
-
+/*
     public int getDangerousDrivingId() {
         return dangerousDrivingId;
     }
@@ -133,7 +137,7 @@ public class FactorAll implements Serializable {
         this.dangerousDrivingScore = dangerousDrivingScore;
         return this;
     }
-
+*/
     public boolean isB1() {
         return B1;
     }
@@ -187,7 +191,7 @@ public class FactorAll implements Serializable {
         B6 = b6;
         return this;
     }
-
+/*
     public int getConfidenceId() {
         return confidenceId;
     }
@@ -205,7 +209,7 @@ public class FactorAll implements Serializable {
         this.confidenceScore = confidenceScore;
         return this;
     }
-
+*/
     public boolean isC1() {
         return C1;
     }
@@ -259,7 +263,7 @@ public class FactorAll implements Serializable {
         C6 = c6;
         return this;
     }
-
+/*
     public int getPersonalityId() {
         return personalityId;
     }
@@ -268,7 +272,7 @@ public class FactorAll implements Serializable {
         this.personalityId = personalityId;
         return this;
     }
-
+*/
 
     public boolean isD1() {
         return D1;
