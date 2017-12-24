@@ -10,70 +10,17 @@ import java.io.Serializable;
  * personality
  */
 public class FactorAll implements Serializable {
-    /**
-     * Newer Variable
-     */
-    FactorB factorB;
-    FactorC factorC;
-    FactorD factorD;
 
-    public FactorB getFactorB() {
-        return factorB;
-    }
-
-    public FactorAll setFactorB(FactorB factorB) {
-        this.factorB = factorB;
-        return this;
-    }
-
-    public FactorC getFactorC() {
-        return factorC;
-    }
-
-    public FactorAll setFactorC(FactorC factorC) {
-        this.factorC = factorC;
-        return this;
-    }
-
-    public FactorD getFactorD() {
-        return factorD;
-    }
-
-    public FactorAll setFactorD(FactorD factorD) {
-        this.factorD = factorD;
-        return this;
-    }
-
-    /**
-     *
-     */
     private int riskPerceptionId;
-    //private int getRiskPerceptionScore;
 
     private boolean A1, A2, A3, A4, A5, A6;
 
-    //private int dangerousDrivingId;
-    //private int dangerousDrivingScore;
 
     private boolean B1, B2, B3, B4, B5, B6;
 
-    //private int confidenceId;
-    //private int confidenceScore;
 
     private boolean C1, C2, C3, C4, C5, C6;
 
-    //private int personalityId;
-    // private int personalityScore;
-/*
-    public int getPersonalityScore() {
-        return personalityScore;
-    }
-
-    public FactorAll setPersonalityScore(int personalityScore) {
-        this.personalityScore = personalityScore;
-        return this;
-    }
-*/
     private boolean D1, D2, D3, D4, D5, D6;
 
     /**
@@ -86,7 +33,6 @@ public class FactorAll implements Serializable {
         return All;
     }
 
-
     public int getRiskPerceptionId() {
         return riskPerceptionId;
     }
@@ -96,16 +42,6 @@ public class FactorAll implements Serializable {
         return this;
     }
 
-    /*
-        public int getGetRiskPerceptionScore() {
-            return getRiskPerceptionScore;
-        }
-
-        public FactorAll setGetRiskPerceptionScore(int getRiskPerceptionScore) {
-            this.getRiskPerceptionScore = getRiskPerceptionScore;
-            return this;
-        }
-    */
     public boolean isA1() {
         return A1;
     }
@@ -160,25 +96,6 @@ public class FactorAll implements Serializable {
         return this;
     }
 
-    /*
-        public int getDangerousDrivingId() {
-            return dangerousDrivingId;
-        }
-
-        public FactorAll setDangerousDrivingId(int dangerousDrivingId) {
-            this.dangerousDrivingId = dangerousDrivingId;
-            return this;
-        }
-
-        public int getDangerousDrivingScore() {
-            return dangerousDrivingScore;
-        }
-
-        public FactorAll setDangerousDrivingScore(int dangerousDrivingScore) {
-            this.dangerousDrivingScore = dangerousDrivingScore;
-            return this;
-        }
-    */
     public boolean isB1() {
         return B1;
     }
@@ -233,25 +150,6 @@ public class FactorAll implements Serializable {
         return this;
     }
 
-    /*
-        public int getConfidenceId() {
-            return confidenceId;
-        }
-
-        public FactorAll setConfidenceId(int confidenceId) {
-            this.confidenceId = confidenceId;
-            return this;
-        }
-
-        public int getConfidenceScore() {
-            return confidenceScore;
-        }
-
-        public FactorAll setConfidenceScore(int confidenceScore) {
-            this.confidenceScore = confidenceScore;
-            return this;
-        }
-    */
     public boolean isC1() {
         return C1;
     }
@@ -305,16 +203,6 @@ public class FactorAll implements Serializable {
         C6 = c6;
         return this;
     }
-/*
-    public int getPersonalityId() {
-        return personalityId;
-    }
-
-    public FactorAll setPersonalityId(int personalityId) {
-        this.personalityId = personalityId;
-        return this;
-    }
-*/
 
     public boolean isD1() {
         return D1;
@@ -369,6 +257,4 @@ public class FactorAll implements Serializable {
         D6 = d6;
         return this;
     }
-
-
 }

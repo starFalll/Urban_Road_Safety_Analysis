@@ -61,33 +61,24 @@
         <result property="A4" column="A4"/>
         <result property="A5" column="A5"/>
         <result property="A6" column="A6"/>
-        <association property="factorB" javaType="FactorB" >
-            <id property="dangerousDrivingId" column="dangerous_driving_id"/>
-            <result property="B1" column="B1"/>
-            <result property="B2" column="B2"/>
-            <result property="B3" column="B3"/>
-            <result property="B4" column="B4"/>
-            <result property="B5" column="B5"/>
-            <result property="B6" column="B6"/>
-        </association>
-        <association property="factorC" javaType="FactorC" >
-            <id property="confidenceId" column="confidence_id"/>
-            <result property="C1" column="C1"/>
-            <result property="C2" column="C2"/>
-            <result property="C3" column="C3"/>
-            <result property="C4" column="C4"/>
-            <result property="C5" column="C5"/>
-            <result property="C6" column="C6"/>
-        </association>
-        <association property="factorD" javaType="FactorD" >
-            <id property="personalityId" column="personality_id"/>
-            <result property="D1" column="D1"/>
-            <result property="D2" column="D2"/>
-            <result property="D3" column="D3"/>
-            <result property="D4" column="D4"/>
-            <result property="D5" column="D5"/>
-            <result property="D6" column="D6"/>
-            </association>
+        <result property="B1" column="B1"/>
+        <result property="B2" column="B2"/>
+        <result property="B3" column="B3"/>
+        <result property="B4" column="B4"/>
+        <result property="B5" column="B5"/>
+        <result property="B6" column="B6"/>
+        <result property="C1" column="C1"/>
+        <result property="C2" column="C2"/>
+        <result property="C3" column="C3"/>
+        <result property="C4" column="C4"/>
+        <result property="C5" column="C5"/>
+        <result property="C6" column="C6"/>
+        <result property="D1" column="D1"/>
+        <result property="D2" column="D2"/>
+        <result property="D3" column="D3"/>
+        <result property="D4" column="D4"/>
+        <result property="D5" column="D5"/>
+        <result property="D6" column="D6"/>
     </resultMap>
 
     <!--获得所有FactorA 查询结果集-->
