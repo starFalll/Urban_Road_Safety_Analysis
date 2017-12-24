@@ -42,6 +42,7 @@ public class Apriori {
                         lineList.add(AllCol[j]);
                     }
                 }
+
                 record.add(lineList);
             }
             return record;
@@ -63,7 +64,8 @@ public class Apriori {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         record = DoGet();// 获取原始数据记录
-
+        System.out.println(record);
+        int i=2;
         List<List<String>> cItemset = findFirstCandidate();// 获取第一次的备选集
         List<List<String>> lItemset = getSupportedItemset(cItemset);// 获取备选集cItemset满足支持的集合
         //System.out.print("第一次备选集满足支持的集合");
@@ -79,7 +81,11 @@ public class Apriori {
             //System.out.print("满足置信度的集合：");
             //System.out.println(confItemset);
             if (confItemset.size() != 0)// 满足置信度的集合不为空
+            {
+                System.out.println(+i+"个元素之间的关系:");
+                i++;
                 printConfItemset(confItemset);// 打印满足置信度的集合
+            }
             confItemset.clear();// 清空置信度的集合
             cItemset = ckItemset;// 保存数据，为下次循环迭代准备
             lItemset = lkItemset;
