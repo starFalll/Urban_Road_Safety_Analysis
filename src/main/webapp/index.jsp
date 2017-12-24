@@ -26,7 +26,7 @@
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="js/echarts.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.simple.js"></script>
 
     <script>
         addEventListener("load", function () {
@@ -142,8 +142,7 @@
                                 <li><a><span class="glyphicon glyphicon-user"></span><%= user.getUserName()%>
                                 </a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/Urban_Road_Safety_Analysis/LogoutServlet"><span
-                                        class="glyphicon glyphicon-log-out"></span>Log
+                                <li><a href="/web_first/LogoutServlet"><span class="glyphicon glyphicon-log-out"></span>Log
                                     out</a></li>
                             </ul>
                         </li>
@@ -227,7 +226,7 @@
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options};
             $.ajax({
-                url: "/Urban_Road_Safety_Analysis/QuestServlet",
+                url: "/web_first/QuestServlet",
                 data: result,
                 success: function () {
                     alert("上传成功！");
@@ -247,7 +246,7 @@
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options};
             $.ajax({
-                url: "/Urban_Road_Safety_Analysis/QuestServlet",
+                url: "/web_first/QuestServlet",
                 data: result,
                 success: function () {
                     alert("上传成功！");
@@ -269,7 +268,6 @@
             $(".navbar-toggle").click();
         }
     })
-
 </script>
 </body>
 </html>
