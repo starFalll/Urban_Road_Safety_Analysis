@@ -30,7 +30,6 @@ public class Apriori {
          Row: 6, 0, 0, 0, 0, 0, 0, 0, 0
          Row: 7, 0, 0, 1, 0, 1, 1, 0, 1
          Row: 8, 0, 0, 0, 0, 0, 0, 0, 0 //factorAlls[6]
-
          */
         String AllCol[] = {"A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", "B6", "C1", "C2", "C3",
                 "C4", "C5", "C6", "D1", "D2", "D3", "D4", "D5", "D6"};
@@ -66,7 +65,7 @@ public class Apriori {
         // TODO Auto-generated method stub
         record = DoGet();// 获取原始数据记录
         System.out.println(record);
-        int i=2;
+        int i = 2;
         List<List<String>> cItemset = findFirstCandidate();// 获取第一次的备选集
         List<List<String>> lItemset = getSupportedItemset(cItemset);// 获取备选集cItemset满足支持的集合
         //System.out.print("第一次备选集满足支持的集合");
@@ -83,7 +82,7 @@ public class Apriori {
             //System.out.println(confItemset);
             if (confItemset.size() != 0)// 满足置信度的集合不为空
             {
-                System.out.println(+i+"个元素之间的关系:");
+                System.out.println(+i + "个元素之间的关系:");
                 i++;
                 printConfItemset(confItemset);// 打印满足置信度的集合
             }
