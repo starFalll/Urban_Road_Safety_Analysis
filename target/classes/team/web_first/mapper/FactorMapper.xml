@@ -61,24 +61,33 @@
         <result property="A4" column="A.A4"/>
         <result property="A5" column="A.A5"/>
         <result property="A6" column="A.A6"/>
-        <result property="B1" column="B.B1"/>
-        <result property="B2" column="B.B2"/>
-        <result property="B3" column="B.B3"/>
-        <result property="B4" column="B.B4"/>
-        <result property="B5" column="B.B5"/>
-        <result property="B6" column="B.B6"/>
-        <result property="C1" column="C.C1"/>
-        <result property="C2" column="C.C2"/>
-        <result property="C3" column="C.C3"/>
-        <result property="C4" column="C.C4"/>
-        <result property="C5" column="C.C5"/>
-        <result property="C6" column="C.C6"/>
-        <result property="D1" column="D.D1"/>
-        <result property="D2" column="D.D2"/>
-        <result property="D3" column="D.D3"/>
-        <result property="D4" column="D.D4"/>
-        <result property="D5" column="D.D5"/>
-        <result property="D6" column="D.D6"/>
+        <association property="factorb" javaType="FactorB" >
+            <id property="dangerousDrivingId" column="B.dangerous_driving_id"/>
+            <result property="B1" column="B.B1"/>
+            <result property="B2" column="B.B2"/>
+            <result property="B3" column="B.B3"/>
+            <result property="B4" column="B.B4"/>
+            <result property="B5" column="B.B5"/>
+            <result property="B6" column="B.B6"/>
+        </association>
+        <association property="factorc" javaType="FactorC" >
+            <id property="confidenceId" column="C.confidence_id"/>
+            <result property="C1" column="C.C1"/>
+            <result property="C2" column="C.C2"/>
+            <result property="C3" column="C.C3"/>
+            <result property="C4" column="C.C4"/>
+            <result property="C5" column="C.C5"/>
+            <result property="C6" column="C.C6"/>
+        </association>
+        <association property="factord" javaType="FactorD" >
+            <id property="personalityId" column="D.personality_id"/>
+            <result property="D1" column="D.D1"/>
+            <result property="D2" column="D.D2"/>
+            <result property="D3" column="D.D3"/>
+            <result property="D4" column="D.D4"/>
+            <result property="D5" column="D.D5"/>
+            <result property="D6" column="D.D6"/>
+            </association>
     </resultMap>
 
     <!--获得所有FactorA 查询结果集-->
@@ -103,7 +112,8 @@
 
     <!--获得所有FactorAll 查询结果集-->
     <select id="showFactorAll" resultMap="factorAllMap">
-        SELECT A.risk_perception_id,A.A1,A.A2,A.A3,A.A4,A.A5,A.A6,B.B1,B.B2,B.B3,B.B4,B.B5,B.B6,
+        SELECT A.risk_perception_id,B.dangerous_driving_id,C.confidence_id,D.personality_id,
+        A.A1,A.A2,A.A3,A.A4,A.A5,A.A6,B.B1,B.B2,B.B3,B.B4,B.B5,B.B6,
         C.C1,C.C2,C.C3,C.C4,C.C5,C.C6,D.D1,D.D2,D.D3,D.D4,D.D5,D.D6
         FROM risk_perception AS A
         join dangerous_driving  AS B ON A.risk_perception_id=B.dangerous_driving_id
