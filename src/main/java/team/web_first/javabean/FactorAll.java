@@ -10,6 +10,43 @@ import java.io.Serializable;
  * personality
  */
 public class FactorAll implements Serializable {
+    /**
+     * Newer Variable
+     */
+    FactorB factorB;
+    FactorC factorC;
+    FactorD factorD;
+
+    public FactorB getFactorB() {
+        return factorB;
+    }
+
+    public FactorAll setFactorB(FactorB factorB) {
+        this.factorB = factorB;
+        return this;
+    }
+
+    public FactorC getFactorC() {
+        return factorC;
+    }
+
+    public FactorAll setFactorC(FactorC factorC) {
+        this.factorC = factorC;
+        return this;
+    }
+
+    public FactorD getFactorD() {
+        return factorD;
+    }
+
+    public FactorAll setFactorD(FactorD factorD) {
+        this.factorD = factorD;
+        return this;
+    }
+
+    /**
+     *
+     */
     private int riskPerceptionId;
     //private int getRiskPerceptionScore;
 
@@ -26,7 +63,7 @@ public class FactorAll implements Serializable {
     private boolean C1, C2, C3, C4, C5, C6;
 
     //private int personalityId;
-   // private int personalityScore;
+    // private int personalityScore;
 /*
     public int getPersonalityScore() {
         return personalityScore;
@@ -41,12 +78,14 @@ public class FactorAll implements Serializable {
 
     /**
      * 和算法的接口，勿删
+     *
      * @return
      */
     public boolean[] getAllBooleanValue() {
-        boolean[] All = {A1, A2, A3, A4, A5,A6, B1, B2, B3, B4, B5, B6, C1, C2, C3, C4, C5, C6, D1, D2, D3, D4, D5, D6};
+        boolean[] All = {A1, A2, A3, A4, A5, A6, B1, B2, B3, B4, B5, B6, C1, C2, C3, C4, C5, C6, D1, D2, D3, D4, D5, D6};
         return All;
     }
+
 
     public int getRiskPerceptionId() {
         return riskPerceptionId;
@@ -56,16 +95,17 @@ public class FactorAll implements Serializable {
         this.riskPerceptionId = riskPerceptionId;
         return this;
     }
-/*
-    public int getGetRiskPerceptionScore() {
-        return getRiskPerceptionScore;
-    }
 
-    public FactorAll setGetRiskPerceptionScore(int getRiskPerceptionScore) {
-        this.getRiskPerceptionScore = getRiskPerceptionScore;
-        return this;
-    }
-*/
+    /*
+        public int getGetRiskPerceptionScore() {
+            return getRiskPerceptionScore;
+        }
+
+        public FactorAll setGetRiskPerceptionScore(int getRiskPerceptionScore) {
+            this.getRiskPerceptionScore = getRiskPerceptionScore;
+            return this;
+        }
+    */
     public boolean isA1() {
         return A1;
     }
@@ -119,25 +159,26 @@ public class FactorAll implements Serializable {
         A6 = a6;
         return this;
     }
-/*
-    public int getDangerousDrivingId() {
-        return dangerousDrivingId;
-    }
 
-    public FactorAll setDangerousDrivingId(int dangerousDrivingId) {
-        this.dangerousDrivingId = dangerousDrivingId;
-        return this;
-    }
+    /*
+        public int getDangerousDrivingId() {
+            return dangerousDrivingId;
+        }
 
-    public int getDangerousDrivingScore() {
-        return dangerousDrivingScore;
-    }
+        public FactorAll setDangerousDrivingId(int dangerousDrivingId) {
+            this.dangerousDrivingId = dangerousDrivingId;
+            return this;
+        }
 
-    public FactorAll setDangerousDrivingScore(int dangerousDrivingScore) {
-        this.dangerousDrivingScore = dangerousDrivingScore;
-        return this;
-    }
-*/
+        public int getDangerousDrivingScore() {
+            return dangerousDrivingScore;
+        }
+
+        public FactorAll setDangerousDrivingScore(int dangerousDrivingScore) {
+            this.dangerousDrivingScore = dangerousDrivingScore;
+            return this;
+        }
+    */
     public boolean isB1() {
         return B1;
     }
@@ -191,25 +232,26 @@ public class FactorAll implements Serializable {
         B6 = b6;
         return this;
     }
-/*
-    public int getConfidenceId() {
-        return confidenceId;
-    }
 
-    public FactorAll setConfidenceId(int confidenceId) {
-        this.confidenceId = confidenceId;
-        return this;
-    }
+    /*
+        public int getConfidenceId() {
+            return confidenceId;
+        }
 
-    public int getConfidenceScore() {
-        return confidenceScore;
-    }
+        public FactorAll setConfidenceId(int confidenceId) {
+            this.confidenceId = confidenceId;
+            return this;
+        }
 
-    public FactorAll setConfidenceScore(int confidenceScore) {
-        this.confidenceScore = confidenceScore;
-        return this;
-    }
-*/
+        public int getConfidenceScore() {
+            return confidenceScore;
+        }
+
+        public FactorAll setConfidenceScore(int confidenceScore) {
+            this.confidenceScore = confidenceScore;
+            return this;
+        }
+    */
     public boolean isC1() {
         return C1;
     }
@@ -327,4 +369,6 @@ public class FactorAll implements Serializable {
         D6 = d6;
         return this;
     }
+
+
 }
