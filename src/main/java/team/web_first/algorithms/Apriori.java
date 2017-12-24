@@ -99,7 +99,7 @@ public class Apriori {
         for (int i = 0; i < confItemset2.size(); i++) {
             int j = 0;
             for (j = 0; j < confItemset2.get(i).size() - 3; j++) {
-                System.out.print(confItemset2.get(i).get(j) + " ");
+                System.out.print(confItemset2.get(i).get(j)+ " ");
             }
             System.out.print("-->");
             System.out.print(confItemset2.get(i).get(j++));
