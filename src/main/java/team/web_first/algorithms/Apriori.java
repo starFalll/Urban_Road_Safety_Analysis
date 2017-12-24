@@ -20,33 +20,34 @@ public class Apriori {
         //打开SQL session
         sqlSession = SqlSessionFactoryUtil.openSqlsession();
         FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
-        FactorAll[] factorAlls=factorMapper.showFactorAll();//factorAlls为二维数组
+        FactorAll[] factorAlls = factorMapper.showFactorAll();//factorAlls为二维数组
         /**
          * Columns: personality_id, personality_score, dager_influence_coefficient, D1, D2, D3, D4, D5, D6
-                 Row: 2, 0, 0, 1, 1, 0, 0, 1, 1 //factorAlls[0]
-                 Row: 3, 0, 0, 1, 1, 0, 0, 1, 1 //factorAlls[1]
-                 Row: 4, 0, 0, 1, 1, 1, 1, 1, 1
-                 Row: 5, 0, 0, 0, 0, 0, 0, 0, 0
-                 Row: 6, 0, 0, 0, 0, 0, 0, 0, 0
-                 Row: 7, 0, 0, 1, 0, 1, 1, 0, 1
-                 Row: 8, 0, 0, 0, 0, 0, 0, 0, 0 //factorAlls[6]
+         Row: 2, 0, 0, 1, 1, 0, 0, 1, 1 //factorAlls[0]
+         Row: 3, 0, 0, 1, 1, 0, 0, 1, 1 //factorAlls[1]
+         Row: 4, 0, 0, 1, 1, 1, 1, 1, 1
+         Row: 5, 0, 0, 0, 0, 0, 0, 0, 0
+         Row: 6, 0, 0, 0, 0, 0, 0, 0, 0
+         Row: 7, 0, 0, 1, 0, 1, 1, 0, 1
+         Row: 8, 0, 0, 0, 0, 0, 0, 0, 0 //factorAlls[6]
 
          */
-        String AllCol[]={"A1","A2","A3","A4","A5","B1", "B2", "B3", "B4", "B5", "B6","C1", "C2", "C3",
-                "C4", "C5", "C6","D1", "D2", "D3", "D4", "D5", "D6"};
-        for(int i=0;i<factorAlls.length;i++){
-                List<String> lineList = new ArrayList<String>();
-                boolean[] values=factorAlls[i].getAllBooleanValue();
-                   for(int j=0;j<values.length;j++){
-                    if(values[j]==true){
-                        lineList.add(AllCol[j]);
-                    }
+        String AllCol[] = {"A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", "B6", "C1", "C2", "C3",
+                "C4", "C5", "C6", "D1", "D2", "D3", "D4", "D5", "D6"};
+        for (int i = 0; i < factorAlls.length; i++) {
+            List<String> lineList = new ArrayList<String>();
+            boolean[] values = factorAlls[i].getAllBooleanValue();
+            for (int j = 0; j < values.length; j++) {
+                if (values[j] == true) {
+                    lineList.add(AllCol[j]);
                 }
-                record.add(lineList);
             }
-            return record;
+            record.add(lineList);
+        }
+        return record;
 
     }
+
     static boolean endTag = false;
     static Map<Integer, Integer> dCountMap = new HashMap<Integer, Integer>(); // k-1频繁集的记数表
     static Map<Integer, Integer> dkCountMap = new HashMap<Integer, Integer>();// k频繁集的记数表
@@ -91,15 +92,14 @@ public class Apriori {
     }
 
     /**
-     * @param confItemset2
-     * 输出满足条件的频繁集
+     * @param confItemset2 输出满足条件的频繁集
      */
     private static void printConfItemset(List<List<String>> confItemset2) {
         System.out.print("*********频繁模式挖掘结果***********\n");
         for (int i = 0; i < confItemset2.size(); i++) {
             int j = 0;
             for (j = 0; j < confItemset2.get(i).size() - 3; j++) {
-                System.out.print(confItemset2.get(i).get(j)+ " ");
+                System.out.print(confItemset2.get(i).get(j) + " ");
             }
             System.out.print("-->");
             System.out.print(confItemset2.get(i).get(j++));
@@ -113,8 +113,7 @@ public class Apriori {
      * @param lkItemset
      * @param lItemset
      * @param dkCountMap2
-     * @param dCountMap2
-     * 根据lkItemset，lItemset，dkCountMap2，dCountMap2求出满足自信度的集合
+     * @param dCountMap2  根据lkItemset，lItemset，dkCountMap2，dCountMap2求出满足自信度的集合
      */
     private static List<List<String>> getConfidencedItemset(
             List<List<String>> lkItemset, List<List<String>> lItemset,
@@ -131,10 +130,9 @@ public class Apriori {
      * @param list
      * @param lItemset
      * @param count
-     * @param dCountMap2
-     * 检验集合list是否满足最低自信度要求
-     * 若满足则在全局变量confItemset添加list
-     * 如不满足则返回null
+     * @param dCountMap2 检验集合list是否满足最低自信度要求
+     *                   若满足则在全局变量confItemset添加list
+     *                   如不满足则返回null
      */
     private static List<String> getConfItem(List<String> list,
                                             List<List<String>> lItemset, Integer count,
@@ -159,8 +157,7 @@ public class Apriori {
 
     /**
      * @param testList
-     * @param lItemset
-     * 查找testList中的内容在lItemset的位置
+     * @param lItemset 查找testList中的内容在lItemset的位置
      */
     private static int findConf(List<String> testList,
                                 List<List<String>> lItemset) {
@@ -180,8 +177,7 @@ public class Apriori {
 
     /**
      * @param string
-     * @param list
-     * 检验list中是否包含string
+     * @param list   检验list中是否包含string
      * @return boolean
      */
     private static boolean haveThisItem(String string, List<String> list) {
@@ -192,8 +188,7 @@ public class Apriori {
     }
 
     /**
-     * @param cItemset
-     * 求出cItemset中满足最低支持度集合
+     * @param cItemset 求出cItemset中满足最低支持度集合
      */
     private static List<List<String>> getSupportedItemset(
             List<List<String>> cItemset) {
@@ -221,8 +216,7 @@ public class Apriori {
     }
 
     /**
-     * @param list
-     * 统计数据库记录record中出现list中的集合的个数
+     * @param list 统计数据库记录record中出现list中的集合的个数
      */
     private static int countFrequent(List<String> list) {
         int count = 0;
@@ -292,8 +286,7 @@ public class Apriori {
     /**
      * @param tempList
      * @param cItemset
-     * @return
-     *检验 tempList是不是cItemset的子集
+     * @return 检验 tempList是不是cItemset的子集
      */
     private static boolean isSubsetInC(List<String> tempList,
                                        List<List<String>> cItemset) {
@@ -317,7 +310,7 @@ public class Apriori {
     }
 
     /**
-     *根据数据库记录求出第一级备选集
+     * 根据数据库记录求出第一级备选集
      */
     private static List<List<String>> findFirstCandidate() {
         List<List<String>> tableList = new ArrayList<List<String>>();

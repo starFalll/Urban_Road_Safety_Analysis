@@ -60,7 +60,7 @@ label {
     width: 60%;
 }
 
-.radio-inline{
+.radio-inline {
     padding-left: 40px;
     font-size: 1.5em;
 }
@@ -100,6 +100,10 @@ input[type=checkbox], input[type=radio] {
     to {
         opacity: 1
     }
+}
+
+.navbar-collapse {
+    overflow-x: hidden;
 }
 
 /*-----start-header----*/
@@ -288,7 +292,7 @@ body.register, body.login {
 
 .register-buttom {
     padding: 0;
-    margin: 28% 33.333% 30% 33.333%;
+    margin: 20% 33.333% 30% 33.333%;
 }
 
 .form-group.form-group-lg.has-error.has-feedback {
@@ -325,28 +329,28 @@ body.register, body.login {
     padding-right: 5%;
 }
 
-.quest-submit{
+.quest-submit {
     margin-left: 45%;
 }
 
-.question{
+.question {
     background-color: whitesmoke;
     border: 1px solid grey;
     margin: 5% 20%;
     padding: 10%;
 }
 
-.question{
+.question {
     width: 60%;
     height: 50%;
 }
 
-.quest-option{
-    padding: 8% 20%;
+.quest-option {
+    padding: 8% 10%;
 }
 
-.quest-option button{
-    padding: 10px 30px;;
+.quest-option button {
+    padding: 2% 8%;
 }
 
 @media screen and (max-width: 1440px) {
@@ -453,7 +457,7 @@ body.register, body.login {
     }
 
     .login-top {
-        margin: 40% 33.333% 5% 33.333%;
+        margin: 20% 33.333% 5% 33.333%;
     }
 
     .login-buttom {
@@ -461,7 +465,7 @@ body.register, body.login {
     }
 
     .register-buttom {
-        margin: 50% 25% 30% 25%
+        margin: 20% 25% 30% 25%
     }
 
     .register-remove {
@@ -484,6 +488,13 @@ body.register, body.login {
         padding: 3em 0em 2.55em 0em;
     }
 
+    .quest-option {
+        padding: 8% 0;
+    }
+
+    .quest-option button {
+        padding: 2% 10%;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -508,21 +519,21 @@ body.register, body.login {
     }
 
     .register-buttom {
-        margin: 50% 20% 30% 20%;
+        margin: 20% 20% 30% 20%;
     }
 
-    .question{
+    .question {
         margin: 5% auto;
         width: 70%;
         height: 50%;
     }
 
-    .quest-option{
-        padding: 8% 20%;
+    .quest-option {
+        padding: 8% 5%;
     }
 
-    .quest-option button{
-        padding: 10px 30px;;
+    .quest-option button {
+        padding: 2% 10%;
     }
 }
 
@@ -682,18 +693,18 @@ body.register, body.login {
         line-height: 1.3333333;
     }
 
-    .question{
+    .question {
         margin: 5% auto;
         width: 80%;
         height: 50%;
     }
 
-    .quest-option{
-        padding: 8% 10%;
+    .quest-option {
+        padding: 8% 0%;
     }
 
-    .quest-option button{
-        padding: 10px 30px;;
+    .quest-option button {
+        padding: 3% 10%;
     }
 }
 
@@ -752,17 +763,17 @@ body.register, body.login {
         font-size: 1.7em;
     }
 
-    .question{
+    .question {
         margin: 5% auto;
         width: 90%;
         height: 50%;
     }
 
-    .quest-option{
+    .quest-option {
         padding: 8% 10%;
     }
 
-    .quest-option button{
+    .quest-option button {
         padding: 10px 30px;;
     }
 }
