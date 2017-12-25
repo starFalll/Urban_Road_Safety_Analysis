@@ -16,7 +16,10 @@ public interface FactorMapper {
     FactorD[] showFactorD();
 
     FactorAll[] showFactorAll();
+
     NewData[] showNewData();
+
+    Result[] showResult();
 
     int addFactorA(FactorA factorA);
 
@@ -25,4 +28,6 @@ public interface FactorMapper {
     int addFactorC(FactorC factorC);
 
     int addFactorD(FactorD factorD);
+
+    int addResult(Result result);
 }

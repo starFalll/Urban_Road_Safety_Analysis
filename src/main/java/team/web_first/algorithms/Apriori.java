@@ -1,9 +1,11 @@
 package team.web_first.algorithms;
 
+import com.mysql.cj.api.xdevapi.AddResult;
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import team.web_first.javabean.FactorAll;
+import team.web_first.javabean.Result;
 import team.web_first.mapper.FactorMapper;
 
 import java.math.BigDecimal;
@@ -14,18 +16,30 @@ import java.util.List;
 import java.util.Map;
 
 public class Apriori {
+    static SqlSession sqlSession = null;
+    static boolean isDo = false;
+    static boolean endTag = false;
+    static Map<Integer, Integer> dCountMap = new HashMap<Integer, Integer>(); // k-1频繁集的记数表
+    static Map<Integer, Integer> dkCountMap = new HashMap<Integer, Integer>();// k频繁集的记数表
+    static List<List<String>> record = new ArrayList<List<String>>();// 数据记录表
+    final static double MIN_SUPPORT = 0.2;// 最小支持度
+    final static double MIN_CONF = 0.8;// 最小置信度
+    static int lable = 1;// 用于输出时的一个标记，记录当前在打印第几级关联集
+    static List<Double> confCount = new ArrayList<Double>();// 置信度记录表
+    static List<List<String>> confItemset = new ArrayList<List<String>>();// 满足置信度的集合
+
+    static JSONArray results = new JSONArray();
+
     /**
      * 将数据库获取的数据转换成能够被算法用来处理的形式
      */
     protected static List<List<String>> DoGet() {
-        SqlSession sqlSession = null;
         List<List<String>> record = new ArrayList<List<String>>();
 
         //打开SQL session
         sqlSession = SqlSessionFactoryUtil.openSqlsession();
         FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
         FactorAll[] factorAlls = factorMapper.showFactorAll();//factorAlls为二维数组
-        sqlSession.close();
         /**
          * Columns: personality_id, personality_score, dager_influence_coefficient, D1, D2, D3, D4, D5, D6
          Row: 2, 0, 0, 1, 1, 0, 0, 1, 1 //factorAlls[0]
@@ -53,21 +67,8 @@ public class Apriori {
 
     }
 
-    static boolean isDo = false;
-    static boolean endTag = false;
-    static Map<Integer, Integer> dCountMap = new HashMap<Integer, Integer>(); // k-1频繁集的记数表
-    static Map<Integer, Integer> dkCountMap = new HashMap<Integer, Integer>();// k频繁集的记数表
-    static List<List<String>> record = new ArrayList<List<String>>();// 数据记录表
-    final static double MIN_SUPPORT = 0.2;// 最小支持度
-    final static double MIN_CONF = 0.8;// 最小置信度
-    static int lable = 1;// 用于输出时的一个标记，记录当前在打印第几级关联集
-    static List<Double> confCount = new ArrayList<Double>();// 置信度记录表
-    static List<List<String>> confItemset = new ArrayList<List<String>>();// 满足置信度的集合
 
-    static JSONArray results = new JSONArray();
-
-
-    public static JSONArray getJson() {
+/*    public static JSONArray getJson() {
         if (!isDo) {
             results = new JSONArray();
             main(null);
@@ -75,7 +76,7 @@ public class Apriori {
             isDo = true;
             return results;
         } else return results;
-    }
+    }*/
 
     /**
      * @param args
@@ -117,6 +118,7 @@ public class Apriori {
         }
 
         System.out.println(results.toString());
+        sqlSession.close();
     }
 
     /**
@@ -175,11 +177,16 @@ public class Apriori {
                     if (k != m) {
                         double Confidence = (Confidences[k][m] + Confidences[m][k]) / 2;
                         System.out.println(FourTables[m] + "  与  " + FourTables[k] + " 的相关系数为:" + Confidences[k][m]);
-                        JSONObject result = new JSONObject();
+/*                        JSONObject result = new JSONObject();
                         result.put("name1", FourTables[m]);
                         result.put("name2", FourTables[k]);
-                        result.put("confidence", new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN));
-                        results.put(result);
+                        result.put("confidence", new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN));*/
+                        Result result1=new Result(FourTables[m],FourTables[k],new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
+                        sqlSession = SqlSessionFactoryUtil.openSqlsession();
+                        FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
+                        factorMapper.addResult(result1);
+                        sqlSession.commit();
+/*                        results.put(result);*/
                     }
                 }
             }
