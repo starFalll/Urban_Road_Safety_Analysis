@@ -123,6 +123,7 @@
     $(document).ready(function start() {
             $.ajax({
                 url: "/Urban_Road_Safety_Analysis/ResultServlet",
+                timeout: 9999,
                 success: function (data) {
                     results = JSON.parse(data);
                     for (i = 0; i < 4; i++) {

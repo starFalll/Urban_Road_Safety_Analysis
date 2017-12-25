@@ -17,8 +17,10 @@ public class ResultServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        JSONArray resArr = new Apriori().getJson();
+        JSONArray resArr = Apriori.getJson();
         response.setCharacterEncoding("UTF-8");
+        System.out.println(resArr.toString());
         response.getWriter().write(resArr.toString());
+        return;
     }
 }

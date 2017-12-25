@@ -25,6 +25,7 @@ public class Apriori {
         sqlSession = SqlSessionFactoryUtil.openSqlsession();
         FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
         FactorAll[] factorAlls = factorMapper.showFactorAll();//factorAlls为二维数组
+        sqlSession.close();
         /**
          * Columns: personality_id, personality_score, dager_influence_coefficient, D1, D2, D3, D4, D5, D6
          Row: 2, 0, 0, 1, 1, 0, 0, 1, 1 //factorAlls[0]
@@ -52,6 +53,7 @@ public class Apriori {
 
     }
 
+    static boolean isDo = false;
     static boolean endTag = false;
     static Map<Integer, Integer> dCountMap = new HashMap<Integer, Integer>(); // k-1频繁集的记数表
     static Map<Integer, Integer> dkCountMap = new HashMap<Integer, Integer>();// k频繁集的记数表
@@ -65,11 +67,14 @@ public class Apriori {
     static JSONArray results = new JSONArray();
 
 
-    public JSONArray getJson() {
-        results = new JSONArray();
-        main(null);
-        System.out.println(results.toString());
-        return results;
+    public static JSONArray getJson() {
+        if (!isDo) {
+            results = new JSONArray();
+            main(null);
+            System.out.println(results.toString());
+            isDo = true;
+            return results;
+        } else return results;
     }
 
     /**
