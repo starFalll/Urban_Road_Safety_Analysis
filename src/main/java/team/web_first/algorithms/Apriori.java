@@ -1,6 +1,8 @@
 package team.web_first.algorithms;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import team.web_first.javabean.FactorAll;
 import team.web_first.mapper.FactorMapper;
 
@@ -31,7 +33,7 @@ public class Apriori {
          Row: 7, 0, 0, 1, 0, 1, 1, 0, 1
          Row: 8, 0, 0, 0, 0, 0, 0, 0, 0 //factorAlls[6]
          */
-        String AllCol[] = {"A1", "A2", "A3", "A4", "A5", "A6","B1", "B2", "B3", "B4", "B5", "B6", "C1", "C2", "C3",
+        String AllCol[] = {"A1", "A2", "A3", "A4", "A5", "A6", "B1", "B2", "B3", "B4", "B5", "B6", "C1", "C2", "C3",
                 "C4", "C5", "C6", "D1", "D2", "D3", "D4", "D5", "D6"};
         for (int i = 0; i < factorAlls.length; i++) {
             List<String> lineList = new ArrayList<String>();
@@ -58,6 +60,14 @@ public class Apriori {
     static List<Double> confCount = new ArrayList<Double>();// 置信度记录表
     static List<List<String>> confItemset = new ArrayList<List<String>>();// 满足置信度的集合
 
+    static JSONArray results = new JSONArray();
+
+
+    public JSONArray getJson() {
+        main(null);
+        return results;
+    }
+
     /**
      * @param args
      */
@@ -80,13 +90,13 @@ public class Apriori {
             getConfidencedItemset(lkItemset, lItemset, dkCountMap, dCountMap);// 获取备选集cItemset满足置信度的集合
             //System.out.print("满足置信度的集合：");
             //System.out.println(confItemset);
-            if (confItemset.size() != 0&&i<4)// 满足置信度的集合不为空
+            if (confItemset.size() != 0 && i < 4)// 满足置信度的集合不为空
             {
                 System.out.println(+i + "中特性之间的影响:");
                 i++;
-                printConfItemset(confItemset,i);// 打印满足置信度的集合
+                printConfItemset(confItemset, i);// 打印满足置信度的集合
             }
-            if(i>=4){
+            if (i >= 4) {
                 break;
             }
             confItemset.clear();// 清空置信度的集合
@@ -102,18 +112,17 @@ public class Apriori {
     /**
      * @param confItemset2 输出满足条件的频繁集
      */
-    private static void printConfItemset(List<List<String>> confItemset2,int count) {
-        char[] fourrelations={'A','B','C','D'};
-        String[] FourTables={"道路风险感知能力","危险驾驶行为","驾驶能力自信","人格特性"};
-        List<String> Atotal= new ArrayList<String>();
+    private static void printConfItemset(List<List<String>> confItemset2, int count) {
+        char[] fourrelations = {'A', 'B', 'C', 'D'};
+        String[] FourTables = {"道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性"};
+        List<String> Atotal = new ArrayList<String>();
+        if (count == 3) {
 
-        if(count==3){
-
-            int[][] total={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};//对应A,B,C,D
+            int[][] total = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};//对应A,B,C,D
             /**
              * XConfidence=支持度*置信度(即confItemset2.get(i).get(3))/total;
              */
-            double[][] Confidences={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};//confidence[Y][X](X->Y)
+            double[][] Confidences = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};//confidence[Y][X](X->Y)
             //A,B,C,D={0,B,C,D},{A,0,C,D},{A,B,0,D},{A,B,C,0}
             /**
              * confItemset2.get(i).get(j):相当于二维数组的内容如下
@@ -125,15 +134,15 @@ public class Apriori {
              * 2.....
              * 3.....
              */
-            for (int i = 0; i < confItemset2.size(); i++){
-                for(int k=0;k<4;k++) {
+            for (int i = 0; i < confItemset2.size(); i++) {
+                for (int k = 0; k < 4; k++) {
                     if (confItemset2.get(i).get(1).charAt(0) == fourrelations[k]) {//X-->Y中Y
-                        for(int m=0;m<4;m++) {
+                        for (int m = 0; m < 4; m++) {
                             if (confItemset2.get(i).get(0).charAt(0) == fourrelations[m]
-                                    &&confItemset2.get(i).get(0).charAt(0)!=confItemset2.get(i).get(1).charAt(0)) {//X-->Y中X
+                                    && confItemset2.get(i).get(0).charAt(0) != confItemset2.get(i).get(1).charAt(0)) {//X-->Y中X
                                 double confidence = new Double(confItemset2.get(i).get(3));
-                                double support=new Double(confItemset2.get(i).get(2));
-                                Confidences[k][m]+=confidence*support;
+                                double support = new Double(confItemset2.get(i).get(2));
+                                Confidences[k][m] += confidence * support;
                                 total[k][m]++;
                             }
                         }
@@ -142,25 +151,28 @@ public class Apriori {
 
                 }
             }
-            for(int k=0;k<4;k++){
-                for(int m=0;m<4;m++){
-                    if(k!=m&&total[k][m]!=0) {
-                        Confidences[k][m]/=total[k][m];
+            for (int k = 0; k < 4; k++) {
+                for (int m = 0; m < 4; m++) {
+                    if (k != m && total[k][m] != 0) {
+                        Confidences[k][m] /= total[k][m];
 
                     }
                 }
             }
-            for(int k=0;k<4;k++){
-                for(int m=k;m<4;m++){
-                    if(k!=m){
-                        double Confidence = (Confidences[k][m]+Confidences[m][k])/2;
 
+            for (int k = 0; k < 4; k++) {
+                for (int m = k; m < 4; m++) {
+                    if (k != m) {
+                        double Confidence = (Confidences[k][m] + Confidences[m][k]) / 2;
+                        JSONObject result = new JSONObject();
+                        result.put("name1", FourTables[m]);
+                        result.put("name2", FourTables[k]);
+                        result.put("value", Confidences[k][m]);
+                        results.put(result);
                         System.out.println(FourTables[m] + "  与  " + FourTables[k] + " 的相关系数为:" + Confidences[k][m]);
                     }
                 }
             }
-
-
         }
    /*
         else if(count==4){
