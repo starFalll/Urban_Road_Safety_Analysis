@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import team.web_first.javabean.FactorAll;
 import team.web_first.mapper.FactorMapper;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +66,9 @@ public class Apriori {
 
 
     public JSONArray getJson() {
+        results = new JSONArray();
         main(null);
+        System.out.println(results.toString());
         return results;
     }
 
@@ -72,6 +76,7 @@ public class Apriori {
      * @param args
      */
     public static void main(String[] args) {
+        results = new JSONArray();
         // TODO Auto-generated method stub
         record = DoGet();// 获取原始数据记录
         System.out.println(record);
@@ -107,6 +112,7 @@ public class Apriori {
 
         }
 
+        System.out.println(results.toString());
     }
 
     /**
@@ -164,12 +170,12 @@ public class Apriori {
                 for (int m = k; m < 4; m++) {
                     if (k != m) {
                         double Confidence = (Confidences[k][m] + Confidences[m][k]) / 2;
+                        System.out.println(FourTables[m] + "  与  " + FourTables[k] + " 的相关系数为:" + Confidences[k][m]);
                         JSONObject result = new JSONObject();
                         result.put("name1", FourTables[m]);
                         result.put("name2", FourTables[k]);
-                        result.put("value", Confidences[k][m]);
+                        result.put("confidence", new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN));
                         results.put(result);
-                        System.out.println(FourTables[m] + "  与  " + FourTables[k] + " 的相关系数为:" + Confidences[k][m]);
                     }
                 }
             }
