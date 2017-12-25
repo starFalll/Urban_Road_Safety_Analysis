@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import team.web_first.javabean.FactorAll;
 import team.web_first.mapper.FactorMapper;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +25,7 @@ public class Apriori {
         sqlSession = SqlSessionFactoryUtil.openSqlsession();
         FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
         FactorAll[] factorAlls = factorMapper.showFactorAll();//factorAlls为二维数组
+        sqlSession.close();
         /**
          * Columns: personality_id, personality_score, dager_influence_coefficient, D1, D2, D3, D4, D5, D6
          Row: 2, 0, 0, 1, 1, 0, 0, 1, 1 //factorAlls[0]
@@ -50,6 +53,7 @@ public class Apriori {
 
     }
 
+    static boolean isDo = false;
     static boolean endTag = false;
     static Map<Integer, Integer> dCountMap = new HashMap<Integer, Integer>(); // k-1频繁集的记数表
     static Map<Integer, Integer> dkCountMap = new HashMap<Integer, Integer>();// k频繁集的记数表
@@ -63,15 +67,21 @@ public class Apriori {
     static JSONArray results = new JSONArray();
 
 
-    public JSONArray getJson() {
-        main(null);
-        return results;
+    public static JSONArray getJson() {
+        if (!isDo) {
+            results = new JSONArray();
+            main(null);
+            System.out.println(results.toString());
+            isDo = true;
+            return results;
+        } else return results;
     }
 
     /**
      * @param args
      */
     public static void main(String[] args) {
+        results = new JSONArray();
         // TODO Auto-generated method stub
         record = DoGet();// 获取原始数据记录
         int i = 2;
@@ -106,6 +116,7 @@ public class Apriori {
 
         }
 
+        System.out.println(results.toString());
     }
 
     /**
@@ -163,12 +174,12 @@ public class Apriori {
                 for (int m = k; m < 4; m++) {
                     if (k != m) {
                         double Confidence = (Confidences[k][m] + Confidences[m][k]) / 2;
+                        System.out.println(FourTables[m] + "  与  " + FourTables[k] + " 的相关系数为:" + Confidences[k][m]);
                         JSONObject result = new JSONObject();
                         result.put("name1", FourTables[m]);
                         result.put("name2", FourTables[k]);
-                        result.put("value", Confidences[k][m]);
+                        result.put("confidence", new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN));
                         results.put(result);
-                        System.out.println(FourTables[m] + "  与  " + FourTables[k] + " 的相关系数为:" + Confidences[k][m]);
                     }
                 }
             }

@@ -107,96 +107,138 @@
     <div class="clearfix"></div>
 </div>
 <script>
+    /**
+     * charts variable
+     * X axis = ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力']
+     * */
+    var maps = ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力'];
+    var datas = new Array();
+    datas[0] = new Array();
+    datas[1] = new Array();
+    datas[2] = new Array();
+    datas[3] = new Array();
+    var results;
+
     // 绘制图表
     $(document).ready(function start() {
-            echarts.init(document.getElementById('bar')).setOption(
-                {
-                    textStyle: {
-                        color: 'rgba(255, 255, 255, 0.3)'
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {type: 'shadow'}
-                    },
-                    legend: {
-                        top: '3%',
-                        textStyle: {
-                            color: 'rgba(255, 255, 255, 0.3)'
-                        },
-                        data: ['人格特性', '驾驶能力自信', '危险驾驶行为', '道路风险感知能力']
-                    },
-                    grid: {
-                        top: '10%',
-                        left: '10%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
-                    xAxis: {
-                        type: 'category',
-                        data: ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力']
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series: [
-                        {
-                            name: '危险驾驶行为',
-                            type: 'bar',
-                            stack: '系数',
-                            label: {
-                                normal: {
-                                    show: true,
+            $.ajax({
+                url: "/Urban_Road_Safety_Analysis/ResultServlet",
+                timeout: 9999,
+                success: function (data) {
+                    results = JSON.parse(data);
+                    for (i = 0; i < 4; i++) {
+                        for (j = 0; j < 4; j++) {
+                            if (i != j) {
+                                for (k = 0, len = results.length; k < len; k++) {
+                                    if (results[k].name1 == maps[i] && results[k].name2 == maps[j]) {
+                                        datas[j][i] = results[k].confidence;
+                                        datas[i][j] = results[k].confidence;
+                                    }
+                                    if (results[k].name1 == maps[j] && results[k].name2 == maps[i]) {
+                                        datas[j][i] = results[k].confidence;
+                                        datas[i][j] = results[k].confidence;
+                                    }
                                 }
-                            },
-                            data: ['', 0.696, 0.551, 0.376],
-                            itemStyle: {
-                                normal: {color: '#003336'}
                             }
-                        }, {
-                            name: '人格特性',
-                            type: 'bar',
-                            stack: '系数',
-                            label: {
-                                normal: {
-                                    show: true,
-                                }
-                            },
-                            data: [0.551, 0.583, '', 0.608],
-                            itemStyle: {
-                                normal: {color: '#e79169'}
-                            }
-                        }, {
-                            name: '驾驶能力自信',
-                            type: 'bar',
-                            stack: '系数',
-                            label: {
-                                normal: {
-                                    show: true,
-                                }
-                            },
-                            data: [0.696, '', 0.583, 0.689],
-                            itemStyle: {
-                                normal: {color: '#51616d'}
-                            }
-                        }, {
-                            name: '道路风险感知能力',
-                            type: 'bar',
-                            stack: '系数',
-                            label: {
-                                normal: {
-                                    show: true,
-                                }
-                            },
-                            barCategoryGap: '35%',
-                            data: [0.376, 0.689, 0.608, ''],
-                            itemStyle: {
-                                normal: {color: '#77a8ad'}
+                            else {
+                                datas[i][j] = '';
                             }
                         }
-                    ]
-                }
-            );
+                    }
+                    echarts.init(document.getElementById('bar')).setOption(
+                        {
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            },
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {type: 'shadow'}
+                            },
+                            legend: {
+                                top: '3%',
+                                textStyle: {
+                                    color: 'rgba(255, 255, 255, 0.3)'
+                                },
+                                data: ['人格特性', '驾驶能力自信', '危险驾驶行为', '道路风险感知能力']
+                            },
+                            grid: {
+                                top: '10%',
+                                left: '10%',
+                                right: '10%',
+                                bottom: '10%',
+                                containLabel: true
+                            },
+                            xAxis: {
+                                type: 'category',
+                                data: ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力']
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [
+                                {
+                                    name: '危险驾驶行为',
+                                    type: 'bar',
+                                    stack: '系数',
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                        }
+                                    },
+                                    data: datas[0],
+                                    itemStyle: {
+                                        normal: {color: '#003336'}
+                                    }
+                                }, {
+                                    name: '人格特性',
+                                    type: 'bar',
+                                    stack: '系数',
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                        }
+                                    },
+                                    data: datas[2],
+                                    itemStyle: {
+                                        normal: {color: '#e79169'}
+                                    }
+                                }, {
+                                    name: '驾驶能力自信',
+                                    type: 'bar',
+                                    stack: '系数',
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                        }
+                                    },
+                                    data: datas[1],
+                                    itemStyle: {
+                                        normal: {color: '#51616d'}
+                                    }
+                                }, {
+                                    name: '道路风险感知能力',
+                                    type: 'bar',
+                                    stack: '系数',
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                        }
+                                    },
+                                    barCategoryGap: '35%',
+                                    data: datas[3],
+                                    itemStyle: {
+                                        normal: {color: '#77a8ad'}
+                                    }
+                                }
+                            ]
+                        }
+                    );
+                },
+                error: function (data) {
+                    alert("获取数据出错");
+                },
+            });
+
         }
     )
     $(document).ready(function start() {
@@ -268,6 +310,9 @@
         $(".quest-panel").fadeIn();
         $(".quest").attr("class", "active quest");
     };
+    /**
+     * questionnaire variable
+     * */
     var questions;
     var questNum = 0;
     var options = new Array();
@@ -278,16 +323,7 @@
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
         })
     })
-    $(document).ready(function () {
-        $.ajax({
-            url: "/Urban_Road_Safety_Analysis/ResultServlet",
-            dataType: 'json',
-            timeout: 1000,
-            success:function () {
-                
-            }
-        })
-    })
+
     $("#quest-is").click(function () {
         if (questions[questNum] != null) {
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
@@ -328,7 +364,6 @@
             });
         }
     })
-
     $(".display").click(function () {
         if (screen.width < 768) {
             $(".navbar-toggle").click();
