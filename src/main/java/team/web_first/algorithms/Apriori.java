@@ -74,7 +74,6 @@ public class Apriori {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         record = DoGet();// 获取原始数据记录
-        System.out.println(record);
         int i = 2;
         List<List<String>> cItemset = findFirstCandidate();// 获取第一次的备选集
         List<List<String>> lItemset = getSupportedItemset(cItemset);// 获取备选集cItemset满足支持的集合

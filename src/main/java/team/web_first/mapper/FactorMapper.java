@@ -16,6 +16,7 @@ public interface FactorMapper {
     FactorD[] showFactorD();
 
     FactorAll[] showFactorAll();
+    NewData[] showNewData();
 
     int addFactorA(FactorA factorA);
 
