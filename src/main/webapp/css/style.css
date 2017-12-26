@@ -286,6 +286,67 @@ body.register, body.login {
     padding: 2% 8%;
 }
 
+.btn-primary {
+    color: #1B242F;
+    background-color: lightgrey;
+    border-color: #000000
+}
+
+.btn-primary.focus, .btn-primary:focus {
+    color: #1B242F;
+    background-color: lightgrey;
+    border-color: #000000
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #000000;
+    border-color: #000000
+}
+
+.btn-primary.active, .btn-primary:active, .open > .dropdown-toggle.btn-primary {
+    color: #1B242F;
+    background-color: lightgrey;
+    border-color: #000000
+}
+
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open > .dropdown-toggle.btn-primary.focus, .open > .dropdown-toggle.btn-primary:focus, .open > .dropdown-toggle.btn-primary:hover {
+    color: #1B242F;
+    background-color: lightgrey;
+    border-color: #000000
+}
+
+.btn-success {
+    color: #1B242F;
+    background-color: lightgrey;
+    border-color: #000000
+}
+
+.btn-success.focus, .btn-success:focus {
+    color: #1B242F;
+    background-color: lightgrey;
+    border-color: #000000
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #000000;
+    border-color: #000000
+}
+
+.btn-success.active, .btn-success:active, .open > .dropdown-toggle.btn-success {
+    color: #1B242F;
+    background-color: lightgrey;
+    border-color: #000000
+}
+
+.btn-success.active.focus, .btn-success.active:focus, .btn-success.active:hover, .btn-success:active.focus, .btn-success:active:focus, .btn-success:active:hover, .open > .dropdown-toggle.btn-success.focus, .open > .dropdown-toggle.btn-success:focus, .open > .dropdown-toggle.btn-success:hover {
+    color: #1B242F;
+    background-color: lightgrey;
+    border-color: #000000
+}
+
+
 @media screen and (max-width: 1440px) {
     .login-buttom {
         padding: 0;
@@ -355,6 +416,7 @@ body.register, body.login {
 }
 
 @media screen and (max-width: 1024px) {
+
     .container {
         width: 80%;
     }
@@ -407,16 +469,6 @@ body.register, body.login {
         font-size: 16px
     }
 
-    button#focus-single, button#focus-multiple, button#focus-coords, button#focus-init {
-        font-size: 0.71em;
-        padding: 4px 3px;
-        margin: 0 0px 0 0;
-    }
-
-    .calender-right {
-        padding: 3em 0em 2.55em 0em;
-    }
-
     .quest-option {
         padding: 8% 0;
     }
@@ -424,6 +476,67 @@ body.register, body.login {
     .quest-option button {
         padding: 2% 10%;
     }
+
+    .btn-primary {
+        color: #1B242F;
+        background-color: lightgrey;
+        border-color: #000000
+    }
+
+    .btn-primary.focus, .btn-primary:focus {
+        color: #1B242F;
+        background-color: lightgrey;
+        border-color: #000000
+    }
+
+    .btn-primary:hover {
+        color: #1B242F;
+        background-color: lightgrey;
+        border-color: #000000
+    }
+
+    .btn-primary.active, .btn-primary:active, .open > .dropdown-toggle.btn-primary {
+        color: #fff;
+        background-color: #000000;
+        border-color: #000000
+    }
+
+    .btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open > .dropdown-toggle.btn-primary.focus, .open > .dropdown-toggle.btn-primary:focus, .open > .dropdown-toggle.btn-primary:hover {
+        color: #1B242F;
+        background-color: lightgrey;
+        border-color: #000000
+    }
+
+    .btn-success {
+        color: #1B242F;
+        background-color: lightgrey;
+        border-color: #000000
+    }
+
+    .btn-success.focus, .btn-success:focus {
+        color: #1B242F;
+        background-color: lightgrey;
+        border-color: #000000
+    }
+
+    .btn-success:hover {
+        color: #1B242F;
+        background-color: lightgrey;
+        border-color: #000000
+    }
+
+    .btn-success.active, .btn-success:active, .open > .dropdown-toggle.btn-success {
+        color: #fff;
+        background-color: #000000;
+        border-color: #000000
+    }
+
+    .btn-success.active.focus, .btn-success.active:focus, .btn-success.active:hover, .btn-success:active.focus, .btn-success:active:focus, .btn-success:active:hover, .open > .dropdown-toggle.btn-success.focus, .open > .dropdown-toggle.btn-success:focus, .open > .dropdown-toggle.btn-success:hover {
+        color: #1B242F;
+        background-color: lightgrey;
+        border-color: #000000
+    }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -528,7 +641,6 @@ body.register, body.login {
     .col-xs-offset-1 {
         margin-left: 20%;
     }
-
 
     .calender-right {
         width: 100%;
