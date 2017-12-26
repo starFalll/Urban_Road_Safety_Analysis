@@ -81,11 +81,9 @@
     <div class="display-content">
         <div class="bar-content">
             <div class="bar" id="bar"></div>
-            <div class="alert-close"></div>
         </div>
         <div class="pie-content">
             <div class="pie" id="pie"></div>
-            <div class="alert-close"></div>
         </div>
     </div>
     <div style="display: none" class="quest-panel panel panel-default">
@@ -119,9 +117,10 @@
     datas[3] = new Array();
     var results;
 
+    var barChart, pieChart;
     // 绘制图表
     $(document).ready(function start() {
-            var barChart = echarts.init(document.getElementById('bar'));
+            barChart = echarts.init(document.getElementById('bar'));
             barChart.showLoading();
             $.ajax({
                 url: "/Urban_Road_Safety_Analysis/ResultServlet",
@@ -150,6 +149,15 @@
                     barChart.hideLoading();
                     barChart.setOption(
                         {
+                            title: {
+                                text: '两因素相关系数'.split("").join("\n"),
+                                textStyle: {
+                                    color: 'rgba(255, 255, 255, 0.3)',
+
+                                },
+                                top: '37%',
+                                left: '2%'
+                            },
                             textStyle: {
                                 color: 'rgba(255, 255, 255, 0.3)'
                             },
@@ -165,17 +173,38 @@
                                 data: ['人格特性', '驾驶能力自信', '危险驾驶行为', '道路风险感知能力']
                             },
                             grid: {
-                                top: '10%',
+                                top: '20%',
                                 left: '10%',
                                 right: '10%',
-                                bottom: '10%',
+                                bottom: '1%',
                                 containLabel: true
                             },
                             xAxis: {
                                 type: 'category',
                                 data: ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力'],
                                 axisLabel: {
-                                    interval: 0
+                                    interval: 0,
+                                    formatter: function (value) {
+                                        var ret = "";//拼接加\n返回的类目项
+                                        var maxLength = 2;//每项显示文字个数
+                                        var valLength = value.length;//X轴类目项的文字个数
+                                        var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                                        if (rowN > 1)//如果类目项的文字大于3,
+                                        {
+                                            for (var i = 0; i < rowN; i++) {
+                                                var temp = "";//每次截取的字符串
+                                                var start = i * maxLength;//开始截取的位置
+                                                var end = start + maxLength;//结束截取的位置
+                                                //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                                temp = value.substring(start, end) + "\n";
+                                                ret += temp; //凭借最终的字符串
+                                            }
+                                            return ret;
+                                        }
+                                        else {
+                                            return value;
+                                        }
+                                    }
                                 }
                             },
                             yAxis: {
@@ -230,7 +259,7 @@
                                             show: true,
                                         }
                                     },
-                                    barCategoryGap: '35%',
+                                    barCategoryGap: '40%',
                                     data: datas[3],
                                     itemStyle: {
                                         normal: {color: '#77a8ad'}
@@ -248,7 +277,7 @@
         }
     )
     $(document).ready(function start() {
-            echarts.init(document.getElementById('pie')).setOption({
+            pieChart = echarts.init(document.getElementById('pie')).setOption({
                 backgroundColor: '#2c343c',
                 visualMap: {
                     // 不显示 visualMap 组件，只用于明暗度的映射
@@ -303,6 +332,11 @@
         }
     )
 
+    window.onresize = function () {
+        barChart.resize();
+        pieChart.resize();
+    }
+
     function display() {
         $(".quest-panel").fadeOut();
         $(".quest").attr("class", "quest");
@@ -349,7 +383,7 @@
                 }
             });
         }
-    })
+    }).attr;
     $("#quest-not").click(function () {
         if (questions[questNum] != null) {
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
@@ -369,7 +403,7 @@
                 }
             });
         }
-    })
+    });
     $(".display").click(function () {
         if (screen.width < 768) {
             $(".navbar-toggle").click();
@@ -380,9 +414,6 @@
             $(".navbar-toggle").click();
         }
     })
-    $('.alert-close').click(function () {
-        $(this.parentNode).fadeOut();
-    });
 </script>
 </body>
 </html>
