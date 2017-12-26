@@ -121,6 +121,8 @@
 
     // 绘制图表
     $(document).ready(function start() {
+            var barChart = echarts.init(document.getElementById('bar'));
+            barChart.showLoading();
             $.ajax({
                 url: "/Urban_Road_Safety_Analysis/ResultServlet",
                 timeout: 9999,
@@ -145,7 +147,7 @@
                             }
                         }
                     }
-                    echarts.init(document.getElementById('bar')).setOption(
+                    barChart.setOption(
                         {
                             textStyle: {
                                 color: 'rgba(255, 255, 255, 0.3)'
