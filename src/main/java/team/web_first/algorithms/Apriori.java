@@ -1,22 +1,39 @@
 package team.web_first.algorithms;
 
+import com.mysql.cj.api.xdevapi.AddResult;
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import team.web_first.javabean.FactorAll;
+import team.web_first.javabean.Result;
 import team.web_first.mapper.FactorMapper;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Apriori {
+    static SqlSession sqlSession = null;
+    static boolean isDo = false;
+    static boolean endTag = false;
+    static Map<Integer, Integer> dCountMap = new HashMap<Integer, Integer>(); // k-1频繁集的记数表
+    static Map<Integer, Integer> dkCountMap = new HashMap<Integer, Integer>();// k频繁集的记数表
+    static List<List<String>> record = new ArrayList<List<String>>();// 数据记录表
+    final static double MIN_SUPPORT = 0.2;// 最小支持度
+    final static double MIN_CONF = 0.8;// 最小置信度
+    static int lable = 1;// 用于输出时的一个标记，记录当前在打印第几级关联集
+    static List<Double> confCount = new ArrayList<Double>();// 置信度记录表
+    static List<List<String>> confItemset = new ArrayList<List<String>>();// 满足置信度的集合
+
+    static JSONArray results = new JSONArray();
+
     /**
      * 将数据库获取的数据转换成能够被算法用来处理的形式
      */
     protected static List<List<String>> DoGet() {
-        SqlSession sqlSession = null;
         List<List<String>> record = new ArrayList<List<String>>();
 
         //打开SQL session
@@ -50,28 +67,22 @@ public class Apriori {
 
     }
 
-    static boolean endTag = false;
-    static Map<Integer, Integer> dCountMap = new HashMap<Integer, Integer>(); // k-1频繁集的记数表
-    static Map<Integer, Integer> dkCountMap = new HashMap<Integer, Integer>();// k频繁集的记数表
-    static List<List<String>> record = new ArrayList<List<String>>();// 数据记录表
-    final static double MIN_SUPPORT = 0.2;// 最小支持度
-    final static double MIN_CONF = 0.8;// 最小置信度
-    static int lable = 1;// 用于输出时的一个标记，记录当前在打印第几级关联集
-    static List<Double> confCount = new ArrayList<Double>();// 置信度记录表
-    static List<List<String>> confItemset = new ArrayList<List<String>>();// 满足置信度的集合
 
-    static JSONArray results = new JSONArray();
-
-
-    public JSONArray getJson() {
-        main(null);
-        return results;
-    }
+/*    public static JSONArray getJson() {
+        if (!isDo) {
+            results = new JSONArray();
+            main(null);
+            System.out.println(results.toString());
+            isDo = true;
+            return results;
+        } else return results;
+    }*/
 
     /**
      * @param args
      */
     public static void main(String[] args) {
+        results = new JSONArray();
         // TODO Auto-generated method stub
         record = DoGet();// 获取原始数据记录
         int i = 2;
@@ -106,6 +117,8 @@ public class Apriori {
 
         }
 
+        System.out.println(results.toString());
+        sqlSession.close();
     }
 
     /**
@@ -163,12 +176,17 @@ public class Apriori {
                 for (int m = k; m < 4; m++) {
                     if (k != m) {
                         double Confidence = (Confidences[k][m] + Confidences[m][k]) / 2;
-                        JSONObject result = new JSONObject();
+                        System.out.println(FourTables[m] + "  与  " + FourTables[k] + " 的相关系数为:" + Confidences[k][m]);
+/*                        JSONObject result = new JSONObject();
                         result.put("name1", FourTables[m]);
                         result.put("name2", FourTables[k]);
-                        result.put("value", Confidences[k][m]);
-                        results.put(result);
-                        System.out.println(FourTables[m] + "  与  " + FourTables[k] + " 的相关系数为:" + Confidences[k][m]);
+                        result.put("confidence", new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN));*/
+                        Result result1=new Result(FourTables[m],FourTables[k],new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
+                        sqlSession = SqlSessionFactoryUtil.openSqlsession();
+                        FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
+                        factorMapper.addResult(result1);
+                        sqlSession.commit();
+/*                        results.put(result);*/
                     }
                 }
             }

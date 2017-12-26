@@ -6,8 +6,9 @@
     <link rel="shortcut icon" href="images/title.png">
     <link rel="icon" href="images/title.png">
     <link rel="Bookmark" href="images/title.png">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-          rel='stylesheet' type='text/css'>
+    <link
+            href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+            rel='stylesheet' type='text/css'>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
@@ -253,6 +254,9 @@
         $(".quest-panel").fadeIn();
         $(".quest").attr("class", "active quest");
     };
+    /**
+     * questionnaire variable
+     * */
     var questions;
     var questNum = 0;
     var options = new Array();
@@ -261,6 +265,48 @@
         $.getJSON('js/questions.json', function (data) {
             questions = data.questions;
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        })
+    })
+    /**
+     * charts variable
+     * X axis = ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力']
+     * */
+    var maps = ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力'];
+    var datas = new Array();
+    datas[0] = new Array();
+    datas[1] = new Array();
+    datas[2] = new Array();
+    datas[3] = new Array();
+    var results;
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Urban_Road_Safety_Analysis/ResultServlet",
+            success: function (data) {
+                results = JSON.parse(data);
+                for (i = 0; i < 4; i++) {
+                    for (j = 0; j < 4; j++) {
+                        if (i != j) {
+                            for (k = 0, len = results.length; k < len; k++) {
+                                if (results[k].name1 == maps[i] && results[k].name2 == maps[j]) {
+                                    datas[j][i] = results[k].confidence;
+                                    datas[i][j] = results[k].confidence;
+                                }
+                                if (results[k].name1 == maps[j] && results[k].name2 == maps[i]) {
+                                    datas[j][i] = results[k].confidence;
+                                    datas[i][j] = results[k].confidence;
+                                }
+                            }
+                        }
+                        else {
+                            datas[i][j] = '';
+                        }
+                    }
+                }
+            },
+            error: function (data) {
+                alert("获取数据出错");
+            },
         })
     })
     $("#quest-is").click(function () {
