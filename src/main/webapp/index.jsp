@@ -147,6 +147,7 @@
                             }
                         }
                     }
+                    myChart.hideLoading();
                     barChart.setOption(
                         {
                             textStyle: {
