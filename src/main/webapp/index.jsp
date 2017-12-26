@@ -170,7 +170,10 @@
                             },
                             xAxis: {
                                 type: 'category',
-                                data: ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力']
+                                data: ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力'],
+                                axisLabel: {
+                                    interval: 0
+                                }
                             },
                             yAxis: {
                                 type: 'value'
