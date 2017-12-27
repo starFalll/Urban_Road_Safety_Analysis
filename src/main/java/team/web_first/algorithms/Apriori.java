@@ -16,24 +16,24 @@ import java.util.List;
 import java.util.Map;
 
 public class Apriori {
-    static SqlSession sqlSession = null;
-    static boolean isDo = false;
-    static boolean endTag = false;
-    static Map<Integer, Integer> dCountMap = new HashMap<Integer, Integer>(); // k-1频繁集的记数表
-    static Map<Integer, Integer> dkCountMap = new HashMap<Integer, Integer>();// k频繁集的记数表
-    static List<List<String>> record = new ArrayList<List<String>>();// 数据记录表
+     SqlSession sqlSession = null;
+     boolean isDo = false;
+     boolean endTag = false;
+     Map<Integer, Integer> dCountMap = new HashMap<Integer, Integer>(); // k-1频繁集的记数表
+     Map<Integer, Integer> dkCountMap = new HashMap<Integer, Integer>();// k频繁集的记数表
+     List<List<String>> record = new ArrayList<List<String>>();// 数据记录表
     final static double MIN_SUPPORT = 0.2;// 最小支持度
     final static double MIN_CONF = 0.8;// 最小置信度
-    static int lable = 1;// 用于输出时的一个标记，记录当前在打印第几级关联集
-    static List<Double> confCount = new ArrayList<Double>();// 置信度记录表
-    static List<List<String>> confItemset = new ArrayList<List<String>>();// 满足置信度的集合
+    int lable = 1;// 用于输出时的一个标记，记录当前在打印第几级关联集
+    List<Double> confCount = new ArrayList<Double>();// 置信度记录表
+    List<List<String>> confItemset = new ArrayList<List<String>>();// 满足置信度的集合
 
-    static JSONArray results = new JSONArray();
+    JSONArray results = new JSONArray();
 
     /**
      * 将数据库获取的数据转换成能够被算法用来处理的形式
      */
-    protected static List<List<String>> DoGet() {
+    protected  List<List<String>> DoGet() {
         List<List<String>> record = new ArrayList<List<String>>();
 
         //打开SQL session
@@ -82,49 +82,50 @@ public class Apriori {
      * @param args
      */
     public static void main(String[] args) {
-        results = new JSONArray();
+        Apriori RunApr=new Apriori();
+        RunApr.results = new JSONArray();
         // TODO Auto-generated method stub
-        record = DoGet();// 获取原始数据记录
+        RunApr.record = RunApr.DoGet();// 获取原始数据记录
         int i = 2;
-        List<List<String>> cItemset = findFirstCandidate();// 获取第一次的备选集
-        List<List<String>> lItemset = getSupportedItemset(cItemset);// 获取备选集cItemset满足支持的集合
+        List<List<String>> cItemset = RunApr.findFirstCandidate();// 获取第一次的备选集
+        List<List<String>> lItemset = RunApr.getSupportedItemset(cItemset);// 获取备选集cItemset满足支持的集合
         //System.out.print("第一次备选集满足支持的集合");
         //System.out.println(lItemset);
-        while (endTag != true) {// 只要能继续挖掘
-            List<List<String>> ckItemset = getNextCandidate(lItemset);// 获取第下一次的备选集
+        while (RunApr.endTag != true) {// 只要能继续挖掘
+            List<List<String>> ckItemset = RunApr.getNextCandidate(lItemset);// 获取第下一次的备选集
             //System.out.print("下一次备选集：");
             //System.out.println(ckItemset);
-            List<List<String>> lkItemset = getSupportedItemset(ckItemset);// 获取备选集cItemset满足支持的集合
+            List<List<String>> lkItemset = RunApr.getSupportedItemset(ckItemset);// 获取备选集cItemset满足支持的集合
             //System.out.print("下一次备选集满足支持的集合：");
             //System.out.println(lkItemset);
-            getConfidencedItemset(lkItemset, lItemset, dkCountMap, dCountMap);// 获取备选集cItemset满足置信度的集合
+            RunApr.getConfidencedItemset(lkItemset, lItemset, RunApr.dkCountMap, RunApr.dCountMap);// 获取备选集cItemset满足置信度的集合
             //System.out.print("满足置信度的集合：");
             //System.out.println(confItemset);
-            if (confItemset.size() != 0 && i < 4)// 满足置信度的集合不为空
+            if (RunApr.confItemset.size() != 0 && i < 4)// 满足置信度的集合不为空
             {
                 System.out.println(+i + "中特性之间的影响:");
                 i++;
-                printConfItemset(confItemset, i);// 打印满足置信度的集合
+                RunApr.printConfItemset(RunApr.confItemset, i);// 打印满足置信度的集合
             }
             if (i >= 4) {
                 break;
             }
-            confItemset.clear();// 清空置信度的集合
+            RunApr.confItemset.clear();// 清空置信度的集合
             cItemset = ckItemset;// 保存数据，为下次循环迭代准备
             lItemset = lkItemset;
-            dCountMap.clear();
-            dCountMap.putAll(dkCountMap);
+            RunApr.dCountMap.clear();
+            RunApr.dCountMap.putAll(RunApr.dkCountMap);
 
         }
 
-        System.out.println(results.toString());
-        sqlSession.close();
+        System.out.println(RunApr.results.toString());
+        RunApr.sqlSession.close();
     }
 
     /**
      * @param confItemset2 输出满足条件的频繁集
      */
-    private static void printConfItemset(List<List<String>> confItemset2, int count) {
+    private void printConfItemset(List<List<String>> confItemset2, int count) {
         char[] fourrelations = {'A', 'B', 'C', 'D'};
         String[] FourTables = {"道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性"};
         List<String> Atotal = new ArrayList<String>();
@@ -176,7 +177,7 @@ public class Apriori {
                 for (int m = k; m < 4; m++) {
                     if (k != m) {
                         double Confidence = (Confidences[k][m] + Confidences[m][k]) / 2;
-                        System.out.println(FourTables[m] + "  与  " + FourTables[k] + " 的相关系数为:" + Confidences[k][m]);
+                        System.out.println(FourTables[k] + "  与  " + FourTables[m] + " 的相关系数为:" + Confidences[k][m]);
 /*                        JSONObject result = new JSONObject();
                         result.put("name1", FourTables[m]);
                         result.put("name2", FourTables[k]);
@@ -255,7 +256,7 @@ public class Apriori {
      * @param dkCountMap2
      * @param dCountMap2  根据lkItemset，lItemset，dkCountMap2，dCountMap2求出满足自信度的集合
      */
-    private static List<List<String>> getConfidencedItemset(
+    private  List<List<String>> getConfidencedItemset(
             List<List<String>> lkItemset, List<List<String>> lItemset,
             Map<Integer, Integer> dkCountMap2, Map<Integer, Integer> dCountMap2) {
         for (int i = 0; i < lkItemset.size(); i++) {
@@ -274,7 +275,7 @@ public class Apriori {
      *                   若满足则在全局变量confItemset添加list
      *                   如不满足则返回null
      */
-    private static List<String> getConfItem(List<String> list,
+    private  List<String> getConfItem(List<String> list,
                                             List<List<String>> lItemset, Integer count,
                                             Map<Integer, Integer> dCountMap2) {
         for (int i = 0; i < list.size(); i++) {
@@ -299,7 +300,7 @@ public class Apriori {
      * @param testList
      * @param lItemset 查找testList中的内容在lItemset的位置
      */
-    private static int findConf(List<String> testList,
+    private  int findConf(List<String> testList,
                                 List<List<String>> lItemset) {
         for (int i = 0; i < lItemset.size(); i++) {
             boolean notHaveTag = false;
@@ -320,7 +321,7 @@ public class Apriori {
      * @param list   检验list中是否包含string
      * @return boolean
      */
-    private static boolean haveThisItem(String string, List<String> list) {
+    private  boolean haveThisItem(String string, List<String> list) {
         for (int i = 0; i < list.size(); i++)
             if (string.equals(list.get(i)))
                 return true;
@@ -330,7 +331,7 @@ public class Apriori {
     /**
      * @param cItemset 求出cItemset中满足最低支持度集合
      */
-    private static List<List<String>> getSupportedItemset(
+    private  List<List<String>> getSupportedItemset(
             List<List<String>> cItemset) {
         // TODO Auto-generated method stub
         boolean end = true;
@@ -358,7 +359,7 @@ public class Apriori {
     /**
      * @param list 统计数据库记录record中出现list中的集合的个数
      */
-    private static int countFrequent(List<String> list) {
+    private  int countFrequent(List<String> list) {
         int count = 0;
         for (int i = 1; i < record.size(); i++) {
             boolean notHavaThisList = false;
@@ -384,7 +385,7 @@ public class Apriori {
      * @return nextItemset
      * 根据cItemset求出下一级的备选集合组，求出的备选集合组中的每个集合的元素的个数比cItemset中的集合的元素大1
      */
-    private static List<List<String>> getNextCandidate(
+    private  List<List<String>> getNextCandidate(
             List<List<String>> cItemset) {
         List<List<String>> nextItemset = new ArrayList<List<String>>();
         for (int i = 0; i < cItemset.size(); i++) {
@@ -415,7 +416,7 @@ public class Apriori {
      * @return boolean
      * 检验nextItemset中是否包含copyValueHelpList
      */
-    private static boolean isHave(List<String> copyValueHelpList,
+    private boolean isHave(List<String> copyValueHelpList,
                                   List<List<String>> nextItemset) {
         for (int i = 0; i < nextItemset.size(); i++)
             if (copyValueHelpList.equals(nextItemset.get(i)))
@@ -428,7 +429,7 @@ public class Apriori {
      * @param cItemset
      * @return 检验 tempList是不是cItemset的子集
      */
-    private static boolean isSubsetInC(List<String> tempList,
+    private boolean isSubsetInC(List<String> tempList,
                                        List<List<String>> cItemset) {
         boolean haveTag = false;
         for (int i = 0; i < tempList.size(); i++) {// k集合tempList的k-1子集是否都在k-1级频繁级中
@@ -452,7 +453,7 @@ public class Apriori {
     /**
      * 根据数据库记录求出第一级备选集
      */
-    private static List<List<String>> findFirstCandidate() {
+    private List<List<String>> findFirstCandidate() {
         List<List<String>> tableList = new ArrayList<List<String>>();
         List<String> lineList = new ArrayList<String>();
 
