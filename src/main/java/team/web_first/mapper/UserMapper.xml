@@ -19,6 +19,10 @@
     <select id="getUserByAbs"
             resultMap="userResultMap">select ur_id,ur_name,ur_password,ur_create_time,ur_valid_time from login_user where ur_name=#{userName} AND ur_password=#{userPassword}</select>
 
+    <select id="getRecord" resultType="Integer">
+        SELECT IFNULL(MAX(ur_record_id),0) FROM user_record WHERE ur_id=#{userId};
+    </select>
+
     <!--用户插入 （用户注册）-->
     <insert id="addUser" parameterType="User"
             useGeneratedKeys="true" keyProperty="userID">
@@ -26,5 +30,9 @@
 		login_user(ur_name,ur_password,ur_create_time,ur_valid_time)
 		values(#{userName},#{userPassword},#{userCreateTime},#{userValidTime})
 	</insert>
+
+    <insert id="addRecord" useGeneratedKeys="true" keyProperty="recId">
+        INSERT INTO user_record(ur_id, ur_record_id) VALUES(#{userId},#{userRecordId})
+    </insert>
 
 </mapper>

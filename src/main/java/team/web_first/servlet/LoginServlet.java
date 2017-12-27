@@ -1,8 +1,10 @@
 package team.web_first.servlet;
 
 import org.apache.ibatis.session.SqlSession;
+import team.web_first.algorithms.DescribeResult;
 import team.web_first.algorithms.SqlSessionFactoryUtil;
 import team.web_first.algorithms.UserPasswordEncrypt;
+import team.web_first.javabean.PersResult;
 import team.web_first.javabean.User;
 import team.web_first.mapper.UserMapper;
 
@@ -37,6 +39,8 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.getSession().removeAttribute("user");
+        request.getSession().removeAttribute("persResult");
         // TODO Auto-generated method stub
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset = UTF-8");
@@ -65,6 +69,13 @@ public class LoginServlet extends HttpServlet {
             checkedUser = userMapper.getUserByAbs(userName, userEncryptPassword);
             if (checkedUser != null) {
                 if (checkedUser.getUserValidTime() == null || checkedUser.getUserValidTime().after(new Date())) {
+                    int recordId = userMapper.getRecord(checkedUser.getUserID());
+                    sqlSession.close();
+                    if (recordId != 0) {
+                        DescribeResult describeResult = new DescribeResult(recordId);
+                        PersResult persResult = describeResult.getPersResult();
+                        request.getSession().setAttribute("persResult", persResult);
+                    }
                     request.getSession().setAttribute("user", checkedUser);
                     response.sendRedirect("/Urban_Road_Safety_Analysis/index.jsp");
                     return;
@@ -76,9 +87,10 @@ public class LoginServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/Urban_Road_Safety_Analysis/login.html?checkUnValid=1");
+            response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
+        } finally {
+            sqlSession.close();
         }
-
     }
 
     /**

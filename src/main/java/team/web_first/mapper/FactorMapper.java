@@ -1,5 +1,6 @@
 package team.web_first.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import team.web_first.javabean.*;
 
 /**
@@ -17,7 +18,7 @@ public interface FactorMapper {
 
     FactorAll[] showFactorAll();
 
-    NewData[] showNewData();
+    NewData[] showNewData(@Param("urRecordId") int urRecordId);
 
     Result[] showResult();
 
