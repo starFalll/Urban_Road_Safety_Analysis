@@ -44,6 +44,7 @@ public class DescribeResult {
             }
             record.add(lineList);
         }
+        sqlSession.close();
         return record;
     }
 
@@ -78,6 +79,7 @@ public class DescribeResult {
             lineList.add(confidence.toString());
             record.add(lineList);
         }
+        sqlSession.close();
         return record;
     }
     public static void main(String[] args){
