@@ -65,11 +65,11 @@ public class QuestServlet extends HttpServlet {
         //写入数据库
         FactorA factorA = new FactorA();
         factorA.setA1(aValues[0]);
-        factorA.setA2(aValues[1]);
+        factorA.setA2(!aValues[1]);
         factorA.setA3(aValues[2]);
-        factorA.setA4(aValues[3]);
-        factorA.setA5(aValues[4]);
-        factorA.setA6(aValues[5]);
+        factorA.setA4(!aValues[3]);
+        factorA.setA5(!aValues[4]);
+        factorA.setA6(!aValues[5]);
 
         FactorB factorB = new FactorB();
         factorB.setB1(bValues[0]);
