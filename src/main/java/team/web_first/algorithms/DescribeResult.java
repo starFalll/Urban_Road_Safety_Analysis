@@ -170,10 +170,10 @@ public class DescribeResult {
 
         if (dangerousDrivinggrade > 60) {
             System.out.println("您出现危险驾驶行为的概率较大，请谨慎驾驶!");
-            persResult.setTwoDanger(false);
+            persResult.setTwoDanger(true);
         } else {
             System.out.println("您的驾驶行为比较安全!");
-            persResult.setTwoDanger(true);
+            persResult.setTwoDanger(false);
         }
 
         return persResult;

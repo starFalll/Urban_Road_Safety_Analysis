@@ -220,22 +220,22 @@
                                         var list = ['待加强', '良好'];
                                         if (params.dataIndex == 0) {
                                             if (persResult.oneDanger == true) {
-                                                return list[1];
+                                                return list[0];
                                             }
                                             else {
-                                                return list[0];
+                                                return list[1];
                                             }
                                         }
                                         else if (params.dataIndex == 1) {
                                             if (persResult.twoDanger == true) {
-                                                return list[1];
+                                                return list[0];
                                             }
                                             else {
-                                                return list[0];
+                                                return list[1];
                                             }
                                         }
                                         else {
-                                            return list[0];
+                                            return list[1];
                                         }
                                     }
                                 }
