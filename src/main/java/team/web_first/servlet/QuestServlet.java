@@ -7,6 +7,7 @@ import team.web_first.javabean.FactorB;
 import team.web_first.javabean.FactorC;
 import team.web_first.javabean.FactorD;
 import team.web_first.mapper.FactorMapper;
+import team.web_first.mapper.UserMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -98,14 +99,16 @@ public class QuestServlet extends HttpServlet {
         factorMapper.addFactorB(factorB);
         factorMapper.addFactorC(factorC);
         factorMapper.addFactorD(factorD);
+        try {
+            int userId = Integer.valueOf(request.getParameter("userId"));
+            if (userId != 0) {
+                UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+                userMapper.addRecord(userId, factorA.getRiskPerceptionId());
+            }
+        } catch (NumberFormatException e) {
 
-        /**
-         * !!!!!!!!!!!!!!!!!! 测试用函数
-         */
-        FactorA[] factorAS = factorMapper.showFactorA();
-        FactorB[] factorBS = factorMapper.showFactorB();
-        FactorC[] factorCS = factorMapper.showFactorC();
-        FactorD[] factorDS = factorMapper.showFactorD();
+        }
+
 
         //事务提交 关闭连接
         sqlSession.commit();

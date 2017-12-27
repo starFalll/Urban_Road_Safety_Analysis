@@ -1,6 +1,10 @@
 <%@ page import="team.web_first.javabean.User" %>
+<%@ page import="team.web_first.javabean.PersResult" %>
+<%@ page import="org.json.JSONObject" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
+
+    JSONObject jsonObject = null;
     User user;
     user = (User) request.getSession().getAttribute("user");
     if (user == null) {
@@ -9,7 +13,11 @@
         response.setHeader("Location", newLocn);
         return;
     }
-
+    PersResult persResult;
+    persResult = (PersResult) request.getSession().getAttribute("persResult");
+    if (persResult != null) {
+        jsonObject = new JSONObject(persResult);
+    }
 %>
 
 <html>
@@ -80,7 +88,10 @@
     </div>
     <div class="display-content">
         <div class="bar-content">
-            <div class="bar" id="bar"></div>
+            <div class="bar" id="bar2"></div>
+        </div>
+        <div class="bar-content">
+            <div class="bar" id="bar1"></div>
         </div>
         <div class="pie-content">
             <div class="pie" id="pie"></div>
@@ -108,6 +119,7 @@
     /**
      * charts variable
      * X axis = ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力']
+     * datas[?] ? = X 下标
      * */
     var maps = ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力'];
     var datas = new Array();
@@ -116,224 +128,461 @@
     datas[2] = new Array();
     datas[3] = new Array();
     var results;
+    var persResult = <%=jsonObject%>;
 
-    var barChart, pieChart;
-    // 绘制图表
-    $(document).ready(function start() {
-            barChart = echarts.init(document.getElementById('bar'));
-            barChart.showLoading();
-            $.ajax({
-                url: "/Urban_Road_Safety_Analysis/ResultServlet",
-                timeout: 9999,
-                success: function (data) {
-                    results = JSON.parse(data);
-                    for (i = 0; i < 4; i++) {
-                        for (j = 0; j < 4; j++) {
-                            if (i != j) {
-                                for (k = 0, len = results.length; k < len; k++) {
-                                    if (results[k].name1 == maps[i] && results[k].name2 == maps[j]) {
-                                        datas[j][i] = results[k].confidence;
-                                        datas[i][j] = results[k].confidence;
-                                    }
-                                    if (results[k].name1 == maps[j] && results[k].name2 == maps[i]) {
-                                        datas[j][i] = results[k].confidence;
-                                        datas[i][j] = results[k].confidence;
-                                    }
+    /**
+     * 绘制图表
+     * */
+    var bar1Chart = echarts.init(document.getElementById('bar1'));
+    var bar2Chart = echarts.init(document.getElementById('bar2'));
+    var pieChart = echarts.init(document.getElementById('pie'));
+    $(function () {
+        bar1Chart.showLoading();
+        bar1Chart.hideLoading();
+        if (persResult != null) {
+            bar1Chart.setOption({
+                title: {
+                    text: '个人测试结果'.split("").join("\n"),
+                    textStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)',
+                        fontSize: 17,
+                    },
+                    top: '35%',
+                    left: '2%'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    top: '10%',
+                    left: '10%',
+                    right: '10%',
+                    bottom: '1%',
+                    containLabel: true
+                },
+                textStyle: {
+                    color: 'rgba(255, 255, 255, 0.3)'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['道路风险感知能力', '危险驾驶行为'],
+                    axisLabel: {
+                        interval: 0,
+                        formatter: function (value) {
+                            var ret = "";//拼接加\n返回的类目项
+                            var maxLength = 4;//每项显示文字个数
+                            var valLength = value.length;//X轴类目项的文字个数
+                            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                            if (rowN > 1)//如果类目项的文字大于3,
+                            {
+                                for (var i = 0; i < rowN; i++) {
+                                    var temp = "";//每次截取的字符串
+                                    var start = i * maxLength;//开始截取的位置
+                                    var end = start + maxLength;//结束截取的位置
+                                    //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                    temp = value.substring(start, end) + "\n";
+                                    ret += temp; //凭借最终的字符串
                                 }
+                                return ret;
                             }
                             else {
-                                datas[i][j] = '';
+                                return value;
                             }
                         }
                     }
-                    barChart.hideLoading();
-                    barChart.setOption(
-                        {
-                            title: {
-                                text: '两因素相关系数'.split("").join("\n"),
-                                textStyle: {
-                                    color: 'rgba(255, 255, 255, 0.3)',
-
-                                },
-                                top: '37%',
-                                left: '2%'
-                            },
-                            textStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)'
-                            },
-                            tooltip: {
-                                trigger: 'axis',
-                                axisPointer: {type: 'shadow'}
-                            },
-                            legend: {
-                                top: '3%',
-                                textStyle: {
-                                    color: 'rgba(255, 255, 255, 0.3)'
-                                },
-                                data: ['人格特性', '驾驶能力自信', '危险驾驶行为', '道路风险感知能力']
-                            },
-                            grid: {
-                                top: '20%',
-                                left: '10%',
-                                right: '10%',
-                                bottom: '1%',
-                                containLabel: true
-                            },
-                            xAxis: {
-                                type: 'category',
-                                data: ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力'],
-                                axisLabel: {
-                                    interval: 0,
-                                    formatter: function (value) {
-                                        var ret = "";//拼接加\n返回的类目项
-                                        var maxLength = 2;//每项显示文字个数
-                                        var valLength = value.length;//X轴类目项的文字个数
-                                        var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
-                                        if (rowN > 1)//如果类目项的文字大于3,
-                                        {
-                                            for (var i = 0; i < rowN; i++) {
-                                                var temp = "";//每次截取的字符串
-                                                var start = i * maxLength;//开始截取的位置
-                                                var end = start + maxLength;//结束截取的位置
-                                                //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
-                                                temp = value.substring(start, end) + "\n";
-                                                ret += temp; //凭借最终的字符串
-                                            }
-                                            return ret;
-                                        }
-                                        else {
-                                            return value;
-                                        }
-                                    }
-                                }
-                            },
-                            yAxis: {
-                                type: 'value'
-                            },
-                            series: [
-                                {
-                                    name: '危险驾驶行为',
-                                    type: 'bar',
-                                    stack: '系数',
-                                    label: {
-                                        normal: {
-                                            show: true,
-                                        }
-                                    },
-                                    data: datas[0],
-                                    itemStyle: {
-                                        normal: {color: '#003336'}
-                                    }
-                                }, {
-                                    name: '人格特性',
-                                    type: 'bar',
-                                    stack: '系数',
-                                    label: {
-                                        normal: {
-                                            show: true,
-                                        }
-                                    },
-                                    data: datas[2],
-                                    itemStyle: {
-                                        normal: {color: '#e79169'}
-                                    }
-                                }, {
-                                    name: '驾驶能力自信',
-                                    type: 'bar',
-                                    stack: '系数',
-                                    label: {
-                                        normal: {
-                                            show: true,
-                                        }
-                                    },
-                                    data: datas[1],
-                                    itemStyle: {
-                                        normal: {color: '#51616d'}
-                                    }
-                                }, {
-                                    name: '道路风险感知能力',
-                                    type: 'bar',
-                                    stack: '系数',
-                                    label: {
-                                        normal: {
-                                            show: true,
-                                        }
-                                    },
-                                    barCategoryGap: '40%',
-                                    data: datas[3],
-                                    itemStyle: {
-                                        normal: {color: '#77a8ad'}
-                                    }
-                                }
-                            ]
-                        }
-                    );
                 },
-                error: function (data) {
-                    alert("获取数据出错");
-                },
-            });
-
-        }
-    )
-    $(document).ready(function start() {
-            pieChart = echarts.init(document.getElementById('pie')).setOption({
-                backgroundColor: '#2c343c',
-                visualMap: {
-                    // 不显示 visualMap 组件，只用于明暗度的映射
-                    show: false,
-                    min: 1000,
-                    max: 2500,
-                    inRange: {
-                        colorLightness: [0, 1]
-                    }
+                yAxis: {
+                    type: 'value'
                 },
                 series: [
                     {
-                        type: 'pie',
-                        roseType: 'radius',
-                        radius: '70%',
-                        center: ['50%', '50%'],
-                        data: [
-                            {name: 'A', value: 1212},
-                            {name: 'B', value: 2323},
-                            {name: 'C', value: 1919}
-                        ],
+                        name: '得分',
+                        type: 'bar',
                         label: {
                             normal: {
-                                textStyle: {
-                                    color: 'rgba(255, 255, 255, 0.3)'
-                                }
+                                show: true,
                             }
                         },
-                        labelLine: {
-                            normal: {
-                                lineStyle: {
-                                    color: 'rgba(255, 255, 255, 0.3)'
-                                }
-                            }
-                        },
-                        animationEasing: 'elasticOut',
-                        animationType: 'scale',
+                        data: [persResult.abiOneScore, persResult.abiTwoScore],
                         itemStyle: {
                             normal: {
-                                shadowBlur: 200,
-                                shadowOffsetX: 0,
-                                shadowOffsetY: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)',
-                                color: '#c23531',
-                                shadowBlur: 200,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                color: function (params) {
+                                    var colorList = ['#51616d', '#003336'];
+                                    return colorList[params.dataIndex];
+                                },
+                                label: {
+                                    show: true,
+                                    position: 'inside',
+                                    formatter: function (params) {
+                                        var list = ['待加强', '良好'];
+                                        if (params.dataIndex == 0) {
+                                            if (persResult.oneDanger == true) {
+                                                return list[0];
+                                            }
+                                            else {
+                                                return list[1];
+                                            }
+                                        }
+                                        else if (params.dataIndex == 1) {
+                                            if (persResult.twoDanger == true) {
+                                                return list[0];
+                                            }
+                                            else {
+                                                return list[1];
+                                            }
+                                        }
+                                        else {
+                                            return list[1];
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        barCategoryGap: '70%',
+                    },
+                    {
+                        name: '得分',
+                        type: 'line',
+                        itemStyle: {
+                            normal: {
+                                color: '#E79169'
+                            }
+                        },
+                        data: [persResult.abiOneScore, persResult.abiTwoScore],
+                    }
+                ]
+
+            });
+        } else {
+            bar1Chart.setOption({
+                title: {
+                    text: '请先完成个人测试',
+                    textStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)',
+                        fontSize: 17,
+                    },
+                    top: '2%',
+                    left: '43%'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                textStyle: {
+                    color: 'rgba(255, 255, 255, 0.3)'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['道路风险感知能力', '危险驾驶行为'],
+                    axisLabel: {
+                        interval: 0,
+                        formatter: function (value) {
+                            var ret = "";//拼接加\n返回的类目项
+                            var maxLength = 4;//每项显示文字个数
+                            var valLength = value.length;//X轴类目项的文字个数
+                            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                            if (rowN > 1)//如果类目项的文字大于3,
+                            {
+                                for (var i = 0; i < rowN; i++) {
+                                    var temp = "";//每次截取的字符串
+                                    var start = i * maxLength;//开始截取的位置
+                                    var end = start + maxLength;//结束截取的位置
+                                    //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                    temp = value.substring(start, end) + "\n";
+                                    ret += temp; //凭借最终的字符串
+                                }
+                                return ret;
+                            }
+                            else {
+                                return value;
                             }
                         }
                     }
-                ]
+                },
+                yAxis: {
+                    type: 'value'
+                }
             });
         }
-    )
+    })
+
+    $(function () {
+        bar2Chart.showLoading();
+        pieChart.showLoading();
+        $.ajax({
+            url: "/Urban_Road_Safety_Analysis/ResultServlet",
+            timeout: 9999,
+            success: function (data) {
+                results = JSON.parse(data);
+                for (i = 0; i < 4; i++) {
+                    for (j = 0; j < 4; j++) {
+                        if (i != j) {
+                            for (k = 0, len = results.length; k < len; k++) {
+                                if (results[k].name1 == maps[i] && results[k].name2 == maps[j]) {
+                                    datas[j][i] = results[k].confidence;
+                                    datas[i][j] = results[k].confidence;
+                                }
+                                if (results[k].name1 == maps[j] && results[k].name2 == maps[i]) {
+                                    datas[j][i] = results[k].confidence;
+                                    datas[i][j] = results[k].confidence;
+                                }
+                            }
+                        }
+                        else {
+                            datas[i][j] = '';
+                        }
+                    }
+                }
+                bar2Chart.hideLoading();
+                bar2Chart.setOption(
+                    {
+                        title: {
+                            text: '两因素相关系数'.split("").join("\n"),
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)',
+
+                            },
+                            top: '35%',
+                            left: '2%'
+                        },
+                        textStyle: {
+                            color: 'rgba(255, 255, 255, 0.3)'
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {type: 'shadow'}
+                        },
+                        legend: {
+                            top: '3%',
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            },
+                            data: ['人格特性', '驾驶能力自信', '危险驾驶行为', '道路风险感知能力']
+                        },
+                        grid: {
+                            top: '20%',
+                            left: '10%',
+                            right: '10%',
+                            bottom: '1%',
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力'],
+                            axisLabel: {
+                                interval: 0,
+                                formatter: function (value) {
+                                    var ret = "";//拼接加\n返回的类目项
+                                    var maxLength = 2;//每项显示文字个数
+                                    var valLength = value.length;//X轴类目项的文字个数
+                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                                    if (rowN > 1)//如果类目项的文字大于3,
+                                    {
+                                        for (var i = 0; i < rowN; i++) {
+                                            var temp = "";//每次截取的字符串
+                                            var start = i * maxLength;//开始截取的位置
+                                            var end = start + maxLength;//结束截取的位置
+                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                            temp = value.substring(start, end) + "\n";
+                                            ret += temp; //凭借最终的字符串
+                                        }
+                                        return ret;
+                                    }
+                                    else {
+                                        return value;
+                                    }
+                                }
+                            }
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: '危险驾驶行为',
+                                type: 'bar',
+                                stack: '系数',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                    }
+                                },
+                                data: datas[0],
+                                itemStyle: {
+                                    normal: {color: '#003336'}
+                                }
+                            }, {
+                                name: '人格特性',
+                                type: 'bar',
+                                stack: '系数',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                    }
+                                },
+                                data: datas[2],
+                                itemStyle: {
+                                    normal: {color: '#e79169'}
+                                }
+                            }, {
+                                name: '驾驶能力自信',
+                                type: 'bar',
+                                stack: '系数',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                    }
+                                },
+                                data: datas[1],
+                                itemStyle: {
+                                    normal: {color: '#51616d'}
+                                }
+                            }, {
+                                name: '道路风险感知能力',
+                                type: 'bar',
+                                stack: '系数',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                    }
+                                },
+                                barCategoryGap: '40%',
+                                data: datas[3],
+                                itemStyle: {
+                                    normal: {color: '#77a8ad'}
+                                }
+                            }
+                        ]
+                    }
+                );
+            },
+            error: function (data) {
+                bar2Chart.hideLoading();
+                bar2Chart.setOption(
+                    {
+                        title: {
+                            text: 'Load Fail',
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)',
+
+                            },
+                            top: '2%',
+                            left: '43%',
+                        },
+                        textStyle: {
+                            color: 'rgba(255, 255, 255, 0.3)'
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {type: 'shadow'}
+                        },
+                        grid: {
+                            top: '20%',
+                            left: '10%',
+                            right: '10%',
+                            bottom: '1%',
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: ['危险驾驶行为', '驾驶能力自信', '人格特性', '道路风险感知能力'],
+                            axisLabel: {
+                                interval: 0,
+                                formatter: function (value) {
+                                    var ret = "";//拼接加\n返回的类目项
+                                    var maxLength = 2;//每项显示文字个数
+                                    var valLength = value.length;//X轴类目项的文字个数
+                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                                    if (rowN > 1)//如果类目项的文字大于3,
+                                    {
+                                        for (var i = 0; i < rowN; i++) {
+                                            var temp = "";//每次截取的字符串
+                                            var start = i * maxLength;//开始截取的位置
+                                            var end = start + maxLength;//结束截取的位置
+                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                            temp = value.substring(start, end) + "\n";
+                                            ret += temp; //凭借最终的字符串
+                                        }
+                                        return ret;
+                                    }
+                                    else {
+                                        return value;
+                                    }
+                                }
+                            }
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+
+                    }
+                );
+            },
+        });
+        pieChart.hideLoading();
+        pieChart.setOption({
+            backgroundColor: '#2c343c',
+            visualMap: {
+                // 不显示 visualMap 组件，只用于明暗度的映射
+                show: false,
+                min: 1000,
+                max: 2500,
+                inRange: {
+                    colorLightness: [0, 1]
+                }
+            },
+            series: [
+                {
+                    type: 'pie',
+                    roseType: 'radius',
+                    radius: '70%',
+                    center: ['50%', '50%'],
+                    data: [
+                        {name: 'A', value: 1212},
+                        {name: 'B', value: 2323},
+                        {name: 'C', value: 1919}
+                    ],
+                    label: {
+                        normal: {
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            lineStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            }
+                        }
+                    },
+                    animationEasing: 'elasticOut',
+                    animationType: 'scale',
+                    itemStyle: {
+                        normal: {
+                            shadowBlur: 200,
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)',
+                            color: '#c23531',
+                            shadowBlur: 200,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        });
+    })
+
 
     window.onresize = function () {
-        barChart.resize();
+        bar1Chart.resize();
+        bar2Chart.resize();
         pieChart.resize();
     }
 
@@ -357,46 +606,27 @@
     var questNum = 0;
     var options = new Array();
     var result;
-    $(document).ready(function () {
+    $(function () {
         $.getJSON('js/questions.json', function (data) {
             questions = data.questions;
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
         })
     })
 
-    $("#quest-is").click(function () {
+    $("#quest-is").click(function quest_is() {
         if (questions[questNum] != null) {
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
             options[questNum] = true;
             questNum++;
         } else {
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
-            result = {"options": options};
+            result = {"options": options, "userId": '<%=user.getUserID()%>'};
             $.ajax({
                 url: "/Urban_Road_Safety_Analysis/QuestServlet",
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                },
-                error: function () {
-                    alert("上传失败！");
-                }
-            });
-        }
-    }).attr;
-    $("#quest-not").click(function () {
-        if (questions[questNum] != null) {
-            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
-            options[questNum] = false;
-            questNum++;
-        } else {
-            $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
-            result = {"options": options};
-            $.ajax({
-                url: "/Urban_Road_Safety_Analysis/QuestServlet",
-                data: result,
-                success: function () {
-                    alert("上传成功！");
+                    window.location.href = '/Urban_Road_Safety_Analysis/RefreshServlet'
                 },
                 error: function () {
                     alert("上传失败！");
@@ -404,12 +634,33 @@
             });
         }
     });
-    $(".display").click(function () {
+    $("#quest-not").click(function quest_not() {
+        if (questions[questNum] != null) {
+            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+            options[questNum] = false;
+            questNum++;
+        } else {
+            $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
+            result = {"options": options, "userId": '<%=user.getUserID()%>'};
+            $.ajax({
+                url: "/Urban_Road_Safety_Analysis/QuestServlet",
+                data: result,
+                success: function () {
+                    alert("上传成功！");
+                    window.location.href = '/Urban_Road_Safety_Analysis/RefreshServlet'
+                },
+                error: function () {
+                    alert("上传失败！");
+                }
+            });
+        }
+    });
+    $(".display").click(function display() {
         if (screen.width < 768) {
             $(".navbar-toggle").click();
         }
     })
-    $(".quest").click(function () {
+    $(".quest").click(function quest() {
         if (screen.width < 768) {
             $(".navbar-toggle").click();
         }

@@ -13,5 +13,9 @@ public interface UserMapper {
 
     User getUserByAbs(@Param("userName") String userName, @Param("userPassword") String userPassword);
 
+    int getRecord(@Param("userId") int userId);
+
     int addUser(User user);
+
+    int addRecord(@Param("userId") int userId, @Param("userRecordId") int userRecordId);
 }

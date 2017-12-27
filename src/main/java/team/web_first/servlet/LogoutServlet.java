@@ -32,8 +32,6 @@ public class LogoutServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        //移除用户
-        Logger logger = new Log4jUtil(LogoutServlet.class).getLogger();
         request.getSession().removeAttribute("user");
         response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
     }

@@ -157,8 +157,7 @@
         join dangerous_driving  AS B ON A.risk_perception_id=B.dangerous_driving_id
         JOIN confidence AS C ON A.risk_perception_id=C.confidence_id
         JOIN personality AS D ON A.risk_perception_id=D.personality_id
-        GROUP BY A.risk_perception_id
-        ORDER BY A.risk_perception_id DESC LIMIT 1;
+        WHERE A.risk_perception_id = #{urRecordId}
     </select>
 
     <select id="showResult" resultMap="ResMap">

@@ -2,9 +2,12 @@ package team.web_first.algorithms;
 
 import org.apache.ibatis.session.SqlSession;
 import team.web_first.javabean.NewData;
+import team.web_first.javabean.PersResult;
 import team.web_first.javabean.Result;
 import team.web_first.mapper.FactorMapper;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +15,24 @@ public class DescribeResult {
     /**
      * 计数方法，计算A/B/C/D("道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性")
      * 在最新插入的一条数据中的数量
+     *
      * @param total
      * @return
      */
-    protected  List<List<String>> CalNewData(int[] total) {
+
+    private int recordId;
+    private PersResult persResult = new PersResult();
+
+    public DescribeResult(int recordId) {
+        this.recordId = recordId;
+    }
+
+    protected List<List<String>> CalNewData(int[] total) {
         SqlSession sqlSession = null;
         //打开SQL session
         sqlSession = SqlSessionFactoryUtil.openSqlsession();
         FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
-        NewData[] newdatas = factorMapper.showNewData();//NewData[]为一维数组
+        NewData[] newdatas = factorMapper.showNewData(recordId);//NewData[]为一维数组
         List<List<String>> record = new ArrayList<List<String>>();
 
         String AllCol[] = {"A1", "A2", "A3", "A4", "A5", "A6", "B1", "B2", "B3", "B4", "B5", "B6", "C1", "C2", "C3",
@@ -30,13 +42,13 @@ public class DescribeResult {
             boolean[] values = newdatas[i].getAllBooleanValue();
             for (int j = 0; j < values.length; j++) {
                 if (values[j] == true) {
-                    if(AllCol[j].charAt(0)=='A')
+                    if (AllCol[j].charAt(0) == 'A')
                         total[0]++;
-                    else if(AllCol[j].charAt(0)=='B')
+                    else if (AllCol[j].charAt(0) == 'B')
                         total[1]++;
-                    else if(AllCol[j].charAt(0)=='C')
+                    else if (AllCol[j].charAt(0) == 'C')
                         total[2]++;
-                    else if(AllCol[j].charAt(0)=='D')
+                    else if (AllCol[j].charAt(0) == 'D')
                         total[3]++;
                     lineList.add(AllCol[j]);
                 }
@@ -51,18 +63,19 @@ public class DescribeResult {
     /**
      * 获取关联挖掘结果集中的数据，如下：
      * +-------------+--------------------+--------------------------+------------+
-     | result_id   | f_char             | s_char                   | confidence |
-     +-------------+--------------------+--------------------------+------------+
-     | 00000000001 | 危险驾驶行为       | 道路风险感知能力         |      0.376 |
-     | 00000000002 | 驾驶能力自信       | 道路风险感知能力         |      0.689 |
-     | 00000000003 | 人格特性           | 道路风险感知能力         |      0.608 |
-     | 00000000004 | 驾驶能力自信       | 危险驾驶行为             |      0.696 |
-     | 00000000005 | 人格特性           | 危险驾驶行为             |      0.551 |
-     | 00000000006 | 人格特性           | 驾驶能力自信             |      0.583 |
-     +-------------+--------------------+--------------------------+------------+
+     * | result_id   | f_char             | s_char                   | confidence |
+     * +-------------+--------------------+--------------------------+------------+
+     * | 00000000001 | 危险驾驶行为       | 道路风险感知能力         |      0.376 |
+     * | 00000000002 | 驾驶能力自信       | 道路风险感知能力         |      0.689 |
+     * | 00000000003 | 人格特性           | 道路风险感知能力         |      0.608 |
+     * | 00000000004 | 驾驶能力自信       | 危险驾驶行为             |      0.696 |
+     * | 00000000005 | 人格特性           | 危险驾驶行为             |      0.551 |
+     * | 00000000006 | 人格特性           | 驾驶能力自信             |      0.583 |
+     * +-------------+--------------------+--------------------------+------------+
+     *
      * @return
      */
-    protected  List<List<String>> DoGet_data_result() {
+    protected List<List<String>> DoGet_data_result() {
         SqlSession sqlSession = null;
         //打开SQL session
         sqlSession = SqlSessionFactoryUtil.openSqlsession();
@@ -74,7 +87,7 @@ public class DescribeResult {
             List<String> lineList = new ArrayList<String>();
             lineList.add(results[i].getfChar());
             lineList.add(results[i].getsChar());
-            Double confidence=new Double(results[i].getConfidence());
+            Double confidence = new Double(results[i].getConfidence());
 
             lineList.add(confidence.toString());
             record.add(lineList);
@@ -82,60 +95,58 @@ public class DescribeResult {
         sqlSession.close();
         return record;
     }
-    public static void main(String[] args){
+
+    public PersResult getPersResult() {
         List<List<String>> dataresultrecord = new ArrayList<List<String>>();
-        int[] total={0,0,0,0};//计数器，计算A/B/C/D在最新插入的一条数据中的数量
-        DescribeResult descriRes=new DescribeResult();
-        descriRes.CalNewData(total);
+        int[] total = {0, 0, 0, 0};//计数器，计算A/B/C/D在最新插入的一条数据中的数量
+        this.CalNewData(total);
         /**
          * 此处添加数据库接口，将置信度结果(data_result表中数据)放到List<List<String>>型数据结构中,
          * 以便我稍后根据置信度结果来处理record中的数据
          *
          */
-        dataresultrecord=descriRes.DoGet_data_result();
-        double[] calresults={total[0]/6.0,total[1]/6.0,total[2]/6.0,total[3]/6.0};
-        System.out.println("calresults:"+calresults[0]+" "+calresults[1]+" "+calresults[2]+" "+calresults[3]);
+        dataresultrecord = this.DoGet_data_result();
+        double[] calresults = {total[0] / 6.0, total[1] / 6.0, total[2] / 6.0, total[3] / 6.0};
+        System.out.println("calresults:" + calresults[0] + " " + calresults[1] + " " + calresults[2] + " " + calresults[3]);
         String[] FourTables = {"道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性"};
-        double dangerousDrivingScore=0,riskPerceptionScore=0,dangerousDrivingScoreall=1,riskPerceptionScoreall=1;
-        dangerousDrivingScore+=calresults[1];
-        riskPerceptionScore+=calresults[0];
-        for(int i=0;i<dataresultrecord.size();i++){
+        double dangerousDrivingScore = 0, riskPerceptionScore = 0, dangerousDrivingScoreall = 1, riskPerceptionScoreall = 1;
+        dangerousDrivingScore += calresults[1];
+        riskPerceptionScore += calresults[0];
+        for (int i = 0; i < dataresultrecord.size(); i++) {
 
-            if(dataresultrecord.get(i).get(0).equals("危险驾驶行为")){
-                for(int k=0;k<4;k++){
-                    if(dataresultrecord.get(i).get(1).equals(FourTables[k])){
-                        Double confidence=new Double(dataresultrecord.get(i).get(2));
-                        dangerousDrivingScore+=calresults[k]*confidence;
-                        dangerousDrivingScoreall+=confidence;
+            if (dataresultrecord.get(i).get(0).equals("危险驾驶行为")) {
+                for (int k = 0; k < 4; k++) {
+                    if (dataresultrecord.get(i).get(1).equals(FourTables[k])) {
+                        Double confidence = new Double(dataresultrecord.get(i).get(2));
+                        dangerousDrivingScore += calresults[k] * confidence;
+                        dangerousDrivingScoreall += confidence;
                     }
                 }
 
-            }
-            else if(dataresultrecord.get(i).get(1).equals("危险驾驶行为")){
-                for(int k=0;k<4;k++){
-                    if(dataresultrecord.get(i).get(0).equals(FourTables[k])){
-                        Double confidence=new Double(dataresultrecord.get(i).get(2));
-                        dangerousDrivingScore+=calresults[k]*confidence;
-                        dangerousDrivingScoreall+=confidence;
+            } else if (dataresultrecord.get(i).get(1).equals("危险驾驶行为")) {
+                for (int k = 0; k < 4; k++) {
+                    if (dataresultrecord.get(i).get(0).equals(FourTables[k])) {
+                        Double confidence = new Double(dataresultrecord.get(i).get(2));
+                        dangerousDrivingScore += calresults[k] * confidence;
+                        dangerousDrivingScoreall += confidence;
                     }
                 }
             }
-            if(dataresultrecord.get(i).get(0).equals("道路风险感知能力")){
-                for(int k=0;k<4;k++){
-                    if(dataresultrecord.get(i).get(1).equals(FourTables[k])){
-                        Double confidence=new Double(dataresultrecord.get(i).get(2));
-                        riskPerceptionScore+=calresults[k]*confidence;
-                        riskPerceptionScoreall+=confidence;
+            if (dataresultrecord.get(i).get(0).equals("道路风险感知能力")) {
+                for (int k = 0; k < 4; k++) {
+                    if (dataresultrecord.get(i).get(1).equals(FourTables[k])) {
+                        Double confidence = new Double(dataresultrecord.get(i).get(2));
+                        riskPerceptionScore += calresults[k] * confidence;
+                        riskPerceptionScoreall += confidence;
                     }
                 }
 
-            }
-            else if(dataresultrecord.get(i).get(1).equals("道路风险感知能力")){
-                for(int k=0;k<4;k++){
-                    if(dataresultrecord.get(i).get(0).equals(FourTables[k])){
-                        Double confidence=new Double(dataresultrecord.get(i).get(2));
-                        riskPerceptionScore+=calresults[k]*confidence;
-                        riskPerceptionScoreall+=confidence;
+            } else if (dataresultrecord.get(i).get(1).equals("道路风险感知能力")) {
+                for (int k = 0; k < 4; k++) {
+                    if (dataresultrecord.get(i).get(0).equals(FourTables[k])) {
+                        Double confidence = new Double(dataresultrecord.get(i).get(2));
+                        riskPerceptionScore += calresults[k] * confidence;
+                        riskPerceptionScoreall += confidence;
                     }
                 }
             }
@@ -144,24 +155,28 @@ public class DescribeResult {
         /**
          * UI展示接口
          */
-        double riskPerceptiongrade=riskPerceptionScore/riskPerceptionScoreall*100;
-        double dangerousDrivinggrade=dangerousDrivingScore/dangerousDrivingScoreall*100;
-        System.out.println("您的道路风险感知能力得分为:"+riskPerceptiongrade+"\n您的危险驾驶行为得分为:"+dangerousDrivingScore/dangerousDrivingScoreall*100);
-        if(riskPerceptiongrade>60){
+        double riskPerceptiongrade = riskPerceptionScore / riskPerceptionScoreall * 100;
+        double dangerousDrivinggrade = dangerousDrivingScore / dangerousDrivingScoreall * 100;
+        System.out.println("您的道路风险感知能力得分为:" + riskPerceptiongrade + "\n您的危险驾驶行为得分为:" + dangerousDrivinggrade);
+        persResult.setAbiOneScore(new BigDecimal(riskPerceptiongrade).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
+        persResult.setAbiTwoScore(new BigDecimal(dangerousDrivinggrade).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
+        if (riskPerceptiongrade > 60) {
             System.out.println("您的道路风险感知能力良好!");
-        }
-        else{
+            persResult.setOneDanger(false);
+        } else {
             System.out.println("您的道路风险感知能力有待加强!");
+            persResult.setOneDanger(true);
         }
 
-        if(dangerousDrivinggrade>60){
+        if (dangerousDrivinggrade > 60) {
             System.out.println("您出现危险驾驶行为的概率较大，请谨慎驾驶!");
-        }
-        else{
+            persResult.setTwoDanger(true);
+        } else {
             System.out.println("您的驾驶行为比较安全!");
+            persResult.setTwoDanger(false);
         }
 
-
+        return persResult;
     }
 
 }
