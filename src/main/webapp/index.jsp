@@ -219,7 +219,7 @@
                                     formatter: function (params) {
                                         var list = ['待加强', '良好'];
                                         if (params.dataIndex == 0) {
-                                            if (persResult.oneDanger == true) {
+                                            if (persResult.oneDegree == 1) {
                                                 return list[0];
                                             }
                                             else {
@@ -227,7 +227,7 @@
                                             }
                                         }
                                         else if (params.dataIndex == 1) {
-                                            if (persResult.twoDanger == true) {
+                                            if (persResult.twoDegree == 1) {
                                                 return list[0];
                                             }
                                             else {
