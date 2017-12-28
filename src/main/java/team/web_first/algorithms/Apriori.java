@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Apriori {
     private SqlSession sqlSession = null;
-    private boolean isDo = false;
+    private FactorMapper factorMapper;
     private boolean endTag = false;
     private Map<Integer, Integer> dCountMap = new HashMap<Integer, Integer>(); // k-1频繁集的记数表
     private Map<Integer, Integer> dkCountMap = new HashMap<Integer, Integer>();// k频繁集的记数表
@@ -26,7 +26,11 @@ public class Apriori {
     private List<Double> confCount = new ArrayList<Double>();// 置信度记录表
     private List<List<String>> confItemset = new ArrayList<List<String>>();// 满足置信度的集合
 
-    private JSONArray results = new JSONArray();
+    public Apriori() {
+        sqlSession = SqlSessionFactoryUtil.openSqlsession();
+        factorMapper = sqlSession.getMapper(FactorMapper.class);
+        factorMapper.tcDataResult();
+    }
 
     /**
      * 将数据库获取的数据转换成能够被算法用来处理的形式
@@ -34,9 +38,6 @@ public class Apriori {
     public List<List<String>> doGet() {
         List<List<String>> record = new ArrayList<List<String>>();
 
-        //打开SQL session
-        sqlSession = SqlSessionFactoryUtil.openSqlsession();
-        FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
         FactorAll[] factorAlls = factorMapper.showFactorAll();//factorAlls为二维数组
         /**
          * Columns: personality_id, personality_score, dager_influence_coefficient, D1, D2, D3, D4, D5, D6
@@ -81,7 +82,6 @@ public class Apriori {
      */
     public static void main(String[] args) {
         Apriori RunApr = new Apriori();
-        RunApr.results = new JSONArray();
         // TODO Auto-generated method stub
         RunApr.record = RunApr.doGet();// 获取原始数据记录
         int i = 2;
@@ -116,7 +116,6 @@ public class Apriori {
 
         }
 
-        System.out.println(RunApr.results.toString());
         RunApr.sqlSession.close();
     }
 
@@ -124,12 +123,18 @@ public class Apriori {
      * @param confItemset2 输出满足条件的频繁集
      */
     private void printConfItemset(List<List<String>> confItemset2, int count) {
+        /**
+         * 数据库操作用函数
+         * 数据表预清空
+         */
+
         char[] fourrelations = {'A', 'B', 'C', 'D'};
         String[] FourTables = {"道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性"};
         List<String> Atotal = new ArrayList<String>();
         if (count == 3) {
 
             int[][] total = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};//对应A,B,C,D
+
             /**
              * XConfidence=支持度*置信度(即confItemset2.get(i).get(3))/total;
              */
@@ -180,16 +185,14 @@ public class Apriori {
                         result.put("name1", FourTables[m]);
                         result.put("name2", FourTables[k]);
                         result.put("confidence", new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN));*/
-/*                        Result result1 = new Result(FourTables[m], FourTables[k], new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
-                        sqlSession = SqlSessionFactoryUtil.openSqlsession();
-                        FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
+                        Result result1 = new Result(FourTables[m], FourTables[k], new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
                         factorMapper.addResult(result1);
-                        sqlSession.commit();*/
                         /*                        results.put(result);*/
                     }
                 }
             }
         }
+        sqlSession.commit();
    /*
         else if(count==4){
             int[][][] total={{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
@@ -245,7 +248,6 @@ public class Apriori {
             float confidence=new Float(confItemset2.get(i).get(j++));
             System.out.print("自信度：" + confidence + "\n");
         }*/
-
     }
 
     /**
