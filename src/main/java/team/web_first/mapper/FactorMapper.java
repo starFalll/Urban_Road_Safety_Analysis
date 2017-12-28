@@ -31,4 +31,6 @@ public interface FactorMapper {
     int addFactorD(FactorD factorD);
 
     int addResult(Result result);
+
+    void tcDataResult();
 }
