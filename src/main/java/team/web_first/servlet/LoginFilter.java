@@ -20,7 +20,7 @@ import team.web_first.javabean.User;
  * 不存在则跳转 login.html
  */
 
-@WebFilter("/index.jsp")
+@WebFilter(filterName = "LoginFilter", urlPatterns = "")
 public class LoginFilter implements Filter {
 
     /**
@@ -49,6 +49,7 @@ public class LoginFilter implements Filter {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             ((HttpServletResponse) response).sendRedirect("/Urban_Road_Safety_Analysis/login.html");
+            return;
         }
         // pass the request along the filter chain
         chain.doFilter(request, response);

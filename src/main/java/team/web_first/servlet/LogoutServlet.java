@@ -15,7 +15,7 @@ import team.web_first.algorithms.Log4jUtil;
  * 登出处理 servlet
  */
 
-@WebServlet("/LogoutServlet")
+@WebServlet(name = "LogoutServlet", urlPatterns = "/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

@@ -20,7 +20,7 @@ import java.util.GregorianCalendar;
  * Servlet implementation class RegisterServlet
  * 用户注册 Servlet
  */
-@WebServlet("/RegisterServlet")
+@WebServlet(name = "RegisterServlet", urlPatterns = "/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -83,8 +83,7 @@ public class RegisterServlet extends HttpServlet {
             } else {
                 userMapper.addUser(tempUser);
                 sqlSession.commit();
-                request.getSession().setAttribute("user", tempUser);
-                response.sendRedirect("/Urban_Road_Safety_Analysis/index.jsp");
+                response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
                 return;
             }
         } catch (Exception e) {
