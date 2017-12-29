@@ -23,7 +23,7 @@ import java.io.IOException;
  * AJAX 方式
  */
 
-@WebServlet("/QuestServlet")
+@WebServlet(name = "QuestServlet", urlPatterns = "/QuestServlet")
 public class QuestServlet extends HttpServlet {
     private final int NUM = 6;
 

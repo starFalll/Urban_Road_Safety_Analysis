@@ -188,4 +188,5 @@
         INSERT INTO data_result(f_char,s_char,confidence) VALUES (#{fChar},#{sChar},#{confidence})
     </insert>
 
+    <update id="tcDataResult">truncate table web_first.data_result;</update>
 </mapper>

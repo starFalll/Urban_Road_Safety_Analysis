@@ -1,25 +1,38 @@
+<%@ page import="team.web_first.javabean.User" %>
+<%@ page import="org.json.JSONObject" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%
+    User user;
+    user = (User) request.getSession().getAttribute("user");
+    if (user == null) {
+        response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+        String newLocn = "/Urban_Road_Safety_Analysis/login.html";
+        response.setHeader("Location", newLocn);
+        return;
+    }
+%>
+
 <html>
 <head>
     <title>Home</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="shortcut icon" href="images/title.png">
-    <link rel="icon" href="images/title.png">
-    <link rel="Bookmark" href="images/title.png">
+    <link rel="shortcut icon" href="../images/title.png">
+    <link rel="icon" href="../images/title.png">
+    <link rel="Bookmark" href="../images/title.png">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
           rel='stylesheet' type='text/css'>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="../css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
     <script>
-        addEventListener("load", function () {
+        $(window).load(function () {
             setTimeout(function () {
                 window.scrollTo(0, 1);
             }, 0);
         }, false);
-
     </script>
 </head>
 <body>
@@ -53,7 +66,7 @@
                                 <li><a><span class="glyphicon glyphicon-user"></span><%= user.getUserName()%>
                                 </a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/Urban_Road_Safety_Analysis/LogoutServlet"><span
+                                <li><a href="LogoutServlet"><span
                                         class="glyphicon glyphicon-log-out"></span>Log
                                     out</a></li>
                             </ul>
@@ -106,188 +119,187 @@
             {
                 url: "/Urban_Road_Safety_Analysis/PersResultServlet",
                 timeout: 5000,
-                data: < %= new JSONObject(user) % >,
-            success
-    :
-
-        function (data) {
-            var persResult = JSON.parse(data);
-            bar1Chart.hideLoading();
-            bar1Chart.setOption({
-                title: {
-                    text: '个人测试结果'.split("").join("\n"),
-                    textStyle: {
-                        color: 'rgba(255, 255, 255, 0.3)',
-                        fontSize: 17,
-                    },
-                    top: '35%',
-                    left: '2%'
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    }
-                },
-                grid: {
-                    top: '10%',
-                    left: '10%',
-                    right: '10%',
-                    bottom: '1%',
-                    containLabel: true
-                },
-                textStyle: {
-                    color: 'rgba(255, 255, 255, 0.3)'
-                },
-                xAxis: {
-                    type: 'category',
-                    data: ['道路风险感知能力', '危险驾驶行为'],
-                    axisLabel: {
-                        interval: 0,
-                        formatter: function (value) {
-                            var ret = "";//拼接加\n返回的类目项
-                            var maxLength = 4;//每项显示文字个数
-                            var valLength = value.length;//X轴类目项的文字个数
-                            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
-                            if (rowN > 1)//如果类目项的文字大于3,
-                            {
-                                for (var i = 0; i < rowN; i++) {
-                                    var temp = "";//每次截取的字符串
-                                    var start = i * maxLength;//开始截取的位置
-                                    var end = start + maxLength;//结束截取的位置
-                                    //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
-                                    temp = value.substring(start, end) + "\n";
-                                    ret += temp; //凭借最终的字符串
-                                }
-                                return ret;
-                            }
-                            else {
-                                return value;
-                            }
-                        }
-                    }
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [
-                    {
-                        name: '得分',
-                        type: 'bar',
-                        label: {
-                            normal: {
-                                show: true,
+                data: <%=new JSONObject(user)%>,
+                success: function (data) {
+                    var persResult = JSON.parse(data);
+                    bar1Chart.hideLoading();
+                    bar1Chart.setOption({
+                        title: {
+                            text: '个人测试结果'.split("").join("\n"),
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)',
+                                fontSize: 17
+                            },
+                            top: '35%',
+                            left: '2%'
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow'
                             }
                         },
-                        data: [persResult.abiOneScore, persResult.abiTwoScore],
-                        itemStyle: {
-                            normal: {
-                                color: function (params) {
-                                    var colorList = ['#51616d', '#003336'];
-                                    return colorList[params.dataIndex];
-                                },
-                                label: {
-                                    show: true,
-                                    position: 'inside',
-                                    formatter: function (params) {
-                                        var list = ['待加强', '良好'];
-                                        if (params.dataIndex == 0) {
-                                            if (persResult.oneDegree == 1) {
-                                                return list[0];
-                                            }
-                                            else {
-                                                return list[1];
-                                            }
+                        grid: {
+                            top: '10%',
+                            left: '10%',
+                            right: '10%',
+                            bottom: '1%',
+                            containLabel: true
+                        },
+                        textStyle: {
+                            color: 'rgba(255, 255, 255, 0.3)'
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: ['道路风险感知能力', '危险驾驶行为'],
+                            axisLabel: {
+                                interval: 0,
+                                formatter: function (value) {
+                                    var ret = "";//拼接加\n返回的类目项
+                                    var maxLength = 4;//每项显示文字个数
+                                    var valLength = value.length;//X轴类目项的文字个数
+                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                                    if (rowN > 1)//如果类目项的文字大于3,
+                                    {
+                                        for (var i = 0; i < rowN; i++) {
+                                            var temp = "";//每次截取的字符串
+                                            var start = i * maxLength;//开始截取的位置
+                                            var end = start + maxLength;//结束截取的位置
+                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                            temp = value.substring(start, end) + "\n";
+                                            ret += temp; //凭借最终的字符串
                                         }
-                                        else if (params.dataIndex == 1) {
-                                            if (persResult.twoDegree == 1) {
-                                                return list[0];
-                                            }
-                                            else {
-                                                return list[1];
-                                            }
-                                        }
-                                        else {
-                                            return list[1];
-                                        }
+                                        return ret;
+                                    }
+                                    else {
+                                        return value;
                                     }
                                 }
                             }
                         },
-                        barCategoryGap: '70%',
-                    },
-                    {
-                        name: '得分',
-                        type: 'line',
-                        itemStyle: {
-                            normal: {
-                                color: '#E79169'
+                        yAxis: {
+                            type: 'value',
+                            min: 0,
+                            max: 100
+                        },
+                        series: [
+                            {
+                                name: '得分',
+                                type: 'bar',
+                                label: {
+                                    normal: {
+                                        show: true
+                                    }
+                                },
+                                data: [persResult.abiOneScore, persResult.abiTwoScore],
+                                itemStyle: {
+                                    normal: {
+                                        color: function (params) {
+                                            var colorList = ['#51616d', '#003336'];
+                                            return colorList[params.dataIndex];
+                                        },
+                                        label: {
+                                            show: true,
+                                            position: 'inside',
+                                            formatter: function (params) {
+                                                var list = ['待加强', '良好'];
+                                                if (params.dataIndex == 0) {
+                                                    if (persResult.oneDegree == 1) {
+                                                        return list[0];
+                                                    }
+                                                    else {
+                                                        return list[1];
+                                                    }
+                                                }
+                                                else if (params.dataIndex == 1) {
+                                                    if (persResult.twoDegree == 1) {
+                                                        return list[0];
+                                                    }
+                                                    else {
+                                                        return list[1];
+                                                    }
+                                                }
+                                                else {
+                                                    return list[1];
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                barCategoryGap: '70%',
+                            },
+                            {
+                                name: '得分',
+                                type: 'line',
+                                itemStyle: {
+                                    normal: {
+                                        color: '#E79169'
+                                    }
+                                },
+                                data: [persResult.abiOneScore, persResult.abiTwoScore],
+                            }
+                        ]
+
+                    })
+                    ;
+                },
+                error: function (data) {
+                    bar1Chart.hideLoading();
+                    bar1Chart.setOption({
+                        title: {
+                            text: '请先完成个人测试',
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)',
+                                fontSize: 17,
+                            },
+                            top: '2%',
+                            left: '43%'
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow'
                             }
                         },
-                        data: [persResult.abiOneScore, persResult.abiTwoScore],
-                    }
-                ]
-
-            });
-        }
-
-    ,
-        error: function (data) {
-            bar1Chart.hideLoading();
-            bar1Chart.setOption({
-                title: {
-                    text: '请先完成个人测试',
-                    textStyle: {
-                        color: 'rgba(255, 255, 255, 0.3)',
-                        fontSize: 17,
-                    },
-                    top: '2%',
-                    left: '43%'
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    }
-                },
-                textStyle: {
-                    color: 'rgba(255, 255, 255, 0.3)'
-                },
-                xAxis: {
-                    type: 'category',
-                    data: ['道路风险感知能力', '危险驾驶行为'],
-                    axisLabel: {
-                        interval: 0,
-                        formatter: function (value) {
-                            var ret = "";//拼接加\n返回的类目项
-                            var maxLength = 4;//每项显示文字个数
-                            var valLength = value.length;//X轴类目项的文字个数
-                            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
-                            if (rowN > 1)//如果类目项的文字大于3,
-                            {
-                                for (var i = 0; i < rowN; i++) {
-                                    var temp = "";//每次截取的字符串
-                                    var start = i * maxLength;//开始截取的位置
-                                    var end = start + maxLength;//结束截取的位置
-                                    //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
-                                    temp = value.substring(start, end) + "\n";
-                                    ret += temp; //凭借最终的字符串
+                        textStyle: {
+                            color: 'rgba(255, 255, 255, 0.3)'
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: ['道路风险感知能力', '危险驾驶行为'],
+                            axisLabel: {
+                                interval: 0,
+                                formatter: function (value) {
+                                    var ret = "";//拼接加\n返回的类目项
+                                    var maxLength = 4;//每项显示文字个数
+                                    var valLength = value.length;//X轴类目项的文字个数
+                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                                    if (rowN > 1)//如果类目项的文字大于3,
+                                    {
+                                        for (var i = 0; i < rowN; i++) {
+                                            var temp = "";//每次截取的字符串
+                                            var start = i * maxLength;//开始截取的位置
+                                            var end = start + maxLength;//结束截取的位置
+                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                            temp = value.substring(start, end) + "\n";
+                                            ret += temp; //凭借最终的字符串
+                                        }
+                                        return ret;
+                                    }
+                                    else {
+                                        return value;
+                                    }
                                 }
-                                return ret;
                             }
-                            else {
-                                return value;
-                            }
+                        },
+                        yAxis: {
+                            type: 'value'
                         }
-                    }
-                },
-                yAxis: {
-                    type: 'value'
+                    });
+                    $("#bar1").attr("onclick","quest()");
                 }
-            });
-        }
-    }
-    )
+            }
+        )
     })
 
     $(function () {
@@ -631,7 +643,7 @@
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                    location.replace("index.jsp");
+                    location.replace("Login");
                 },
                 error: function () {
                     alert("上传失败！");
@@ -652,7 +664,7 @@
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                    location.replace("index.jsp");
+                    location.replace("Login");
                 },
                 error: function () {
                     alert("上传失败！");

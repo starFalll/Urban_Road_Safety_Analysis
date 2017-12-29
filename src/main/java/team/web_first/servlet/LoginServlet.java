@@ -1,10 +1,8 @@
 package team.web_first.servlet;
 
 import org.apache.ibatis.session.SqlSession;
-import team.web_first.algorithms.DescribeResult;
 import team.web_first.algorithms.SqlSessionFactoryUtil;
 import team.web_first.algorithms.UserPasswordEncrypt;
-import team.web_first.javabean.PersResult;
 import team.web_first.javabean.User;
 import team.web_first.mapper.UserMapper;
 
@@ -20,7 +18,7 @@ import java.util.Date;
  * Servlet implementation class LoginServlet
  * 登录处理 Servlet
  */
-@WebServlet("/LoginServlet")
+@WebServlet(name = "login", urlPatterns = "/Login")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -38,6 +36,11 @@ public class LoginServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user != null) {
+            request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+            return;
+        }
 
         request.getSession().removeAttribute("user");
         request.getSession().removeAttribute("persResult");
@@ -48,7 +51,7 @@ public class LoginServlet extends HttpServlet {
         //设定字符集
 
         String userName = "";
-        String userPassword = "";
+        String userPassword;
         String userEncryptPassword = "";
         //创建临时对象
 
@@ -61,35 +64,28 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
         }
         //取得参数创建临时对象
-        SqlSession sqlSession = null;
-        try {
-            User checkedUser;
-            sqlSession = SqlSessionFactoryUtil.openSqlsession();
+        User checkedUser;
+        try (SqlSession sqlSession = SqlSessionFactoryUtil.openSqlsession()) {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             checkedUser = userMapper.getUserByAbs(userName, userEncryptPassword);
             if (checkedUser != null) {
                 if (checkedUser.getUserValidTime() == null || checkedUser.getUserValidTime().after(new Date())) {
-                    int recordId = userMapper.getRecord(checkedUser.getUserID());
-                    sqlSession.close();
-                    if (recordId != 0) {
-                        DescribeResult describeResult = new DescribeResult(recordId);
-                        PersResult persResult = describeResult.getPersResult();
-                        request.getSession().setAttribute("persResult", persResult);
-                    }
                     request.getSession().setAttribute("user", checkedUser);
-                    response.sendRedirect("/Urban_Road_Safety_Analysis/index.jsp");
+                    //response.sendRedirect("/Urban_Road_Safety_Analysis/index.jsp");
+                    request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
                     return;
                 } else {
                     response.sendRedirect("/Urban_Road_Safety_Analysis/login.html?userExpired=1");
+                    return;
                 }
             } else {
                 response.sendRedirect("/Urban_Road_Safety_Analysis/login.html?checkUnValid=1");
+                return;
             }
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
-        } finally {
-            sqlSession.close();
+            return;
         }
     }
 

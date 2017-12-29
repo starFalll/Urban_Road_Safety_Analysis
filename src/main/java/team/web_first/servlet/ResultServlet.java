@@ -17,18 +17,25 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-@WebServlet("/ResultServlet")
+@WebServlet(name = "ResultServlet", urlPatterns = "/ResultServlet")
 public class ResultServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /**
+         * 获得 Result[] results
+         */
+        JSONArray resJson = new JSONArray();
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlsession();
         FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
         Result[] results = factorMapper.showResult();
         sqlSession.close();
-        JSONArray resJson = new JSONArray();
+
+        /**
+         * results 转换成 JSONObject
+         */
         for (Result result : results) {
             JSONObject ele = new JSONObject();
             ele.put("name1", result.getfChar());
@@ -36,8 +43,11 @@ public class ResultServlet extends HttpServlet {
             ele.put("confidence", result.getConfidence());
             resJson.put(ele);
         }
+
+        /**
+         * 传递json字符串
+         */
         response.setCharacterEncoding("UTF-8");
-        System.out.println(resJson.toString());
         response.getWriter().write(resJson.toString());
         return;
     }

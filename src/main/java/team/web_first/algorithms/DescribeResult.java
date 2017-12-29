@@ -34,7 +34,6 @@ public class DescribeResult {
         FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
         NewData[] newdatas = factorMapper.showNewData(recordId);//NewData[]为一维数组
         List<List<String>> record = new ArrayList<List<String>>();
-
         String AllCol[] = {"A1", "A2", "A3", "A4", "A5", "A6", "B1", "B2", "B3", "B4", "B5", "B6", "C1", "C2", "C3",
                 "C4", "C5", "C6", "D1", "D2", "D3", "D4", "D5", "D6"};
         for (int i = 0; i < newdatas.length; i++) {
@@ -162,18 +161,18 @@ public class DescribeResult {
         persResult.setAbiTwoScore(new BigDecimal(dangerousDrivinggrade).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
         if (riskPerceptiongrade > 60) {
             System.out.println("您的道路风险感知能力良好!");
-            persResult.setOneDanger(false);
+            persResult.setOneDegree(0);
         } else {
             System.out.println("您的道路风险感知能力有待加强!");
-            persResult.setOneDanger(true);
+            persResult.setOneDegree(1);
         }
 
         if (dangerousDrivinggrade > 60) {
             System.out.println("您出现危险驾驶行为的概率较大，请谨慎驾驶!");
-            persResult.setTwoDanger(true);
+            persResult.setTwoDegree(1);
         } else {
             System.out.println("您的驾驶行为比较安全!");
-            persResult.setTwoDanger(false);
+            persResult.setTwoDegree(0);
         }
 
         return persResult;

@@ -2,7 +2,25 @@ package team.web_first.javabean;
 
 public class PersResult {
     double abiOneScore, abiTwoScore;
-    boolean oneDanger, twoDanger;
+    int oneDegree, twoDegree;
+
+    public int getOneDegree() {
+        return oneDegree;
+    }
+
+    public PersResult setOneDegree(int oneDegree) {
+        this.oneDegree = oneDegree;
+        return this;
+    }
+
+    public int getTwoDegree() {
+        return twoDegree;
+    }
+
+    public PersResult setTwoDegree(int twoDegree) {
+        this.twoDegree = twoDegree;
+        return this;
+    }
 
     public double getAbiOneScore() {
         return abiOneScore;
@@ -22,21 +40,4 @@ public class PersResult {
         return this;
     }
 
-    public boolean isOneDanger() {
-        return oneDanger;
-    }
-
-    public PersResult setOneDanger(boolean oneDanger) {
-        this.oneDanger = oneDanger;
-        return this;
-    }
-
-    public boolean isTwoDanger() {
-        return twoDanger;
-    }
-
-    public PersResult setTwoDanger(boolean twoDanger) {
-        this.twoDanger = twoDanger;
-        return this;
-    }
 }
