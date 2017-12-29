@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <meta http-equiv="expires" content="0"/>
     <meta http-equiv="Pragma" content="no-cache"/>
     <meta http-equiv="Cache-Control" content="no-cache"/>
+    <title>Register</title>
     <link rel="shortcut icon" href="images/title.png">
     <link rel="icon" href="images/title.png">
     <link rel="Bookmark" href="images/title.png">
@@ -15,23 +16,10 @@
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
     <script>
-        addEventListener("load", function () {
-            setTimeout(hideURLbar, 0);
-        }, false);
-
-        function hideURLbar() {
+        $(window).on('load', function () {
+            document.documentElement.style.overflow = 'hidden';
             window.scrollTo(0, 1);
-        }
-    </script>
-
-    <script>document.documentElement.style.overflow='hidden';
-
-    document.body.style.overflow='hidden';</script>
-    <title>Register</title>
-    <script>
-        $(document).ready(function showRegister() {
             $(".register-box").fadeIn();
         })
     </script>
@@ -89,8 +77,9 @@
         $(".register-buttom").hide();
         location.assign("login.html");
     }
+
     function checkPassword() {
-        if ($("#confirmPassword").val()!="") {
+        if ($("#confirmPassword").val() != "") {
             if ($("#password").val() != $("#confirmPassword").val()) {
                 $("#register").attr("action", "#");
                 $("#confirmPassword").parent().attr("class", "form-group form-group-lg has-error has-feedback");

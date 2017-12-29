@@ -83,7 +83,9 @@ public class RegisterServlet extends HttpServlet {
             } else {
                 userMapper.addUser(tempUser);
                 sqlSession.commit();
-                response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
+                request.getSession().setAttribute("user", tempUser);
+                String url = new String("/Urban_Road_Safety_Analysis/index?id=" + tempUser.getUserID());
+                response.sendRedirect(url);
                 return;
             }
         } catch (Exception e) {

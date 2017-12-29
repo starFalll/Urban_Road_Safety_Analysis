@@ -18,7 +18,7 @@ import java.util.Date;
  * Servlet implementation class LoginServlet
  * 登录处理 Servlet
  */
-@WebServlet(name = "login", urlPatterns = "/Login")
+@WebServlet(name = "login", urlPatterns = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -36,11 +36,6 @@ public class LoginServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user != null) {
-            request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-            return;
-        }
 
         request.getSession().removeAttribute("user");
         request.getSession().removeAttribute("persResult");
@@ -71,8 +66,8 @@ public class LoginServlet extends HttpServlet {
             if (checkedUser != null) {
                 if (checkedUser.getUserValidTime() == null || checkedUser.getUserValidTime().after(new Date())) {
                     request.getSession().setAttribute("user", checkedUser);
-                    //response.sendRedirect("/Urban_Road_Safety_Analysis/index.jsp");
-                    request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+                    String url = new String("/Urban_Road_Safety_Analysis/index?id=" + checkedUser.getUserID());
+                    response.sendRedirect(url);
                     return;
                 } else {
                     response.sendRedirect("/Urban_Road_Safety_Analysis/login.html?userExpired=1");
