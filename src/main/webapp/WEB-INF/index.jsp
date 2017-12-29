@@ -296,6 +296,7 @@
                             type: 'value'
                         }
                     });
+                    $("#bar1").attr("onclick","quest()");
                 }
             }
         )
