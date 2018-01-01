@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <meta http-equiv="expires" content="0"/>
     <meta http-equiv="Pragma" content="no-cache"/>
     <meta http-equiv="Cache-Control" content="no-cache"/>
@@ -16,60 +16,6 @@
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>
-        addEventListener("load", function () {
-            setTimeout(hideURLbar, 0);
-        }, false);
-
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-    </script>
-
-    <script>
-        document.documentElement.style.overflow='hidden';
-        document.body.style.overflow='hidden';
-    </script>
-    <script>
-        $(document).ready(function checkArgs() {
-                var url = window.location.href;
-                var argsStr = url.split("?");
-                var eleStr = null;
-                if (argsStr[0] != url) {
-                    var args = argsStr[1].split("&");
-                    for (var i = 0; i < args.length; i++) {
-                        eleStr = args[i];
-                        var arg = eleStr.split("=");
-                        if (arg[0] == "checkUnValid" && arg[1] == 1) {
-                            $(".login-box").show();
-                            $(".login-buttom").hide();
-                            $(".login-failed").show();
-                        }
-                        if (arg[0] == "userExist" && arg[1] == 1) {
-                            $(".login-box").show();
-                            $("#username").val("用户已存在");
-                        }
-                        if (arg[0] == "userExpired" && arg[1] == 1) {
-                            $(".login-box").show();
-                            $(".login-buttom").hide();
-                            $("#failed").val("用户已过期");
-                            $(".login-failed").show();
-                        }
-
-                    }
-                }
-                return;
-            }
-        )
-        $(document).click(function loginFadeIn() {
-            $(".login-box").fadeIn();
-        });
-
-        function hideFailed() {
-            $(".login-failed").hide();
-            $(".login-buttom").fadeIn();
-        }
-    </script>
 </head>
 <body class="login">
 <div class="container login-box">
@@ -103,7 +49,8 @@
             <img src="images/my.jpg" class="img-circle login-img center-block">
         </div>
         <div class="login-buttom">
-            <form role="form" id="login" action="/Urban_Road_Safety_Analysis/Login" class="login-form" method="post">
+            <form role="form" id="login" action="/Urban_Road_Safety_Analysis/LoginServlet" class="login-form"
+                  method="post">
                 <div class="form-group form-group-lg"><input class="form-control input-lg" id="username" name="username"
                                                              type="text" placeholder="User Name"></div>
                 <div class="form-group form-group-lg"><input class="form-control input-lg" id="password" name="password"
@@ -141,6 +88,18 @@
     </div>
 </div>
 <script>
+    $(checkArgs());
+    $(function () {
+        $.getJSON("js/questions.json", function (data) {
+            questions = data.questions;
+            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        })
+    });
+    $(window).on('load', function () {
+        document.documentElement.style.overflow = 'hidden';
+        window.scrollTo(0, 1);
+    });
+
     function login() {
         $(".quest-panel").hide();
         $(".quest").attr("class", "quest");
@@ -155,16 +114,49 @@
         $(".quest").attr("class", "active quest");
     };
 
+    function hideFailed() {
+        $(".login-failed").hide();
+        $(".login-buttom").fadeIn();
+    };
+
+    function checkArgs() {
+        var url = window.location.href;
+        var argsStr = url.split("?");
+        var eleStr = null;
+        if (argsStr[0] != url) {
+            var args = argsStr[1].split("&");
+            for (var i = 0; i < args.length; i++) {
+                eleStr = args[i];
+                var arg = eleStr.split("=");
+                if (arg[0] == "checkUnValid" && arg[1] == 1) {
+                    $(".login-box").show();
+                    $(".login-buttom").hide();
+                    $(".login-failed").show();
+                }
+                if (arg[0] == "userExist" && arg[1] == 1) {
+                    $(".login-box").show();
+                    $("#username").val("用户已存在");
+                }
+                if (arg[0] == "userExpired" && arg[1] == 1) {
+                    $(".login-box").show();
+                    $(".login-buttom").hide();
+                    $("#failed").val("用户已过期");
+                    $(".login-failed").show();
+                }
+
+            }
+        }
+        return;
+    };
+
     var questions;
     var questNum = 0;
     var options = new Array();
     var result;
-    $(document).ready(function () {
-        $.getJSON("js/questions.json", function (data) {
-            questions = data.questions;
-            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
-        })
-    })
+
+    $(document).click(function loginFadeIn() {
+        $(".login-box").fadeIn();
+    });
     $("#quest-is").click(function () {
         if (questions[questNum] != null) {
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
@@ -205,12 +197,12 @@
             });
         }
     })
-
     $(".navbar-nav").click(function () {
         if (screen.width < 768) {
             $(".navbar-toggle").click();
         }
     })
+
 </script>
 </body>
 </html>

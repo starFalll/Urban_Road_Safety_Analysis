@@ -28,11 +28,9 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
     <script>
-        $(window).load(function () {
-            setTimeout(function () {
-                window.scrollTo(0, 1);
-            }, 0);
-        }, false);
+        $(window).on('load', function () {
+            window.scrollTo(0, 1);
+        });
     </script>
 </head>
 <body>
@@ -113,6 +111,7 @@
     var bar1Chart = echarts.init(document.getElementById('bar1'));
     var bar2Chart = echarts.init(document.getElementById('bar2'));
     var pieChart = echarts.init(document.getElementById('pie'));
+    //bar1
     $(function () {
         bar1Chart.showLoading();
         $.ajax(
@@ -296,12 +295,12 @@
                             type: 'value'
                         }
                     });
-                    $("#bar1").attr("onclick","quest()");
+                    $("#bar1").attr("onclick", "quest()");
                 }
             }
         )
-    })
-
+    });
+    //ba2
     $(function () {
         /**
          * charts variable
@@ -527,6 +526,9 @@
                 );
             },
         });
+    });
+    //pie
+    $(function () {
         pieChart.hideLoading();
         pieChart.setOption({
             backgroundColor: '#2c343c',
@@ -580,7 +582,7 @@
                 }
             ]
         });
-    })
+    });
 
     /**
      * 分辨率改变 视图重绘
@@ -608,6 +610,9 @@
         $(".quest").attr("class", "active quest");
     };
 
+    /**
+     * 媒体导航栏适应
+     * */
     function toggleBar() {
         if (screen.width < 768) {
             $(".navbar-toggle").click();
@@ -629,7 +634,7 @@
             questions = data.questions;
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
         })
-    })
+    });
     $("#quest-is").click(function quest_is() {
         if (questions[questNum] != null) {
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
@@ -643,7 +648,7 @@
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                    location.replace("Login");
+                    location.replace("index?id=<%=user.getUserID()%>>");
                 },
                 error: function () {
                     alert("上传失败！");
@@ -664,7 +669,7 @@
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                    location.replace("Login");
+                    location.replace("index?id=<%=user.getUserID()%>>");
                 },
                 error: function () {
                     alert("上传失败！");
