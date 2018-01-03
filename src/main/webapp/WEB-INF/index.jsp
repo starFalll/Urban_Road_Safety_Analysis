@@ -129,8 +129,8 @@
                                 color: 'rgba(255, 255, 255, 0.3)',
                                 fontSize: 17
                             },
-                            top: '35%',
-                            left: '2%'
+                            top: '36%',
+                            left: '4%'
                         },
                         tooltip: {
                             trigger: 'axis',
@@ -140,17 +140,17 @@
                         },
                         grid: {
                             top: '10%',
-                            left: '10%',
+                            left: '9%',
                             right: '10%',
                             bottom: '1%',
-                            containLabel: true
+                            containLabel: true,
                         },
                         textStyle: {
                             color: 'rgba(255, 255, 255, 0.3)'
                         },
                         xAxis: {
                             type: 'category',
-                            data: ['道路风险感知能力', '危险驾驶行为'],
+                            data: ['道路风险感知能力', '危险驾驶行为', '驾驶自信度'],
                             axisLabel: {
                                 interval: 0,
                                 formatter: function (value) {
@@ -179,63 +179,79 @@
                         yAxis: {
                             type: 'value',
                             min: 0,
-                            max: 100
+                            max: 100,
+                            minInterval: 30,
+                            maxInterval: 30,
+                            axisLabel: {
+                                formatter: function (value, index) {
+                                    switch (index) {
+                                        case 1:
+                                            return '待加强\n30';
+                                            break;
+                                        case 2:
+                                            return '良好\n60';
+                                            break;
+                                        case 3:
+                                            return '安全\n90';
+                                            break;
+                                        default:
+                                            return value;
+                                    }
+                                }
+                            },
+                            splitLine: {
+                                lineStyle: {
+                                    width: 1.5,
+                                    color: ['#b0afb3', '#950017', '#a7603d', '#37a82f', '#b0afb3']
+                                }
+                            }
                         },
                         series: [
                             {
                                 name: '得分',
                                 type: 'bar',
+                                data: [persResult.abiOneScore, persResult.abiTwoScore, persResult.abiThrScore],
                                 label: {
-                                    normal: {
-                                        show: true
-                                    }
-                                },
-                                data: [persResult.abiOneScore, persResult.abiTwoScore],
-                                itemStyle: {
-                                    normal: {
-                                        color: function (params) {
-                                            var colorList = ['#51616d', '#003336'];
-                                            return colorList[params.dataIndex];
-                                        },
-                                        label: {
+                                    normal:
+                                        {
                                             show: true,
-                                            position: 'inside',
+                                            position: 'top',
+                                            distance: 20,
+                                            fontSize: 16,
+                                            lineHeight: 70,
                                             formatter: function (params) {
-                                                var list = ['待加强', '良好'];
+                                                var list = ['安全', '良好', '较危险', '很危险'];
                                                 if (params.dataIndex == 0) {
-                                                    if (persResult.oneDegree == 1) {
-                                                        return list[0];
-                                                    }
-                                                    else {
-                                                        return list[1];
-                                                    }
+                                                    return list[persResult.oneDegree] + '\n' + persResult.abiOneScore;
                                                 }
                                                 else if (params.dataIndex == 1) {
-                                                    if (persResult.twoDegree == 1) {
-                                                        return list[0];
-                                                    }
-                                                    else {
-                                                        return list[1];
-                                                    }
+                                                    return list[persResult.twoDegree] + '\n' + persResult.abiTwoScore;
                                                 }
                                                 else {
-                                                    return list[1];
+                                                    return list[persResult.thrDegree] + '\n' + persResult.abiThrScore;
                                                 }
                                             }
                                         }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        color: function (params) {
+                                            var colorList = ['#51616d', '#003336', "#6D615B"];
+                                            return colorList[params.dataIndex];
+                                        }
                                     }
                                 },
-                                barCategoryGap: '70%',
+                                barCategoryGap: '60%',
                             },
                             {
                                 name: '得分',
                                 type: 'line',
                                 itemStyle: {
                                     normal: {
-                                        color: '#E79169'
+                                        color: '#dcdcdc'
                                     }
                                 },
-                                data: [persResult.abiOneScore, persResult.abiTwoScore],
+                                data: [persResult.abiOneScore, persResult.abiTwoScore,persResult.abiThrScore],
                             }
                         ]
 
@@ -318,7 +334,6 @@
         pieChart.showLoading();
         $.ajax({
             url: "/Urban_Road_Safety_Analysis/ResultServlet",
-            timeout: 5000,
             success: function (data) {
                 results = JSON.parse(data);
                 for (i = 0; i < 4; i++) {

@@ -31,7 +31,7 @@ public class ResultServlet extends HttpServlet {
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlsession();
         FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
         Result[] results = factorMapper.showResult();
-        sqlSession.close();
+
 
         /**
          * results 转换成 JSONObject
@@ -49,6 +49,6 @@ public class ResultServlet extends HttpServlet {
          */
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(resJson.toString());
-        return;
+        sqlSession.close();
     }
 }
