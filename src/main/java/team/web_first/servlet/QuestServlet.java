@@ -1,6 +1,7 @@
 package team.web_first.servlet;
 
 import org.apache.ibatis.session.SqlSession;
+import team.web_first.algorithms.Apriori;
 import team.web_first.algorithms.SqlSessionFactoryUtil;
 import team.web_first.javabean.FactorA;
 import team.web_first.javabean.FactorB;
@@ -114,5 +115,10 @@ public class QuestServlet extends HttpServlet {
         //事务提交 关闭连接
         sqlSession.commit();
         sqlSession.close();
+
+        Apriori.run();
+        /**
+         * 更新数据库
+         */
     }
 }

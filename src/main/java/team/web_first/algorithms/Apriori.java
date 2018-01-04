@@ -67,15 +67,9 @@ public class Apriori {
     }
 
 
-/*    public static JSONArray getJson() {
-        if (!isDo) {
-            results = new JSONArray();
-            main(null);
-            System.out.println(results.toString());
-            isDo = true;
-            return results;
-        } else return results;
-    }*/
+    public static void run() {
+        main(null);
+    }
 
     /**
      * @param args

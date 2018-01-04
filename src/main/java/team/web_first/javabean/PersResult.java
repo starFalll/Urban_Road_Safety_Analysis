@@ -1,8 +1,8 @@
 package team.web_first.javabean;
 
 public class PersResult {
-    double abiOneScore, abiTwoScore;
-    int oneDegree, twoDegree;
+    double abiOneScore, abiTwoScore, abiThrScore;
+    int oneDegree, twoDegree,thrDegree;
 
     public int getOneDegree() {
         return oneDegree;
@@ -40,4 +40,21 @@ public class PersResult {
         return this;
     }
 
+    public double getAbiThrScore() {
+        return abiThrScore;
+    }
+
+    public PersResult setAbiThrScore(double abiThrScore) {
+        this.abiThrScore = abiThrScore;
+        return this;
+    }
+
+    public int getThrDegree() {
+        return thrDegree;
+    }
+
+    public PersResult setThrDegree(int thrDegree) {
+        this.thrDegree = thrDegree;
+        return this;
+    }
 }

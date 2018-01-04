@@ -109,7 +109,7 @@ public class DescribeResult {
         System.out.println("calresults:" + calresults[0] + " " + calresults[1] + " " + calresults[2] + " " + calresults[3]);
         String[] FourTables = {"道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性"};
         double dangerousDrivingScore = 0, riskPerceptionScore = 0, dangerousDrivingScoreall = 1, riskPerceptionScoreall = 1;
-        double confidenceScore=0,confidenceScoreall=1;
+        double confidenceScore = 0, confidenceScoreall = 1;
         dangerousDrivingScore += calresults[1];
         riskPerceptionScore += calresults[0];
         confidenceScore += calresults[2];
@@ -175,60 +175,54 @@ public class DescribeResult {
          * UI展示接口
          */
         double riskPerceptiongrade = riskPerceptionScore / riskPerceptionScoreall * 100;
-        double dangerousDrivinggrade = dangerousDrivingScore / dangerousDrivingScoreall * 100;
-        double confidencegrade=confidenceScore / confidenceScoreall *100;
+        double dangerousDrivinggrade = 100 - (dangerousDrivingScore / dangerousDrivingScoreall * 100);
+        double confidencegrade = confidenceScore / confidenceScoreall * 100;
         System.out.println("您的道路风险感知能力得分为:" + riskPerceptiongrade + "\n您的危险驾驶行为得分为:" + dangerousDrivinggrade
-        +"\n您的驾驶能力自信的分为:"+confidencegrade);
+                + "\n您的驾驶能力自信的分为:" + confidencegrade);
         persResult.setAbiOneScore(new BigDecimal(riskPerceptiongrade).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
         persResult.setAbiTwoScore(new BigDecimal(dangerousDrivinggrade).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
-        persResult.setAbiTwoScore(new BigDecimal(confidencegrade).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
+        persResult.setAbiThrScore(new BigDecimal(confidencegrade).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
         if (riskPerceptiongrade > 80) {
             System.out.println("您的道路风险感知能力很好!");
             persResult.setOneDegree(0);
-        }else if(riskPerceptiongrade>60){
+        } else if (riskPerceptiongrade > 60) {
             System.out.println("您的道路风险感知能力较好!");
             persResult.setOneDegree(1);
-        }
-        else if(riskPerceptiongrade>30){
+        } else if (riskPerceptiongrade > 30) {
             System.out.println("您的道路风险感知能力有待加强!");
             persResult.setOneDegree(2);
-        }
-        else{
+        } else {
             System.out.println("您的道路风险感知能力十分有待加强!");
             persResult.setOneDegree(3);
         }
 
 
         if (dangerousDrivinggrade > 80) {
-            System.out.println("您出现危险驾驶行为的概率很大，请谨慎驾驶!");
-            persResult.setTwoDegree(0);
-        }else if(dangerousDrivinggrade>60){
-            System.out.println("您出现危险驾驶行为的概率较大，请谨慎驾驶!");
-            persResult.setTwoDegree(1);
-        }
-        else if(dangerousDrivinggrade>30){
-            System.out.println("您出现危险驾驶行为的概率较小，请再接再厉!");
-            persResult.setTwoDegree(2);
-        }
-        else {
             System.out.println("您的驾驶行为比较安全!");
+            persResult.setTwoDegree(0);
+        } else if (dangerousDrivinggrade > 60) {
+            System.out.println("您出现危险驾驶行为的概率较小，请再接再厉!");
+            persResult.setTwoDegree(1);
+        } else if (dangerousDrivinggrade > 30) {
+            System.out.println("您出现危险驾驶行为的概率较大，请谨慎驾驶!");
+            persResult.setTwoDegree(2);
+        } else {
+            System.out.println("您出现危险驾驶行为的概率很大，请谨慎驾驶!");
             persResult.setTwoDegree(3);
         }
 
         if (confidencegrade > 80) {
             System.out.println("您驾驶汽车很有自信!");
-            persResult.setTwoDegree(0);
-        }else if(confidencegrade>60){
+            persResult.setThrDegree(0);
+        } else if (confidencegrade > 60) {
             System.out.println("您驾驶汽车较有自信!");
-            persResult.setTwoDegree(1);
-        }
-        else if(confidencegrade>30){
+            persResult.setThrDegree(1);
+        } else if (confidencegrade > 30) {
             System.out.println("您驾驶汽车不太自信!");
-            persResult.setTwoDegree(2);
-        }
-        else {
+            persResult.setThrDegree(2);
+        } else {
             System.out.println("您驾驶汽车很不自信!");
-            persResult.setTwoDegree(3);
+            persResult.setThrDegree(3);
         }
         return persResult;
     }
