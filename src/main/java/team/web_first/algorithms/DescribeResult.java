@@ -225,7 +225,7 @@ public class DescribeResult {
         persResult.setAbiOneScore(new BigDecimal(riskPerceptiongrade).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
         persResult.setAbiTwoScore(new BigDecimal(dangerousDrivinggrade).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
         persResult.setAbiThrScore(new BigDecimal(confidencegrade).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
-        if (riskPerceptiongrade > 80) {
+        if (riskPerceptiongrade > 90) {
             System.out.println("您的道路风险感知能力很好!");
             persResult.setOneDegree(0);
         } else if (riskPerceptiongrade > 60) {
@@ -242,7 +242,7 @@ public class DescribeResult {
 
 
 
-        if (dangerousDrivinggrade > 80) {
+        if (dangerousDrivinggrade > 90) {
             System.out.println("您的驾驶行为比较安全!");
             persResult.setTwoDegree(0);
         } else if (dangerousDrivinggrade > 60) {
