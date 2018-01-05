@@ -21,6 +21,7 @@ public interface FactorMapper {
     NewData[] showNewData(@Param("urRecordId") int urRecordId);
 
     Result[] showResult();
+    ResultTwo[] showResultTwo();
 
     int addFactorA(FactorA factorA);
 
@@ -31,6 +32,7 @@ public interface FactorMapper {
     int addFactorD(FactorD factorD);
 
     int addResult(Result result);
+    int addResultTwo(ResultTwo resultTwo);
 
     void tcDataResult();
 }
