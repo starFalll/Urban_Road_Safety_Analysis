@@ -650,6 +650,7 @@
             questNum++;
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
         } else {
+            options[questNum] = true;
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options, "userId": '<%=user.getUserID()%>'};
             $.ajax({
@@ -657,7 +658,7 @@
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                    location.replace("index?id=<%=user.getUserID()%>>");
+                    location.replace("index?id=<%=user.getUserID()%>");
                 },
                 error: function () {
                     alert("上传失败！");
@@ -671,6 +672,7 @@
             questNum++;
             $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
         } else {
+            options[questNum] = false;
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options, "userId": '<%=user.getUserID()%>'};
             $.ajax({
@@ -678,7 +680,7 @@
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                    location.replace("index?id=<%=user.getUserID()%>>");
+                    location.replace("index?id=<%=user.getUserID()%>");
                 },
                 error: function () {
                     alert("上传失败！");
