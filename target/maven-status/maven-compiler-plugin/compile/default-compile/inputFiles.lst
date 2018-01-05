@@ -1,6 +1,11 @@
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\javabean\FactorA.java
+F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\servlet\PersResultServlet.java
+F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\servlet\Index.java
+F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\javabean\Result.java
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\algorithms\UserPasswordEncrypt.java
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\mapper\UserMapper.java
+F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\javabean\PersResult.java
+F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\algorithms\DescribeResult.java
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\mapper\FactorMapper.java
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\servlet\QuestServlet.java
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\javabean\FactorC.java
@@ -10,6 +15,8 @@ F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\algorith
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\javabean\FactorB.java
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\algorithms\Apriori.java
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\javabean\FactorAll.java
+F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\servlet\ResultServlet.java
+F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\javabean\NewData.java
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\servlet\LogoutServlet.java
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\algorithms\SqlSessionFactoryUtil.java
 F:\IdeaProjects\Urban_Road_Safety_Analysis\src\main\java\team\web_first\servlet\LoginFilter.java

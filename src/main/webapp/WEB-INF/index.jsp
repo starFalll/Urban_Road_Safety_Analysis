@@ -4,12 +4,6 @@
 <%
     User user;
     user = (User) request.getSession().getAttribute("user");
-    if (user == null) {
-        response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-        String newLocn = "/Urban_Road_Safety_Analysis/login.html";
-        response.setHeader("Location", newLocn);
-        return;
-    }
 %>
 
 <html>
@@ -251,7 +245,7 @@
                                         color: '#dcdcdc'
                                     }
                                 },
-                                data: [persResult.abiOneScore, persResult.abiTwoScore,persResult.abiThrScore],
+                                data: [persResult.abiOneScore, persResult.abiTwoScore, persResult.abiThrScore],
                             }
                         ]
 
@@ -651,11 +645,12 @@
         })
     });
     $("#quest-is").click(function quest_is() {
-        if (questions[questNum] != null) {
-            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        if (questions[questNum + 1] != null) {
             options[questNum] = true;
             questNum++;
+            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
         } else {
+            options[questNum] = true;
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options, "userId": '<%=user.getUserID()%>'};
             $.ajax({
@@ -663,7 +658,7 @@
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                    location.replace("index?id=<%=user.getUserID()%>>");
+                    location.replace("index?id=<%=user.getUserID()%>");
                 },
                 error: function () {
                     alert("上传失败！");
@@ -672,11 +667,12 @@
         }
     });
     $("#quest-not").click(function quest_not() {
-        if (questions[questNum] != null) {
-            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        if (questions[questNum + 1] != null) {
             options[questNum] = false;
             questNum++;
+            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
         } else {
+            options[questNum] = false;
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options, "userId": '<%=user.getUserID()%>'};
             $.ajax({
@@ -684,7 +680,7 @@
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                    location.replace("index?id=<%=user.getUserID()%>>");
+                    location.replace("index?id=<%=user.getUserID()%>");
                 },
                 error: function () {
                     alert("上传失败！");

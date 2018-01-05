@@ -20,7 +20,7 @@ import team.web_first.javabean.User;
  * 不存在则跳转 login.html
  */
 
-@WebFilter(filterName = "LoginFilter", urlPatterns = "")
+/*@WebFilter(filterName = "LoginFilter", urlPatterns = "")*/
 public class LoginFilter implements Filter {
 
     /**
