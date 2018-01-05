@@ -18,6 +18,7 @@ public class Index extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
         if (user != null) {
+            request.getSession().setAttribute("user", user);
             request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
             return;
         } else {

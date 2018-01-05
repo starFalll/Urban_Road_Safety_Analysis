@@ -75,7 +75,7 @@
             <h2>Questionnaire</h2>
         </div>
         <div class="question">
-            <div><h3 class="text-center quest-text"></h3></div>
+            <div><h3 class="text-center quest-text" id="quest-text"></h3></div>
             <div class="quest-option">
                 <button class="btn btn-lg btn-primary pull-left" type="button" name="quest-not" id="quest-not" value="">
                     否
@@ -158,10 +158,10 @@
         $(".login-box").fadeIn();
     });
     $("#quest-is").click(function () {
-        if (questions[questNum] != null) {
-            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        if (questions[questNum + 1] != null) {
             options[questNum] = true;
             questNum++;
+            $("#quest-text").text((questNum + 1) + ". " + questions[questNum]);
         } else {
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options};
@@ -178,10 +178,10 @@
         }
     })
     $("#quest-not").click(function () {
-        if (questions[questNum] != null) {
-            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        if (questions[questNum + 1] != null) {
             options[questNum] = false;
             questNum++;
+            $("#quest-text").text((questNum + 1) + ". " + questions[questNum]);
         } else {
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options};
