@@ -117,6 +117,13 @@
         <result property="confidence" column="confidence"/>
     </resultMap>
 
+    <resultMap id="Res2Map" type="ResultTwo">
+        <id property="result2ID" column="dataresult2ID"/>
+        <result property="MainChar" column="Maincharacteristic"/>
+        <result property="FirstChar" column="FirstCharacteristic"/>
+        <result property="SecondChar" column="SecondCharacteristic"/>
+        <result property="confidenceTwo" column="Twoconfidence"/>
+    </resultMap>
     <!--获得所有FactorA 查询结果集-->
     <select id="showFactorA" resultMap="factorAMap">
         SELECT * FROM risk_perception;
@@ -164,6 +171,10 @@
         SELECT * FROM data_result;
     </select>
 
+    <select id="showResultTwo" resultMap="Res2Map">
+        SELECT * FROM data_result_two;
+    </select>
+
     <!--插入FactorA -->
     <insert id="addFactorA" parameterType="FactorA" useGeneratedKeys="true" keyProperty="riskPerceptionId">
         INSERT INTO risk_perception(A1,A2,A3,A4,A5,A6) VALUES (#{A1},#{A2},#{A3},#{A4},#{A5},#{A6})
@@ -184,9 +195,14 @@
         INSERT INTO personality(D1,D2,D3,D4,D5,D6) VALUES (#{D1},#{D2},#{D3},#{D4},#{D5},#{D6})
     </insert>
 
+    <!--插入Result -->
     <insert id="addResult" parameterType="Result" useGeneratedKeys="true" keyProperty="resultId">
         INSERT INTO data_result(f_char,s_char,confidence) VALUES (#{fChar},#{sChar},#{confidence})
     </insert>
 
+    <!--插入ResultTwo -->
+    <insert id="addResultTwo" parameterType="ResultTwo" useGeneratedKeys="true" keyProperty="resulttwoID">
+        INSERT INTO data_result_two(Maincharacteristic,FirstCharacteristic,SecondCharacteristic,Twoconfidence) VALUES (#{MainChar},#{FirstChar},#{SecondChar},#{confidenceTwo})
+    </insert>
     <update id="tcDataResult">truncate table web_first.data_result;</update>
 </mapper>
