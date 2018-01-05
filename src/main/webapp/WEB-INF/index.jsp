@@ -14,8 +14,9 @@
     <link rel="shortcut icon" href="../images/title.png">
     <link rel="icon" href="../images/title.png">
     <link rel="Bookmark" href="../images/title.png">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-          rel='stylesheet' type='text/css'>
+    <link
+            href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+            rel='stylesheet' type='text/css'>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
@@ -69,8 +70,30 @@
         </nav>
     </div>
     <div class="display-content">
+        <div class="introduction1">
+            <h1>调查问卷一共有四种内容，分别来自于</h1>
+            <h3>
+                <ul>
+                    <li>人格特性问卷测评部分基于Costa等人(1992)提出的NEO-PI-R 人格量表修正而得</li>
+                    <li>风险感知问卷测评部分基于Noland(1995)提出的风险感知量表</li>
+                    <li>驾驶能力自信问卷测评部分基于Lajunen 与Summala(1995)设计的驾驶能力量表(DSI)</li>
+                    <li>危险驾驶行为问卷测评部分基于Reason 等人(1990)提出的驾驶行为问卷(DBQ)</li>
+                </ul>
+            </h3>
+        </div>
         <div class="bar-content">
             <div class="bar" id="bar2"></div>
+        </div>
+        <div class="introduction2">
+            <h3>
+                通过关联规则挖掘算法对大量问卷结果的处理，得出以下结果:<br/>
+                危险驾驶行为得分体现出驾车出现危险的可能性，得分越高，越安全<br/>
+                道路风险感知能力得分体现出对路况的适应能力和处理突发事件的能力，得分越高，能力越强<br/>
+                驾驶能力自信得分体现出驾车的自信度，得分越高，开车时越自信<br/>
+                <br/>
+                请查看为阁下<span><%= user.getUserName()%></span>准备的个人调查分析结果
+                <br/>
+            </h3>
         </div>
         <div class="bar-content">
             <div class="bar" id="bar1"></div>
@@ -112,15 +135,20 @@
             {
                 url: "/Urban_Road_Safety_Analysis/PersResultServlet",
                 timeout: 5000,
-                data: <%=new JSONObject(user)%>,
+                data:<%=new JSONObject(user)%>,
                 success: function (data) {
                     var persResult = JSON.parse(data);
                     bar1Chart.hideLoading();
                     bar1Chart.setOption({
+                        backgroundColor: '#1A1A1A',
                         title: {
                             text: '个人测试结果'.split("").join("\n"),
                             textStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)',
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
                                 fontSize: 17
                             },
                             top: '36%',
@@ -140,7 +168,11 @@
                             containLabel: true,
                         },
                         textStyle: {
-                            color: 'rgba(255, 255, 255, 0.3)'
+                            shadowColor: '#000000',
+                            shadowBlur: 5,
+                            shadowOffsetX: 3,
+                            shadowOffsetY: 3,
+                            color: '#e4e4e4'
                         },
                         xAxis: {
                             type: 'category',
@@ -255,10 +287,15 @@
                 error: function (data) {
                     bar1Chart.hideLoading();
                     bar1Chart.setOption({
+                        backgroundColor: '#1A1A1A',
                         title: {
                             text: '请先完成个人测试',
                             textStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)',
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
                                 fontSize: 17,
                             },
                             top: '2%',
@@ -271,7 +308,11 @@
                             }
                         },
                         textStyle: {
-                            color: 'rgba(255, 255, 255, 0.3)'
+                            shadowColor: '#000000',
+                            shadowBlur: 5,
+                            shadowOffsetX: 3,
+                            shadowOffsetY: 3,
+                            color: '#e4e4e4',
                         },
                         xAxis: {
                             type: 'category',
@@ -352,17 +393,26 @@
                 bar2Chart.hideLoading();
                 bar2Chart.setOption(
                     {
+                        backgroundColor: '#1A1A1A',
                         title: {
                             text: '两因素相关系数'.split("").join("\n"),
                             textStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)',
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
 
                             },
                             top: '35%',
                             left: '2%'
                         },
                         textStyle: {
-                            color: 'rgba(255, 255, 255, 0.3)'
+                            shadowColor: '#000000',
+                            shadowBlur: 5,
+                            shadowOffsetX: 3,
+                            shadowOffsetY: 3,
+                            color: '#e4e4e4',
                         },
                         tooltip: {
                             trigger: 'axis',
@@ -371,7 +421,11 @@
                         legend: {
                             top: '3%',
                             textStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)'
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
                             },
                             data: ['人格特性', '驾驶能力自信', '危险驾驶行为', '道路风险感知能力']
                         },
@@ -476,17 +530,26 @@
                 bar2Chart.hideLoading();
                 bar2Chart.setOption(
                     {
+                        backgroundColor: '#1A1A1A',
                         title: {
                             text: 'Load Fail',
                             textStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)',
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
 
                             },
                             top: '2%',
                             left: '43%',
                         },
                         textStyle: {
-                            color: 'rgba(255, 255, 255, 0.3)'
+                            shadowColor: '#000000',
+                            shadowBlur: 5,
+                            shadowOffsetX: 3,
+                            shadowOffsetY: 3,
+                            color: '#e4e4e4',
                         },
                         tooltip: {
                             trigger: 'axis',
@@ -540,7 +603,7 @@
     $(function () {
         pieChart.hideLoading();
         pieChart.setOption({
-            backgroundColor: '#2c343c',
+            backgroundColor: '#1A1A1A',
             visualMap: {
                 // 不显示 visualMap 组件，只用于明暗度的映射
                 show: false,
@@ -564,7 +627,11 @@
                     label: {
                         normal: {
                             textStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)'
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
                             }
                         }
                     },
