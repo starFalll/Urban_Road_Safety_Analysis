@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6755cb7d-5d9a-458c-9c8c-24fb4c3d96ab" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/../../../.idea/uiDesigner.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../java/team/web_first/servlet/Result2Servlet.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/js/bar2.json" />
-      <change beforePath="$PROJECT_DIR$/../java/team/web_first/javabean/ResultTwo.java" afterPath="$PROJECT_DIR$/../java/team/web_first/javabean/ResultTwo.java" />
-      <change beforePath="$PROJECT_DIR$/../java/team/web_first/mapper/FactorMapper.xml" afterPath="$PROJECT_DIR$/../java/team/web_first/mapper/FactorMapper.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/../java/team/web_first/algorithms/DescribeResult.java" afterPath="$PROJECT_DIR$/../java/team/web_first/algorithms/DescribeResult.java" />
       <change beforePath="$PROJECT_DIR$/WEB-INF/index.jsp" afterPath="$PROJECT_DIR$/WEB-INF/index.jsp" />
-      <change beforePath="$PROJECT_DIR$/css/style.css" afterPath="$PROJECT_DIR$/css/style.css" />
-      <change beforePath="$PROJECT_DIR$/index2.html" afterPath="$PROJECT_DIR$/index2.html" />
       <change beforePath="$PROJECT_DIR$/../../../target/classes/team/web_first/mapper/FactorMapper.xml" afterPath="$PROJECT_DIR$/../../../target/classes/team/web_first/mapper/FactorMapper.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -566,7 +559,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="959" />
     <option name="width" value="968" />
     <option name="height" value="1047" />
@@ -740,12 +733,12 @@
       <workItem from="1515148789586" duration="567000" />
       <workItem from="1515151913518" duration="7620000" />
       <workItem from="1515162476703" duration="4907000" />
-      <workItem from="1515212627043" duration="6709000" />
+      <workItem from="1515212627043" duration="6868000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="120723000" />
+    <option name="totallyTimeSpent" value="120882000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -757,7 +750,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="959" y="0" width="968" height="1047" extended-state="0" />
+    <frame x="959" y="0" width="968" height="1047" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20685959" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />

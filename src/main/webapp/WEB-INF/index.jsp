@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Home</title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="../images/title.png">
     <link rel="icon" href="../images/title.png">
@@ -25,6 +25,19 @@
     <script>
         $(window).on('load', function () {
             window.scrollTo(0, 1);
+            document.addEventListener('touchstart',function (event) {
+                if(event.touches.length>1){
+                    event.preventDefault();
+                }
+            })
+            var lastTouchEnd=0;
+            document.addEventListener('touchend',function (event) {
+                var now=(new Date()).getTime();
+                if(now-lastTouchEnd<=300){
+                    event.preventDefault();
+                }
+                lastTouchEnd=now;
+            },false)
         });
     </script>
 </head>
@@ -882,6 +895,7 @@
     window.onresize = function () {
         bar1Chart.resize();
         bar2Chart.resize();
+        bar3Chart.resize();
         pieChart.resize();
     }
 
