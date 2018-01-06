@@ -202,7 +202,10 @@
 
     <!--插入ResultTwo -->
     <insert id="addResultTwo" parameterType="ResultTwo" useGeneratedKeys="true" keyProperty="resulttwoID">
-        INSERT INTO data_result_two(Maincharacteristic,FirstCharacteristic,SecondCharacteristic,Twoconfidence) VALUES (#{MainChar},#{FirstChar},#{SecondChar},#{confidenceTwo})
+        INSERT INTO data_result_two(Maincharacteristic,FirstCharacteristic,SecondCharacteristic,Twoconfidence) VALUES (#{mainChar},#{firstChar},#{secondChar},#{confidenceTwo})
     </insert>
-    <update id="tcDataResult">truncate table web_first.data_result;</update>
+
+    <update id="tcDataResult">truncate table web_first.data_result</update>
+
+    <update id="tcDataResult2">truncate table web_first.data_result_two</update>
 </mapper>

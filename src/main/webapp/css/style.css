@@ -35,9 +35,7 @@ input[type="button"], input[type="submit"] {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: #ffffff;
     margin: 0;
-    text-align: center;
 }
 
 p {
@@ -363,34 +361,59 @@ body.register, body.login {
     border-color: #000000
 }
 
-.introduction1{
+.intro1-content {
     margin: 5% 10% 2% 10%;
 }
 
-.introduction1 h1{
+.intro1-content h1 {
     margin-bottom: 3%;
+    color: #ffffff;
+    text-align: center;
 }
 
-.introduction1 h3{
+.intro1-content h3 {
     line-height: 35px;
+    color: #ffffff;
+    text-align: center;
 }
 
-.introduction2{
+.introduction1 h3 {
+    line-height: 35px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.intro2-content {
     margin: 5% 5% 2% 5%;
 }
 
-.introduction2 h1{
+.intro2-content h1 {
     margin-bottom: 3%;
+    color: #ffffff;
+    text-align: center;
 }
 
-.introduction2 h3{
+.intro2-content h3 {
     line-height: 35px;
+    color: #ffffff;
+    text-align: center;
 }
 
-.introduction2 h3 span{
+.introduction2 h3 {
+    line-height: 35px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.introduction2 h3 span {
     font-size: larger;
     margin: 0 2% 0 2%;
 }
+
+.toggle-intro{
+    display: none;
+}
+
 @media screen and (max-width: 1440px) {
     .login-buttom {
         padding: 0;
@@ -410,6 +433,13 @@ body.register, body.login {
         margin: 0 4px 0 0;
     }
 
+    .intro1-content {
+        margin: 4% -2% 1% -2%;
+    }
+
+    .intro2-content {
+        margin: 5% 0 1% 0;
+    }
 }
 
 @media screen and (max-width: 1366px) {
@@ -424,9 +454,18 @@ body.register, body.login {
     button#focus-single, button#focus-multiple, button#focus-coords, button#focus-init {
         font-size: 0.875em;
     }
+
+    .intro1-content {
+        margin: 4% -5% 1% -5%;
+    }
+
+    .intro2-content {
+        margin: 5% -6% 1% -6%;
+    }
 }
 
 @media screen and (max-width: 1280px) {
+
 }
 
 @media screen and (max-width: 1024px) {
@@ -445,6 +484,10 @@ body.register, body.login {
 
     .col-md-offset-1 {
         margin-left: 10%;
+    }
+
+    .container-fluid {
+        padding: 0 5% 0 5%;
     }
 
     .register-form {
@@ -627,9 +670,6 @@ body.register, body.login {
 }
 
 @media screen and (max-width: 480px) {
-    .h1, h1 {
-        font-size: 20px;
-    }
 
     html {
         width: 100%;
@@ -638,6 +678,14 @@ body.register, body.login {
 
     .logo {
         padding: 1em 0 1em 0;
+    }
+
+    .logo h1 {
+        font-size: 2em;
+        font-weight: 500;
+        text-shadow: 2px 2px 3px #000000;
+        color: #ffffff;
+        letter-spacing: 3px;
     }
 
     .container {
@@ -758,6 +806,94 @@ body.register, body.login {
     .quest-option button {
         padding: 3% 10%;
     }
+
+    .intro1-content {
+        margin: 10% 2% 1% 2%;
+    }
+
+    .intro1-content h1 {
+        font-size: 20px;
+        margin-bottom: 3%;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    .intro1-content h3 {
+        font-size: 18px;
+        line-height: 27px;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    .toggle-intro{
+        text-align: center;
+        color: white;
+        font-size: 20px;
+        display: block;
+    }
+
+    .intro2-content {
+        display: none;
+        margin: 5% 5% 2% 5%;
+    }
+
+    .intro2-content h1 {
+        font-size: 20px;
+        margin-bottom: 3%;
+        color: #ffffff;
+        text-align: center;
+    }
+
+   .intro2-content h3 {
+        font-size: 18px;
+        line-height: 27px;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    .introduction2 h3 {
+        margin: 0 20%;
+        line-height: 35px;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    .introduction2 h3 span {
+        font-size: larger;
+        margin: 0 2% 0 2%;
+    }
+
+    .intro1-content {
+        display: none;
+        margin: 5% 5% 2% 5%;
+    }
+
+    .intro1-content h1 {
+        font-size: 20px;
+        margin-bottom: 3%;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    .intro1-content h3 {
+        font-size: 18px;
+        line-height: 27px;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    .introduction1 h3 {
+        margin: 0 20%;
+        line-height: 35px;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    .introduction1 h3 span {
+        font-size: larger;
+        margin: 0 2% 0 2%;
+    }
+
 }
 
 @media screen and (max-width: 320px) {

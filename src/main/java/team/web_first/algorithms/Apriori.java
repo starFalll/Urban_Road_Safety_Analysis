@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.json.JSONArray;
 import team.web_first.javabean.FactorAll;
 import team.web_first.javabean.Result;
+import team.web_first.javabean.ResultTwo;
 import team.web_first.mapper.FactorMapper;
 
 import java.math.BigDecimal;
@@ -30,6 +31,7 @@ public class Apriori {
         sqlSession = SqlSessionFactoryUtil.openSqlsession();
         factorMapper = sqlSession.getMapper(FactorMapper.class);
         factorMapper.tcDataResult();
+        factorMapper.tcDataResult2();
     }
 
     /**
@@ -107,7 +109,9 @@ public class Apriori {
 
         }
 
-        RunApr.sqlSession.close();
+        if (RunApr.sqlSession != null) {
+            RunApr.sqlSession.close();
+        }
     }
 
     /**
@@ -168,31 +172,24 @@ public class Apriori {
             }
 
             for (int k = 0; k < 4; k++) {
-                for (int m = k+1; m < 4; m++) {
+                for (int m = k + 1; m < 4; m++) {
                     if (k != m) {
-                        double Confidence = (Confidences[k][m] + Confidences[m][k]) / 2;
-                        System.out.println(FourTables[k] + "  与  " + FourTables[m] + " 的相关系数为:" + Confidence);
-/*                        JSONObject result = new JSONObject();
-                        result.put("name1", FourTables[m]);
-                        result.put("name2", FourTables[k]);
-                        result.put("confidence", new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN));*/
-                        //Result result1 = new Result(FourTables[m], FourTables[k], new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
-                        //factorMapper.addResult(result1);
-                        /*                        results.put(result);*/
+                        double confidence = (Confidences[k][m] + Confidences[m][k]) / 2;
+                        System.out.println(FourTables[k] + "  与  " + FourTables[m] + " 的相关系数为:" + confidence);
+                        Result result1 = new Result(FourTables[m], FourTables[k], new BigDecimal(confidence).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
+                        factorMapper.addResult(result1);
                     }
                 }
             }
-        }
-
-        else if(count==4){
-            int[][][] total={{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
-                    {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
-                    {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
-                    {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}}};
-            double[][][] Confidences={{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
-                    {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
-                    {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
-                    {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}}};
+        } else if (count == 4) {
+            int[][][] total = {{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+                    {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+                    {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+                    {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}};
+            double[][][] Confidences = {{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+                    {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+                    {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+                    {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}};
             //total和Confidence均对应A,B,C,D [Y][X1][X2]
             //A={{0,0,0,0},{0,B,C,0},{0,B,0,D},{0,0,C,D}},B,C,D同理
             /**
@@ -205,19 +202,19 @@ public class Apriori {
              * 2.....
              * 3.....
              */
-            for (int i = 0; i < confItemset2.size(); i++){
-                for(int k=0;k<4;k++) {
+            for (int i = 0; i < confItemset2.size(); i++) {
+                for (int k = 0; k < 4; k++) {
                     if (confItemset2.get(i).get(2).charAt(0) == fourrelations[k]) {//X1 X2-->Y中Y
-                        for(int m=0;m<4;m++) {
-                            if (confItemset2.get(i).get(0).charAt(0) == fourrelations[m] && m!=k)//X1 X2-->Y中X1
-                            for (int n = 0; n < 4; n++) {
-                                if (confItemset2.get(i).get(1).charAt(0) == fourrelations[n] && n!=k&&n!=m) {////X1 X2-->Y中X2
-                                    double confidence = new Double(confItemset2.get(i).get(4));
-                                    double support = new Double(confItemset2.get(i).get(3));
-                                    Confidences[k][m][n] += confidence * support;
-                                    total[k][m][n]++;
+                        for (int m = 0; m < 4; m++) {
+                            if (confItemset2.get(i).get(0).charAt(0) == fourrelations[m] && m != k)//X1 X2-->Y中X1
+                                for (int n = 0; n < 4; n++) {
+                                    if (confItemset2.get(i).get(1).charAt(0) == fourrelations[n] && n != k && n != m) {////X1 X2-->Y中X2
+                                        double confidence = new Double(confItemset2.get(i).get(4));
+                                        double support = new Double(confItemset2.get(i).get(3));
+                                        Confidences[k][m][n] += confidence * support;
+                                        total[k][m][n]++;
+                                    }
                                 }
-                            }
                         }
                     }
 
@@ -225,29 +222,24 @@ public class Apriori {
             }
             for (int k = 0; k < 4; k++) {
                 for (int m = 0; m < 4; m++) {
-                    for(int n=0;n<4;n++)
-                    if (k != m &&k!=n&&n!=m&& total[k][m][n] != 0) {
-                        Confidences[k][m][n] /= total[k][m][n];
+                    for (int n = 0; n < 4; n++)
+                        if (k != m && k != n && n != m && total[k][m][n] != 0) {
+                            Confidences[k][m][n] /= total[k][m][n];
 
-                    }
+                        }
                 }
             }
 
             for (int k = 0; k < 4; k++) {
                 for (int m = 0; m < 4; m++)
-                    for(int n=m+1;n<4;n++){
-                    if (k != m&&k!=n&&n!=m) {
-                        double Confidence = (Confidences[k][m][n] + Confidences[k][n][m]) / 2;
-                        System.out.println(FourTables[m] + "  与  " + FourTables[n] + " 对 "+FourTables[k]+" 的相关影响系数为:" + Confidence);
-/*                        JSONObject result = new JSONObject();
-                        result.put("name1", FourTables[m]);
-                        result.put("name2", FourTables[k]);
-                        result.put("confidence", new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN));*/
-                        //Result result1 = new Result(FourTables[m], FourTables[k], new BigDecimal(Confidences[k][m]).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
-                        //factorMapper.addResult(result1);
-                        /*                        results.put(result);*/
+                    for (int n = m + 1; n < 4; n++) {
+                        if (k != m && k != n && n != m) {
+                            double Confidence = (Confidences[k][m][n] + Confidences[k][n][m]) / 2;
+                            System.out.println(FourTables[m] + "  与  " + FourTables[n] + " 对 " + FourTables[k] + " 的相关影响系数为:" + Confidence);
+                            ResultTwo resultTwo=new ResultTwo(FourTables[k],FourTables[m],FourTables[n],new BigDecimal(Confidence).setScale(3, RoundingMode.HALF_EVEN).doubleValue());
+                            factorMapper.addResultTwo(resultTwo);
+                        }
                     }
-                }
             }
 
 

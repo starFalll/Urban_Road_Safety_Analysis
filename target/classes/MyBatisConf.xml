@@ -10,6 +10,7 @@
         <typeAlias type="team.web_first.javabean.FactorAll" alias="FactorAll"/>
         <typeAlias type="team.web_first.javabean.NewData" alias="NewData"/>
         <typeAlias type="team.web_first.javabean.Result" alias="Result"/>
+        <typeAlias type="team.web_first.javabean.ResultTwo" alias="ResultTwo"/>
     </typeAliases>
     <environments default="development">
         <environment id="development">

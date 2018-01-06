@@ -70,30 +70,46 @@
         </nav>
     </div>
     <div class="display-content">
-        <div class="introduction1">
-            <h1>调查问卷一共有四种内容，分别来自于</h1>
-            <h3>
-                <ul>
-                    <li>人格特性问卷测评部分基于Costa等人(1992)提出的NEO-PI-R 人格量表修正而得</li>
-                    <li>风险感知问卷测评部分基于Noland(1995)提出的风险感知量表</li>
-                    <li>驾驶能力自信问卷测评部分基于Lajunen 与Summala(1995)设计的驾驶能力量表(DSI)</li>
-                    <li>危险驾驶行为问卷测评部分基于Reason 等人(1990)提出的驾驶行为问卷(DBQ)</li>
-                </ul>
-            </h3>
+        <div class="introduction1" id="introduction1">
+            <div class="colla-intro1">
+                <a class="toggle-intro btn btn-inverse btn-block" data-toggle="collapse" data-parent="#introduction1" href="#intro1-content">
+                    显示说明
+                </a>
+            </div>
+            <div class="intro1-content" id="intro1-content">
+                <h1>调查问卷一共有四种内容，分别来自于</h1>
+                <h3>
+                    <ul>
+                        <li>人格特性问卷测评部分基于Costa等人(1992)提出的NEO-PI-R 人格量表修正而得</li>
+                        <li>风险感知问卷测评部分基于Noland(1995)提出的风险感知量表</li>
+                        <li>驾驶能力自信问卷测评部分基于Lajunen 与Summala(1995)设计的驾驶能力量表(DSI)</li>
+                        <li>危险驾驶行为问卷测评部分基于Reason 等人(1990)提出的驾驶行为问卷(DBQ)</li>
+                    </ul>
+                </h3>
+            </div>
+            <h3><br/>多因素统计分析图<br/></h3>
         </div>
         <div class="bar-content">
             <div class="bar" id="bar2"></div>
         </div>
-        <div class="introduction2">
-            <h3>
-                通过关联规则挖掘算法对大量问卷结果的处理，得出以下结果:<br/>
-                危险驾驶行为得分体现出驾车出现危险的可能性，得分越高，越安全<br/>
-                道路风险感知能力得分体现出对路况的适应能力和处理突发事件的能力，得分越高，能力越强<br/>
-                驾驶能力自信得分体现出驾车的自信度，得分越高，开车时越自信<br/>
-                <br/>
-                请查看为阁下<span><%= user.getUserName()%></span>准备的个人调查分析结果
-                <br/>
-            </h3>
+        <div class="introduction2" id="introduction2">
+            <div class="colla-intro2">
+                <a class="toggle-intro btn btn-inverse btn-block" data-toggle="collapse" data-parent="#introduction2" href="#intro2-content">
+                    显示说明
+                </a>
+            </div>
+            <div class="intro2-content" id="intro2-content">
+                <h1>个人分析</h1>
+                <h3>
+                    <ul>
+                        <li>通过关联规则挖掘算法对大量问卷结果的处理，得出以下结果:</li>
+                        <li>危险驾驶行为得分体现出驾车出现危险的可能性，得分越高，越安全</li>
+                        <li>道路风险感知能力得分体现出对路况的适应能力和处理突发事件的能力，得分越高，能力越强</li>
+                        <li>驾驶能力自信得分体现出驾车的自信度，得分越高，开车时越自信</li>
+                    </ul>
+                </h3>
+            </div>
+            <h3><br/>请查看为阁下<span>Root</span>准备的个人调查分析结果<br/></h3>
         </div>
         <div class="bar-content">
             <div class="bar" id="bar1"></div>
