@@ -156,20 +156,46 @@ public class DescribeResult {
         String[] FourTables = {"道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性"};
 
         double dangerousDrivingScore = 0, riskPerceptionScore = 0, confidenceScore = 0;
-        int dangerousDrivingScoreall = 0, riskPerceptionScoreall = 0, confidenceScoreall = 0;
+        
 
         //dangerousDrivingScore += calresults[1];
         //riskPerceptionScore += calresults[0];
         //confidenceScore += calresults[2];
+        double[] confidencesall={0,0,0,0};//对应"道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性"的置信度总和,例子如下：
+        /**
+         * 例:数据库中数据如下
+         * +-------------+--------------------+--------------------------+------------+
+         | result_id   | f_char             | s_char                   | confidence |
+         +-------------+--------------------+--------------------------+------------+
+         | 00000000001 | 危险驾驶行为       | 道路风险感知能力         |      0.105 |
+         | 00000000002 | 驾驶能力自信       | 道路风险感知能力         |      0.345 |
+         | 00000000003 | 人格特性           | 道路风险感知能力         |      0.309 |
+         | 00000000004 | 驾驶能力自信       | 危险驾驶行为             |      0.392 |
+         | 00000000005 | 人格特性           | 危险驾驶行为             |      0.313 |
+         | 00000000006 | 人格特性           | 驾驶能力自信             |      0.497 |
+            则道路风险感知能力的置信度总和为:0.105+0.345+0.309
+         */
 
+        for(int i=0;i<dataresultrecord.size();i++){
+            for(int k=0;k<4;k++){
+                if(dataresultrecord.get(i).get(0).equals(FourTables[k])){
+                    Double confidence = new Double(dataresultrecord.get(i).get(2));
+                    confidencesall[k]+=confidence;
+                }
+                else if(dataresultrecord.get(i).get(1).equals(FourTables[k])){
+                    Double confidence = new Double(dataresultrecord.get(i).get(2));
+                    confidencesall[k]+=confidence;
+                }
+            }
+        }
         for (int i = 0; i < dataresultrecord.size(); i++) {
 
             if (dataresultrecord.get(i).get(0).equals("危险驾驶行为")) {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(1).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        dangerousDrivingScore += calresults[k] * confidence;
-                        dangerousDrivingScoreall++;
+                        dangerousDrivingScore += calresults[k] * confidence/confidencesall[1];
+
                     }
                 }
 
@@ -177,8 +203,8 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(0).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        dangerousDrivingScore += calresults[k] * confidence;
-                        dangerousDrivingScoreall++;
+                        dangerousDrivingScore += calresults[k] * confidence/confidencesall[1];
+
                     }
                 }
             }
@@ -186,8 +212,8 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(1).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        riskPerceptionScore += calresults[k] * confidence;
-                        riskPerceptionScoreall++;
+                        riskPerceptionScore += calresults[k] * confidence/confidencesall[0];
+
                     }
                 }
 
@@ -195,8 +221,8 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(0).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        riskPerceptionScore += calresults[k] * confidence;
-                        riskPerceptionScoreall++;
+                        riskPerceptionScore += calresults[k] * confidence/confidencesall[0];
+
                     }
                 }
             }
@@ -204,8 +230,8 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(1).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        confidenceScore += calresults[k] * confidence;
-                        confidenceScoreall++;
+                        confidenceScore += calresults[k] * confidence/confidencesall[2];
+
                     }
                 }
 
@@ -213,8 +239,8 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(0).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        confidenceScore += calresults[k] * confidence;
-                        confidenceScoreall++;
+                        confidenceScore += calresults[k] * confidence/confidencesall[2];
+
                     }
                 }
             }
@@ -223,9 +249,9 @@ public class DescribeResult {
         /**
          * UI展示接口
          */
-        double riskPerceptiongrade = riskPerceptionScore / riskPerceptionScoreall * 100;
-        double dangerousDrivinggrade = 100 - (dangerousDrivingScore / dangerousDrivingScoreall * 100);
-        double confidencegrade = confidenceScore / confidenceScoreall * 100;
+        double riskPerceptiongrade = riskPerceptionScore * 100;
+        double dangerousDrivinggrade = 100 - (dangerousDrivingScore  * 100);
+        double confidencegrade = confidenceScore  * 100;
         System.out.println("您的道路风险感知能力得分为:" + riskPerceptiongrade + "\n您的危险驾驶行为得分为:" + dangerousDrivinggrade
 
                 + "\n您的驾驶能力自信的分为:" + confidencegrade);
