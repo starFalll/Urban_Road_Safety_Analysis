@@ -21,7 +21,7 @@ public class DescribeResult {
      * @return
      */
 
-    private int recordId = 50;
+    private int recordId = 56;
     private PersResult persResult = new PersResult();
 
     public DescribeResult() {
@@ -250,7 +250,7 @@ public class DescribeResult {
          * UI展示接口
          */
         double riskPerceptiongrade = riskPerceptionScore * 100;
-        double dangerousDrivinggrade = 100 - (dangerousDrivingScore  * 100);
+        double dangerousDrivinggrade = dangerousDrivingScore  * 100;
         double confidencegrade = confidenceScore  * 100;
         System.out.println("您的道路风险感知能力得分为:" + riskPerceptiongrade + "\n您的危险驾驶行为得分为:" + dangerousDrivinggrade
 
