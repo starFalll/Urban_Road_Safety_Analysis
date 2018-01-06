@@ -20,12 +20,24 @@
         $(window).on('load', function () {
             document.documentElement.style.overflow = 'hidden';
             window.scrollTo(0, 1);
-            $(".register-box").fadeIn();
+            document.addEventListener('touchstart', function (event) {
+                if (event.touches.length > 1) {
+                    event.preventDefault();
+                }
+            })
+            var lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                var now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false)
         })
     </script>
 </head>
 <body class="register">
-<div class="container register-box" style="display: none">
+<div class="container register-box">
     <div class="navigation">
         <div class="logo text-center">
             <h1>城市道路分析管理系统</h1>
@@ -40,7 +52,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <p class="navbar-brand"><span class="glyphicon glyphicon-chevron-right"></span></p>
+                    <p class="navbar-brand"><a href="welcome.html"><span class="glyphicon glyphicon-chevron-right"></span></a></p>
                 </div>
                 <div class="collapse navbar-collapse" id="example-navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">

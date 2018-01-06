@@ -1,0 +1,504 @@
+<html>
+<head>
+    <title>Home</title>
+    <meta content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="shortcut icon" href="../images/title.png">
+    <link rel="icon" href="../images/title.png">
+    <link rel="Bookmark" href="../images/title.png">
+    <link
+            href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+            rel='stylesheet' type='text/css'>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
+    <script>
+        $(window).on('load', function () {
+            window.scrollTo(0, 1);
+            document.addEventListener('touchstart', function (event) {
+                if (event.touches.length > 1) {
+                    event.preventDefault();
+                }
+            })
+            var lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                var now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false)
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="navigation">
+        <div class="logo text-center">
+            <h1>城市道路分析管理系统</h1>
+        </div>
+        <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#example-navbar-collapse">
+                        <span class="sr-only">切换导航</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <p class="navbar-brand"><span class="glyphicon glyphicon-chevron-right"></span></p>
+                </div>
+                <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active display">
+                            <a href="javascript:void(0)" onclick="display();toggleBar();">
+                                首页
+                            </a>
+                        </li>
+                        <li class="analysis">
+                            <a href="javascript:void(0)" onclick="analysis()">
+                                统计分析
+                            </a>
+                        </li>
+                        <li class="persAnalysis">
+                            <a href="javascript:void(0)" onclick="persAnalysis()">
+                                个人分析
+                            </a>
+                        </li>
+                        <li class="quest">
+                            <a href="javascript:void(0)" onclick="quest();toggleBar();">
+                                问卷调查
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                               aria-haspopup="true" aria-expanded="false"> <span
+                                    class="glyphicon glyphicon-user"></span> <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="login.html"><span class="glyphicon glyphicon-user"></span>
+                                    请登录
+                                </a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="register.html">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    注册
+                                </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="display-content">
+        <div class="jumbotron">
+            <h1>交通安全的重要性</h1>
+            <p>年末全国民用汽车保有量19440万辆（包括三轮汽车和低速货车881万辆），
+                比上年末增长12.8%，其中私人汽车保有量16559万辆，增长15.0%。民用轿车保有量10876万辆，
+                增长14.4%，其中私人轿车10152万辆，增长15.5%。</p>
+        </div>
+        <div class="bar-content">
+            <div class="bar" id="bar4"></div>
+        </div>
+        <div class="pie-content">
+            <div class="pie" id="pie"></div>
+        </div>
+        <div class="bar-content">
+            <div class="bar" id="bar5"></div>
+        </div>
+    </div>
+    <div style="display: none" class="quest-panel panel panel-default">
+        <div class="panel-heading">
+            <h2>问卷调查</h2>
+        </div>
+        <div class="question">
+            <div><h3 class="text-center quest-text"></h3></div>
+            <div class="quest-option">
+                <button class="btn btn-lg btn-primary pull-left" type="button" name="quest-not" id="quest-not" value="">
+                    否
+                </button>
+                <button class="btn btn-lg btn-success pull-right" type="button" name="quest-is" id="quest-is" value="">
+                    是
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<script>
+
+    /**
+     * 绘制图表
+     * */
+    var bar4Chart = echarts.init(document.getElementById('bar4'));
+    var bar5Chart = echarts.init(document.getElementById('bar5'));
+    var pieChart = echarts.init(document.getElementById('pie'));
+
+
+    //bar4
+    $(function () {
+        bar4Chart.setOption(
+            {
+                backgroundColor: '#1A1A1A',
+                title: {
+                    text: '汽车保有量城市',
+                    subtext: '2016年',
+                    left: 'center',
+                    top: 10,
+                    textStyle: {
+                        fontWeight: 400,
+                        fontSize: 30,
+                        shadowColor: '#000000',
+                        shadowBlur: 5,
+                        shadowOffsetX: 3,
+                        shadowOffsetY: 3,
+                        color: '#e4e4e4',
+                    },
+                },
+                textStyle: {
+                    shadowColor: '#000000',
+                    shadowBlur: 5,
+                    shadowOffsetX: 3,
+                    shadowOffsetY: 3,
+                    color: '#e4e4e4',
+                },
+                color: ['rgb(25, 183, 207)'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {type: 'shadow'}
+                },
+                grid: {
+                    top: 80,
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: [
+                        '北京', '成都', '深圳', '上海', '重庆', '天津', '苏州', '郑州', '杭州', '广州', '西安'
+                    ],
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: {
+                    name: '数量',
+                    type: 'bar',
+                    data: [5350000, 3660000, 3150000, 2840000, 2790000, 2730000, 2690000, 2390000, 2240000, 2240000, 2190000],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideTop',
+                            formatter: function (params) {
+                                return '' + params.data / 10000 + '万';
+                            },
+                            shadowBlur: 5,
+                            shadowOffsetX: 3,
+                            shadowOffsetY: 3,
+                            textShadowBlur: 5,
+                            textShadowOffsetX: 3,
+                            textShadowOffsetY: 3
+                        }
+                    }
+                }
+            }
+        )
+    });
+    //bar5
+    $(function () {
+        bar5Chart.setOption(
+            {
+                title: {
+                    text: '部分省份年度交通事故数',
+                    left: 'center',
+                    top: 10,
+                    textStyle: {
+                        fontWeight: 400,
+                        fontSize: 30,
+                        shadowColor: '#000000',
+                        shadowBlur: 5,
+                        shadowOffsetX: 3,
+                        shadowOffsetY: 3,
+                        color: '#e4e4e4',
+                    },
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {type: 'shadow'}
+                },
+                grid: {
+                    top: 80,
+                    containLabel: true
+                },
+                backgroundColor: '#1A1A1A',
+                legend: {
+                    top: '20%',
+                    right: '15%',
+                    textStyle: {
+                        shadowColor: '#000000',
+                        shadowBlur: 5,
+                        shadowOffsetX: 3,
+                        shadowOffsetY: 3,
+                        color: '#e4e4e4',
+                    },
+                    data: ['2016', '2015', '2014']
+                },
+                textStyle: {
+                    shadowColor: '#000000',
+                    shadowBlur: 5,
+                    shadowOffsetX: 3,
+                    shadowOffsetY: 3,
+                    color: '#e4e4e4',
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['广东', '湖北', '浙江', '江苏', '山东', '安徽', '贵州', '北京']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        type: 'bar',
+                        name: '2016',
+                        data: [24773, 16908, 14791, 13299, 13163, 12933, 12579, 3163],
+                        itemStyle: {
+                            normal: {
+                                color: '#77A8AD'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideTop',
+                                formatter: function (params) {
+                                    return Math.floor(params.data / 100);
+                                }
+                            }
+                        }
+                    },
+                    {
+                        type: 'bar',
+                        name: '2015',
+                        data: [24676, 4624, 16270, 12999, 13376, 13770, 1035, 2637],
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideTop',
+                                formatter: function (params) {
+                                    return Math.floor(params.data / 100);
+                                }
+                            }
+                        }
+                    },
+                    {
+                        type: 'bar',
+                        name: '2014',
+                        data: [26445, 5271, 17135, 13187, 13570, 16077, 1145, 3196],
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideTop',
+                                formatter: function (params) {
+                                    return Math.floor(params.data / 100);
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        )
+    });
+    //pie
+    $(function () {
+        pieChart.hideLoading();
+        pieChart.setOption({
+            backgroundColor: '#1A1A1A',
+            title: {
+                text: '平均各类事故死亡人数',
+                left: 'center',
+                top: 10,
+                textStyle: {
+                    fontWeight: 400,
+                    fontSize: 30,
+                    shadowColor: '#000000',
+                    shadowBlur: 5,
+                    shadowOffsetX: 3,
+                    shadowOffsetY: 3,
+                    color: '#e4e4e4',
+                },
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            series: [
+                {
+                    type: 'pie',
+                    radius: '60%',
+                    center: ['50%', '55%'],
+                    data: [
+                        {name: '道路交通', value: 0.788},
+                        {name: '铁路路外', value: 0.065},
+                        {name: '水上交通', value: 0.003},
+                        {name: '民航', value: 0.001},
+                        {name: '农机', value: 0.024},
+                        {name: '其他', value: 0.006},
+                        {name: '工矿企业', value: 0.093},
+                        {name: '消防火灾', value: 0.016},
+                    ],
+                    label: {
+                        normal: {
+                            textStyle: {
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
+                            },
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            lineStyle: {
+                                color: 'rgba(255, 255, 255, 0.4)'
+                            }
+                        }
+                    },
+                    animationEasing: 'elasticOut',
+                    animationType: 'scale',
+                    startAngle: 330,
+                    itemStyle: {
+                        normal: {
+                            shadowBlur: 200,
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        });
+    });
+
+    function resize() {
+        bar4Chart.resize();
+        bar5Chart.resize();
+        pieChart.resize();
+    }
+
+    /**
+     * 分辨率改变 视图重绘
+     * */
+    window.onresize = function () {
+        resize();
+    }
+
+    /**
+     * 容器切换
+     * */
+    function display() {
+        $(".quest-panel").fadeOut();
+        $(".analysis-content").fadeOut();
+        $(".persAnalysis-content").fadeOut();
+        $(".quest").attr("class", "quest");
+        $(".analysis").attr("class", "analysis");
+        $(".persAnalysis").attr("class", "persAnalysis");
+        $(".display-content").fadeIn();
+        $(".display").attr("class", "active display");
+        resize();
+    };
+
+    function quest() {
+        $(".display-content").fadeOut();
+        $(".analysis-content").fadeOut();
+        $(".persAnalysis-content").fadeOut();
+        $(".display").attr("class", "display");
+        $(".analysis").attr("class", "analysis");
+        $(".persAnalysis").attr("class", "persAnalysis");
+        $(".quest-panel").fadeIn();
+        $(".quest").attr("class", "active quest");
+        resize();
+    };
+
+    function analysis() {
+        window.location.href = "login.html";
+    }
+
+    function persAnalysis() {
+        window.location.href = "login.html";
+    }
+
+    /**
+     * 媒体导航栏适应
+     * */
+    function toggleBar() {
+        if (screen.width < 768) {
+            $(".navbar-toggle").click();
+        }
+    };
+
+    /**
+     * 问卷选项函数
+     * questionnaire variable
+     * */
+    var questions;
+    var questNum = 0;
+    var options = new Array();
+    var result;
+    $(function () {
+        $.getJSON('js/questions.json', function (data) {
+            questions = data.questions;
+            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        })
+    });
+    $("#quest-is").click(function quest_is() {
+        if (questions[questNum + 1] != null) {
+            options[questNum] = true;
+            questNum++;
+            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        } else {
+            options[questNum] = true;
+            $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
+            result = {"options": options};
+            $.ajax({
+                url: "/Urban_Road_Safety_Analysis/QuestServlet",
+                data: result,
+                success: function () {
+                    alert("上传成功！");
+                    location.replace("index?id=<%=user.getUserID()%>");
+                },
+                error: function () {
+                    alert("上传失败！");
+                }
+            });
+        }
+    });
+    $("#quest-not").click(function quest_not() {
+        if (questions[questNum + 1] != null) {
+            options[questNum] = false;
+            questNum++;
+            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        } else {
+            options[questNum] = false;
+            $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
+            result = {"options": options};
+            $.ajax({
+                url: "/Urban_Road_Safety_Analysis/QuestServlet",
+                data: result,
+                success: function () {
+                    alert("上传成功！");
+                    location.replace("index?id=<%=user.getUserID()%>");
+                },
+                error: function () {
+                    alert("上传失败！");
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

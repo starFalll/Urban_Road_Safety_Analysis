@@ -53,7 +53,7 @@ public class PersResultServlet extends HttpServlet {
             /**
              * 会话无用户
              */
-            response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
+            response.sendRedirect("/Urban_Road_Safety_Analysis/welcome.html");
         } finally {
             sqlSession.close();
         }

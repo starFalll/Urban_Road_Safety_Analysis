@@ -79,7 +79,7 @@ public class LoginServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
+            response.sendRedirect("/Urban_Road_Safety_Analysis/welcome.html");
             return;
         }
     }

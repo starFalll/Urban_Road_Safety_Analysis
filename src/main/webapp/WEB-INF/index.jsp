@@ -62,9 +62,25 @@
                 </div>
                 <div class="collapse navbar-collapse" id="example-navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active display"><a href="javascript:void(0)"
-                                                      onclick="display();toggleBar();">Display</a></li>
-                        <li class="quest"><a href="javascript:void(0)" onclick="quest();toggleBar();">Questionnaire</a>
+                        <li class="active display">
+                            <a href="javascript:void(0)" onclick="display();toggleBar();">
+                                首页
+                            </a>
+                        </li>
+                        <li class="analysis">
+                            <a href="javascript:void(0)" onclick="analysis();toggleBar();">
+                                统计分析
+                            </a>
+                        </li>
+                        <li class="persAnalysis">
+                            <a href="javascript:void(0)" onclick="persAnalysis();toggleBar();">
+                                个人分析
+                            </a>
+                        </li>
+                        <li class="quest">
+                            <a href="javascript:void(0)" onclick="quest();toggleBar();">
+                                问卷调查
+                            </a>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"
@@ -100,6 +116,17 @@
         </div>
         <div class="bar-content">
             <div class="bar" id="bar5"></div>
+        </div>
+    </div>
+    <div style="display: none" class="analysis-content">
+        <div class="jumbotron">
+            <h1>多因素统计分析图</h1>
+            <p>
+                testtesttesttesttesttestestestsestestestessteste
+                testtesttesttesttesttestestestsestestestessteste
+                testtesttesttesttesttestestestsestestestessteste
+                testtesttesttesttesttestestestsestestestessteste
+            </p>
         </div>
         <div class="introduction1" id="introduction1">
             <div class="colla-intro1">
@@ -138,30 +165,22 @@
                 <h3>例如，AB->C表示A,B对c的影响系数</h3>
             </div>
         </div>
-        <div class="clearfix"></div>
         <div class="bar-content">
             <div class="bar" id="bar3"></div>
         </div>
-        <div class="introduction2" id="introduction2">
-            <div class="colla-intro2">
-                <a class="toggle-intro btn btn-inverse btn-block" data-toggle="collapse" data-parent="#introduction2"
-                   href="#intro2-content">
-                    显示说明
-                </a>
-            </div>
-            <div class="intro2-content" id="intro2-content">
-                <h1>个人分析</h1>
-                <h3>
-                    通过关联规则挖掘算法对大量问卷结果的处理，得出以下结果:
-                    <ul>
-                        <li>危险驾驶行为得分体现出驾车出现危险的可能性，得分越高，越安全</li>
-                        <li>道路风险感知能力得分体现出对路况的适应能力和处理突发事件的能力，得分越高，能力越强</li>
-                        <li>驾驶能力自信得分体现出驾车的自信度，得分越高，开车时越自信</li>
-                    </ul>
-                </h3>
-            </div>
-            <hr/>
-            <h3><br/>请查看为阁下<span>Root</span>准备的个人调查分析结果<br/></h3>
+    </div>
+    <div style="display: none" class="persAnalysis-content">
+        <div class="jumbotron">
+            <h1>个人分析</h1>
+            <br/>
+            <p>
+                通过关联规则挖掘算法对大量问卷结果的处理，得出以下结果:
+            <ul>
+                <li>危险驾驶行为得分体现出驾车出现危险的可能性，得分越高，越安全</li>
+                <li>道路风险感知能力得分体现出对路况的适应能力和处理突发事件的能力，得分越高，能力越强</li>
+                <li>驾驶能力自信得分体现出驾车的自信度，得分越高，开车时越自信</li>
+            </ul>
+            </p>
         </div>
         <div class="bar-content">
             <div class="bar" id="bar1"></div>
@@ -850,7 +869,7 @@
                 backgroundColor: '#1A1A1A',
                 title: {
                     text: '汽车保有量城市',
-                    subtext:'2016年',
+                    subtext: '2016年',
                     left: 'center',
                     top: 10,
                     textStyle: {
@@ -1087,10 +1106,7 @@
         });
     });
 
-    /**
-     * 分辨率改变 视图重绘
-     * */
-    window.onresize = function () {
+    function resize() {
         bar1Chart.resize();
         bar2Chart.resize();
         bar3Chart.resize();
@@ -1100,21 +1116,62 @@
     }
 
     /**
+     * 分辨率改变 视图重绘
+     * */
+    window.onresize = function () {
+        resize();
+    }
+
+    /**
      * 容器切换
      * */
     function display() {
         $(".quest-panel").fadeOut();
+        $(".analysis-content").fadeOut();
+        $(".persAnalysis-content").fadeOut();
         $(".quest").attr("class", "quest");
+        $(".analysis").attr("class", "analysis");
+        $(".persAnalysis").attr("class", "persAnalysis");
         $(".display-content").fadeIn();
         $(".display").attr("class", "active display");
+        resize();
     };
 
     function quest() {
         $(".display-content").fadeOut();
+        $(".analysis-content").fadeOut();
+        $(".persAnalysis-content").fadeOut();
         $(".display").attr("class", "display");
+        $(".analysis").attr("class", "analysis");
+        $(".persAnalysis").attr("class", "persAnalysis");
         $(".quest-panel").fadeIn();
         $(".quest").attr("class", "active quest");
+        resize();
     };
+
+    function analysis() {
+        $(".display-content").fadeOut();
+        $(".quest-panel").fadeOut();
+        $(".persAnalysis-content").fadeOut();
+        $(".display").attr("class", "display");
+        $(".quest").attr("class", "quest");
+        $(".persAnalysis").attr("class", "persAnalysis");
+        $(".analysis-content").fadeIn();
+        $(".analysis").attr("class", "active analysis");
+        resize();
+    }
+
+    function persAnalysis() {
+        $(".display-content").fadeOut();
+        $(".quest-panel").fadeOut();
+        $(".analysis-content").fadeOut();
+        $(".display").attr("class", "display");
+        $(".quest").attr("class", "quest");
+        $(".analysis").attr("class", "analysis");
+        $(".persAnalysis-content").fadeIn();
+        $(".persAnalysis").attr("class", "active persAnalysis");
+        resize();
+    }
 
     /**
      * 媒体导航栏适应
