@@ -378,7 +378,7 @@ public class DescribeResult {
                 }
 
             }
-            System.out.println(FourTables[i] + " 受 " + FourTables[re1] + " 和 " + FourTables[re2] + " 影响最大");
+            System.out.println("您的"+FourTables[i] + " 受 " + FourTables[re1] + " 和 " + FourTables[re2] + " 影响最大");
         }
     }
 
