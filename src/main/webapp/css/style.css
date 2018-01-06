@@ -2,12 +2,6 @@ html {
     height: 100%;
 }
 
-.navbar-fixed-top {
-    width: 60%;
-    left: 20%;
-    right: 20%;
-}
-
 body {
     height: auto;
     padding-top: 50px;
@@ -15,7 +9,7 @@ body {
     margin: 0;
     font-family: 'Open Sans', "Hiragino Sans GB", "Microsoft YaHei",
     "WenQuanYi Micro Hei", sans-serif;
-    background: whitesmoke;
+    background-color: #1A1A1A;
 }
 
 .container {
@@ -41,7 +35,9 @@ input[type="button"], input[type="submit"] {
 }
 
 h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
     margin: 0;
+    text-align: center;
 }
 
 p {
@@ -99,18 +95,39 @@ input[type=checkbox], input[type=radio] {
     }
 }
 
+.navigation {
+    position: relative;
+    left: -40%;
+    width: 180%;
+}
+
 .navbar-collapse {
     overflow-x: hidden;
 }
 
+.navbar-inverse {
+    background-color: #000000;
+}
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {
+    background-color: #000000;
+}
+
 .logo {
-    background-color: #222;
-    padding: 3em 0;
+    background-color: #141414;
+    padding: 2em 0;
 }
 
 .logo h1 {
-    color: #999;
-    letter-spacing: 0.2em;
+    font-size: 3em;
+    font-weight: 500;
+    text-shadow: 2px 2px 3px #000000;
+    color: #ffffff;
+    letter-spacing: 0.5em;
+}
+
+.container-fluid {
+    padding: 0 25% 0 25%;
 }
 
 .navbar {
@@ -346,7 +363,34 @@ body.register, body.login {
     border-color: #000000
 }
 
+.introduction1{
+    margin: 5% 10% 2% 10%;
+}
 
+.introduction1 h1{
+    margin-bottom: 3%;
+}
+
+.introduction1 h3{
+    line-height: 35px;
+}
+
+.introduction2{
+    margin: 5% 5% 2% 5%;
+}
+
+.introduction2 h1{
+    margin-bottom: 3%;
+}
+
+.introduction2 h3{
+    line-height: 35px;
+}
+
+.introduction2 h3 span{
+    font-size: larger;
+    margin: 0 2% 0 2%;
+}
 @media screen and (max-width: 1440px) {
     .login-buttom {
         padding: 0;
@@ -383,48 +427,12 @@ body.register, body.login {
 }
 
 @media screen and (max-width: 1280px) {
-    .world-map {
-        padding: 2em 1em 0 1em;
-    }
-
-    button#focus-single, button#focus-multiple, button#focus-coords, button#focus-init {
-        font-size: 0.85em;
-    }
-
-    .world-map h3 {
-        font-size: 1.8em;
-        padding: 0.85em 0 0.5em 0;
-    }
-
-    .world-map p {
-        font-size: 1.15em;
-    }
-
-    .site-report {
-        padding: 3em 2em 1em 2em;
-        min-height: 496px;
-    }
-
-    p.home {
-        font-size: 1.2em;
-        padding: 0.5em 01em;
-    }
-
-    p.home a {
-        margin-top: -1.4px;
-    }
 }
 
 @media screen and (max-width: 1024px) {
 
     .container {
         width: 80%;
-    }
-
-    .navbar-fixed-top {
-        width: 80%;
-        left: 10%;
-        right: 10%;
     }
 
     .btn-group-lg > .btn, .btn-lg {
