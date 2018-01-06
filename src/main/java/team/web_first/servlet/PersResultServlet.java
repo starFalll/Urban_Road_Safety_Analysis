@@ -37,11 +37,11 @@ public class PersResultServlet extends HttpServlet {
              * 记录判断
              */
             if (recordId != 0) {
-                //DescribeResult describeResult = new DescribeResult(recordId);
-                //PersResult persResult = describeResult.getPersResult();
-                //request.getSession().setAttribute("user", user);
-                //response.setCharacterEncoding("UTF-8");
-                //response.getWriter().write(new JSONObject(persResult).toString());
+                DescribeResult describeResult = new DescribeResult(recordId);
+                PersResult persResult = describeResult.getPersResultOne();
+                request.getSession().setAttribute("user", user);
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(new JSONObject(persResult).toString());
             } else {
                 /**
                  * 查询得到无记录

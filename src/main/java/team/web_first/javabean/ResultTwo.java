@@ -12,6 +12,14 @@ public class ResultTwo {
         this.confidenceTwo = confidenceTwo;
     }
 
+    public ResultTwo(int result2ID, String mainChar, String firstChar, String secondChar, double confidenceTwo) {
+        this.result2ID = result2ID;
+        this.mainChar = mainChar;
+        this.firstChar = firstChar;
+        this.secondChar = secondChar;
+        this.confidenceTwo = confidenceTwo;
+    }
+
     public String getMainChar() {
         return mainChar;
     }

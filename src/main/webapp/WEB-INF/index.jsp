@@ -9,7 +9,8 @@
 <html>
 <head>
     <title>Home</title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="../images/title.png">
     <link rel="icon" href="../images/title.png">
@@ -25,6 +26,19 @@
     <script>
         $(window).on('load', function () {
             window.scrollTo(0, 1);
+            document.addEventListener('touchstart', function (event) {
+                if (event.touches.length > 1) {
+                    event.preventDefault();
+                }
+            })
+            var lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                var now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false)
         });
     </script>
 </head>
@@ -48,8 +62,10 @@
                 </div>
                 <div class="collapse navbar-collapse" id="example-navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active display"><a href="javascript:void(0)" onclick="display()">Display</a></li>
-                        <li class="quest"><a href="javascript:void(0)" onclick="quest()">Questionnaire</a></li>
+                        <li class="active display"><a href="javascript:void(0)"
+                                                      onclick="display();toggleBar();">Display</a></li>
+                        <li class="quest"><a href="javascript:void(0)" onclick="quest();toggleBar();">Questionnaire</a>
+                        </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                                aria-haspopup="true" aria-expanded="false"> <span
@@ -72,7 +88,8 @@
     <div class="display-content">
         <div class="introduction1" id="introduction1">
             <div class="colla-intro1">
-                <a class="toggle-intro btn btn-inverse btn-block" data-toggle="collapse" data-parent="#introduction1" href="#intro1-content">
+                <a class="toggle-intro btn btn-inverse btn-block" data-toggle="collapse" data-parent="#introduction1"
+                   href="#intro1-content">
                     显示说明
                 </a>
             </div>
@@ -87,28 +104,47 @@
                     </ul>
                 </h3>
             </div>
-            <h3><br/>多因素统计分析图<br/></h3>
+            <hr/>
+            <h1><br/>多因素统计分析图<br/></h1>
         </div>
         <div class="bar-content">
             <div class="bar" id="bar2"></div>
         </div>
+        <div class="introduction3">
+            <hr/>
+            <div class="intro3-header ">
+                <h1>在三因数系数图中</h1>
+            </div>
+            <div class="intro3-content ">
+                <h3><span>A</span>为道路风险感知能力</h3>
+                <h3><span>B</span>为危险驾驶行为</h3>
+                <h3><span>C</span>为驾驶能力自信</h3>
+                <h3><span>D</span>为人格特性</h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="bar-content">
+            <div class="bar" id="bar3"></div>
+        </div>
         <div class="introduction2" id="introduction2">
             <div class="colla-intro2">
-                <a class="toggle-intro btn btn-inverse btn-block" data-toggle="collapse" data-parent="#introduction2" href="#intro2-content">
+                <a class="toggle-intro btn btn-inverse btn-block" data-toggle="collapse" data-parent="#introduction2"
+                   href="#intro2-content">
                     显示说明
                 </a>
             </div>
             <div class="intro2-content" id="intro2-content">
                 <h1>个人分析</h1>
                 <h3>
+                    通过关联规则挖掘算法对大量问卷结果的处理，得出以下结果:
                     <ul>
-                        <li>通过关联规则挖掘算法对大量问卷结果的处理，得出以下结果:</li>
                         <li>危险驾驶行为得分体现出驾车出现危险的可能性，得分越高，越安全</li>
                         <li>道路风险感知能力得分体现出对路况的适应能力和处理突发事件的能力，得分越高，能力越强</li>
                         <li>驾驶能力自信得分体现出驾车的自信度，得分越高，开车时越自信</li>
                     </ul>
                 </h3>
             </div>
+            <hr/>
             <h3><br/>请查看为阁下<span>Root</span>准备的个人调查分析结果<br/></h3>
         </div>
         <div class="bar-content">
@@ -143,6 +179,7 @@
      * */
     var bar1Chart = echarts.init(document.getElementById('bar1'));
     var bar2Chart = echarts.init(document.getElementById('bar2'));
+    var bar3Chart = echarts.init(document.getElementById('bar3'));
     var pieChart = echarts.init(document.getElementById('pie'));
     //bar1
     $(function () {
@@ -150,7 +187,6 @@
         $.ajax(
             {
                 url: "/Urban_Road_Safety_Analysis/PersResultServlet",
-                timeout: 5000,
                 data:<%=new JSONObject(user)%>,
                 success: function (data) {
                     var persResult = JSON.parse(data);
@@ -382,7 +418,6 @@
         datas[3] = new Array();
         var results;
         bar2Chart.showLoading();
-        pieChart.showLoading();
         $.ajax({
             url: "/Urban_Road_Safety_Analysis/ResultServlet",
             success: function (data) {
@@ -615,8 +650,187 @@
             },
         });
     });
+    //bar3
+    $(function () {
+        bar3Chart.showLoading();
+        $.ajax({
+            url: "/Urban_Road_Safety_Analysis/Result2Servlet",
+            success: function (data) {
+                var results = JSON.parse(data);
+                bar3Chart.hideLoading();
+                bar3Chart.setOption(
+                    {
+                        backgroundColor: '#1A1A1A',
+                        title: {
+                            text: '三因素相关系数'.split("").join("\n"),
+                            textStyle: {
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
+                            },
+                            top: '20%',
+                            left: '2%'
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {type: 'shadow'}
+                        },
+                        grid: {
+                            top: '10%',
+                            left: '10%',
+                            right: '10%',
+                            bottom: '20%',
+                            containLabel: true
+                        },
+                        textStyle: {
+                            shadowColor: '#000000',
+                            shadowBlur: 5,
+                            shadowOffsetX: 3,
+                            shadowOffsetY: 3,
+                            color: '#e4e4e4',
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: [
+                                'BC\n↓\nA', 'BD\n↓\nA', 'CD\n↓\nA',
+                                'AC\n↓\nB', 'AD\n↓\nB', 'CD\n↓\nB',
+                                'AB\n↓\nC', 'AD\n↓\nC', 'BD\n↓\nC',
+                                'AB\n↓\nD', 'AC\n↓\nD', 'BC\n↓\nD'
+                            ],
+                            axisLabel: {
+                                interval: 0,
+                                formatter: function (value) {
+                                    var ret = "";//拼接加\n返回的类目项
+                                    var maxLength = 2;//每项显示文字个数
+                                    var valLength = value.length;//X轴类目项的文字个数
+                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                                    if (rowN > 1)//如果类目项的文字大于3,
+                                    {
+                                        for (var i = 0; i < rowN; i++) {
+                                            var temp = "";//每次截取的字符串
+                                            var start = i * maxLength;//开始截取的位置
+                                            var end = start + maxLength;//结束截取的位置
+                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                            temp = value.substring(start, end) + "\n";
+                                            ret += temp; //凭借最终的字符串
+                                        }
+                                        return ret;
+                                    }
+                                    else {
+                                        return value;
+                                    }
+                                }
+                            }
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                itemStyle: {
+                                    normal: {
+                                        color: '#a80001'
+                                    }
+                                },
+                                type: 'bar',
+                                data: results
+                            }
+                        ]
+                    }
+                )
+            },
+            error: function () {
+                bar3Chart.hideLoading();
+                bar3Chart.setOption(
+                    {
+                        backgroundColor: '#1A1A1A',
+                        title: {
+                            text: 'Load Fail'.split("").join("\n"),
+                            textStyle: {
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
+                            },
+                            top: '20%',
+                            left: '2%'
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {type: 'shadow'}
+                        },
+                        grid: {
+                            top: '10%',
+                            left: '10%',
+                            right: '10%',
+                            bottom: '20%',
+                            containLabel: true
+                        },
+                        textStyle: {
+                            shadowColor: '#000000',
+                            shadowBlur: 5,
+                            shadowOffsetX: 3,
+                            shadowOffsetY: 3,
+                            color: '#e4e4e4',
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: [
+                                'BC\n↓\nA', 'BD\n↓\nA', 'CD\n↓\nA',
+                                'AC\n↓\nB', 'AD\n↓\nB', 'CD\n↓\nB',
+                                'AB\n↓\nC', 'AD\n↓\nC', 'BD\n↓\nC',
+                                'AB\n↓\nD', 'AC\n↓\nD', 'BC\n↓\nD'
+                            ],
+                            axisLabel: {
+                                interval: 0,
+                                formatter: function (value) {
+                                    var ret = "";//拼接加\n返回的类目项
+                                    var maxLength = 2;//每项显示文字个数
+                                    var valLength = value.length;//X轴类目项的文字个数
+                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                                    if (rowN > 1)//如果类目项的文字大于3,
+                                    {
+                                        for (var i = 0; i < rowN; i++) {
+                                            var temp = "";//每次截取的字符串
+                                            var start = i * maxLength;//开始截取的位置
+                                            var end = start + maxLength;//结束截取的位置
+                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                            temp = value.substring(start, end) + "\n";
+                                            ret += temp; //凭借最终的字符串
+                                        }
+                                        return ret;
+                                    }
+                                    else {
+                                        return value;
+                                    }
+                                }
+                            }
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                itemStyle: {
+                                    normal: {
+                                        color: '#a80001'
+                                    }
+                                },
+                                type: 'bar',
+                                data: []
+                            }
+                        ]
+                    }
+                )
+            }
+        })
+    });
     //pie
     $(function () {
+        pieChart.showLoading();
         pieChart.hideLoading();
         pieChart.setOption({
             backgroundColor: '#1A1A1A',
@@ -682,6 +896,7 @@
     window.onresize = function () {
         bar1Chart.resize();
         bar2Chart.resize();
+        bar3Chart.resize();
         pieChart.resize();
     }
 
@@ -710,8 +925,6 @@
             $(".navbar-toggle").click();
         }
     };
-    $(".display").click(toggleBar());
-    $(".quest").click(toggleBar());
 
     /**
      * 问卷选项函数

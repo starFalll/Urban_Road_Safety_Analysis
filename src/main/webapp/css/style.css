@@ -38,6 +38,12 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
+hr {
+    color: #575757;
+    background-color: #575757;
+    border-top:2px solid #575757;
+}
+
 p {
     margin: 0;
 }
@@ -362,7 +368,19 @@ body.register, body.login {
 }
 
 .intro1-content {
-    margin: 5% 10% 2% 10%;
+    margin: 5% 10% 2% 8%;
+}
+
+.introduction1 h1 {
+    margin-left: 12%;
+    line-height: 35px;
+    color: #ffffff;
+    text-align: left;
+}
+
+.introduction1 h3 span {
+    font-size: larger;
+    margin: 0 2% 0 2%;
 }
 
 .intro1-content h1 {
@@ -372,31 +390,10 @@ body.register, body.login {
 }
 
 .intro1-content h3 {
+    margin-left: 8%;
     line-height: 35px;
     color: #ffffff;
-    text-align: center;
-}
-
-.introduction1 h3 {
-    line-height: 35px;
-    color: #ffffff;
-    text-align: center;
-}
-
-.intro2-content {
-    margin: 5% 5% 2% 5%;
-}
-
-.intro2-content h1 {
-    margin-bottom: 3%;
-    color: #ffffff;
-    text-align: center;
-}
-
-.intro2-content h3 {
-    line-height: 35px;
-    color: #ffffff;
-    text-align: center;
+    text-align: left;
 }
 
 .introduction2 h3 {
@@ -410,8 +407,46 @@ body.register, body.login {
     margin: 0 2% 0 2%;
 }
 
-.toggle-intro{
+.intro2-content {
+    margin: 5% 5% 2% 5%;
+}
+
+.intro2-content h1 {
+    margin-left: 15%;
+    margin-bottom: 3%;
+    color: #ffffff;
+    text-align: left;
+}
+
+.intro2-content h3 {
+    margin-left: 10%;
+    line-height: 35px;
+    color: #ffffff;
+    text-align: left;
+}
+
+.toggle-intro {
     display: none;
+}
+
+.intro3-header h1 {
+    margin-left: 12%;
+    line-height: 50px;
+    color: #ffffff;
+    text-align: left;
+}
+
+.intro3-content h3{
+    margin-left: 10%;
+    line-height: 35px;
+    color: #ffffff;
+    text-align: left;
+}
+
+.intro3-content h3 span {
+    font-size: larger;
+    margin: -10px 2%;
+    line-height: 30px;
 }
 
 @media screen and (max-width: 1440px) {
@@ -825,7 +860,7 @@ body.register, body.login {
         text-align: center;
     }
 
-    .toggle-intro{
+    .toggle-intro {
         text-align: center;
         color: white;
         font-size: 20px;
@@ -844,7 +879,7 @@ body.register, body.login {
         text-align: center;
     }
 
-   .intro2-content h3 {
+    .intro2-content h3 {
         font-size: 18px;
         line-height: 27px;
         color: #ffffff;
