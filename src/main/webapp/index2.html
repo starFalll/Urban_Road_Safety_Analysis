@@ -14,6 +14,16 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
     <script>
+        /**
+         * 媒体导航栏适应
+         * */
+        function toggleBar() {
+            if (screen.width < 768) {
+                $(".navbar-toggle").click();
+            }
+        };
+        $(".display").click(toggleBar());
+        $(".quest").click(toggleBar());
         $(window).on('load', function () {
             window.scrollTo(0, 1);
         });
@@ -39,8 +49,8 @@
                 </div>
                 <div class="collapse navbar-collapse" id="example-navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active display"><a href="javascript:void(0)" onclick="display()">Display</a></li>
-                        <li class="quest"><a href="javascript:void(0)" onclick="quest()">Questionnaire</a></li>
+                        <li class="active display"><a href="javascript:void(0)" onclick="display();toggleBar();">Display</a></li>
+                        <li class="quest"><a href="javascript:void(0)" onclick="quest();toggleBar();">Questionnaire</a></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                                aria-haspopup="true" aria-expanded="false"> <span
@@ -1007,17 +1017,6 @@
         $(".quest-panel").fadeIn();
         $(".quest").attr("class", "active quest");
     };
-
-    /**
-     * 媒体导航栏适应
-     * */
-    function toggleBar() {
-        if (screen.width < 768) {
-            $(".navbar-toggle").click();
-        }
-    };
-    $(".display").click(toggleBar());
-    $(".quest").click(toggleBar());
 
     /**
      * 问卷选项函数
