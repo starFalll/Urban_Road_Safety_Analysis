@@ -33,7 +33,7 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         request.getSession().removeAttribute("user");
-        response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
+        response.sendRedirect("/Urban_Road_Safety_Analysis/welcome.html");
     }
 
     /**

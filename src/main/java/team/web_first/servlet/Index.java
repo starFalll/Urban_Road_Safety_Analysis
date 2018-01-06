@@ -22,7 +22,7 @@ public class Index extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
             return;
         } else {
-            response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
+            response.sendRedirect("/Urban_Road_Safety_Analysis/welcome.html");
             return;
         }
     }

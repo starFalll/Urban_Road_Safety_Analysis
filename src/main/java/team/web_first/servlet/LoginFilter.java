@@ -1,3 +1,4 @@
+/*
 package team.web_first.servlet;
 
 import java.io.IOException;
@@ -14,32 +15,42 @@ import javax.servlet.http.HttpSession;
 
 import team.web_first.javabean.User;
 
+*/
 /**
  * Servlet Filter implementation class Loginfilter
  * 检查会话是否存在已登录用户
  * 不存在则跳转 login.html
- */
+ *//*
 
-/*@WebFilter(filterName = "LoginFilter", urlPatterns = "")*/
+
+*/
+/*@WebFilter(filterName = "LoginFilter", urlPatterns = "")*//*
+
 public class LoginFilter implements Filter {
 
-    /**
+    */
+/**
      * Default constructor.
-     */
+     *//*
+
     public LoginFilter() {
         // TODO Auto-generated constructor stub
     }
 
-    /**
+    */
+/**
      * @see Filter#destroy()
-     */
+     *//*
+
     public void destroy() {
         // TODO Auto-generated method stub
     }
 
-    /**
+    */
+/**
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-     */
+     *//*
+
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         // TODO Auto-generated method stub
@@ -55,11 +66,14 @@ public class LoginFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    /**
+    */
+/**
      * @see Filter#init(FilterConfig)
-     */
+     *//*
+
     public void init(FilterConfig fConfig) throws ServletException {
         // TODO Auto-generated method stub
     }
 
 }
+*/
