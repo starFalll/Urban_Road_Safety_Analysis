@@ -74,20 +74,20 @@ public class QuestServlet extends HttpServlet {
         factorA.setA6(!aValues[5]);
 
         FactorB factorB = new FactorB();
-        factorB.setB1(bValues[0]);
-        factorB.setB2(bValues[1]);
-        factorB.setB3(bValues[2]);
-        factorB.setB4(bValues[3]);
-        factorB.setB5(bValues[4]);
-        factorB.setB6(bValues[5]);
+        factorB.setB1(!bValues[0]);
+        factorB.setB2(!bValues[1]);
+        factorB.setB3(!bValues[2]);
+        factorB.setB4(!bValues[3]);
+        factorB.setB5(!bValues[4]);
+        factorB.setB6(!bValues[5]);
 
         FactorD factorD = new FactorD();
         factorD.setD1(dValues[0]);
         factorD.setD2(dValues[1]);
         factorD.setD3(dValues[2]);
-        factorD.setD4(dValues[3]);
-        factorD.setD5(dValues[4]);
-        factorD.setD6(dValues[5]);
+        factorD.setD4(!dValues[3]);
+        factorD.setD5(!dValues[4]);
+        factorD.setD6(!dValues[5]);
 
         FactorC factorC = new FactorC();
         factorC.setC1(cValues[0]);
