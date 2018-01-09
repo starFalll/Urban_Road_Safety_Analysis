@@ -104,6 +104,7 @@
     <div class="display-content">
         <div class="jumbotron">
             <h1>交通安全的重要性</h1>
+            <br/>
             <p>年末全国民用汽车保有量19440万辆（包括三轮汽车和低速货车881万辆），
                 比上年末增长12.8%，其中私人汽车保有量16559万辆，增长15.0%。民用轿车保有量10876万辆，
                 增长14.4%，其中私人轿车10152万辆，增长15.5%。</p>
@@ -121,6 +122,7 @@
     <div style="display: none" class="analysis-content">
         <div class="jumbotron">
             <h1>多因素统计分析图</h1>
+            <br/>
             <p>
                 testtesttesttesttesttestestestsestestestessteste
                 testtesttesttesttesttestestestsestestestessteste
@@ -162,7 +164,7 @@
                 <h3><span>B</span>为危险驾驶行为</h3>
                 <h3><span>C</span>为驾驶能力自信</h3>
                 <h3><span>D</span>为人格特性</h3>
-                <h3>例如，AB->C表示A,B对c的影响系数</h3>
+                <h3 style="margin-left: 12%">例如，AB->C表示A,B对C的影响系数</h3>
             </div>
         </div>
         <div class="bar-content">
