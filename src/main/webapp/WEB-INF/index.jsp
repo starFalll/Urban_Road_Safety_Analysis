@@ -1,7 +1,9 @@
 <%@ page import="team.web_first.javabean.User" %>
-<%@ page import="org.json.JSONObject" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
+    /**
+     * 获得session用户对象
+     * */
     User user;
     user = (User) request.getSession().getAttribute("user");
 %>
@@ -219,9 +221,7 @@
 </div>
 <script>
 
-    /**
-     * 绘制图表
-     * */
+    //绘制图表
     var bar1Chart = echarts.init(document.getElementById('bar1'));
     var bar2Chart = echarts.init(document.getElementById('bar2'));
     var bar3Chart = echarts.init(document.getElementById('bar3'));
@@ -469,10 +469,10 @@
             url: "/Urban_Road_Safety_Analysis/ResultServlet",
             success: function (data) {
                 results = JSON.parse(data);
-                for (i = 0; i < 4; i++) {
-                    for (j = 0; j < 4; j++) {
+                for (var i = 0; i < 4; i++) {
+                    for (var j = 0; j < 4; j++) {
                         if (i != j) {
-                            for (k = 0, len = results.length; k < len; k++) {
+                            for (var k = 0, len = results.length; k < len; k++) {
                                 if (results[k].name1 == maps[i] && results[k].name2 == maps[j]) {
                                     datas[j][i] = results[k].confidence;
                                     datas[i][j] = results[k].confidence;
@@ -1124,7 +1124,7 @@
         $.ajax(
             {
                 url: "/Urban_Road_Safety_Analysis/PersResult2Servlet",
-                timeout:5000,
+                timeout: 5000,
                 success: function (data) {
                     var pRes2s = JSON.parse(data);
                     var pRes2sScore = pRes2s.score;
@@ -1517,12 +1517,16 @@
                         }
                     )
                 },
-                error:function () {
+                error: function () {
                     location.reload(true);
                 }
             }
         )
     })
+
+    /**
+     * 分辨率改变 视图重绘
+     * */
 
     function resize() {
         bar1Chart.resize();
@@ -1534,9 +1538,6 @@
         pie2Chart.resize();
     }
 
-    /**
-     * 分辨率改变 视图重绘
-     * */
     window.onresize = function () {
         resize();
     }
