@@ -370,6 +370,8 @@ public class DescribeResult {
         for (int i = 0; i < 3; i++) {
             for (int k = 0; k < 4; k++) {
                 for (int m = 0; m < 4; m++) {
+                    if(influenceScores[i][k][m]!=0)
+                    System.out.println("您的"+FourTables[i] + " 受 " + FourTables[k] + " 和 " + FourTables[m] + " 的影响系数为"+influenceScores[i][k][m]);
                     if (influenceScores[i][k][m] > max) {
                         max = influenceScores[i][k][m];
                         re1 = k;
@@ -378,7 +380,9 @@ public class DescribeResult {
                 }
 
             }
-            System.out.println("您的"+FourTables[i] + " 受 " + FourTables[re1] + " 和 " + FourTables[re2] + " 影响最大");
+            System.out.println("\n您的"+FourTables[i] + " 受 " + FourTables[re1] + " 和 " + FourTables[re2] + " 影响最大为"+influenceScores[i][re1][re2]+"\n\n");
+            max=0;
+            re1=0;re2=0;
         }
     }
 
