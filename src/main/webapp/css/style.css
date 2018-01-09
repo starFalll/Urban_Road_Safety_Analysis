@@ -452,6 +452,14 @@ body.register, body.login {
     line-height: 30px;
 }
 
+.intro4-content li{
+    margin-left: 12%;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    color: #FFFFFF;
+}
+
 @media screen and (max-width: 1440px) {
     .login-buttom {
         padding: 0;
@@ -527,6 +535,12 @@ body.register, body.login {
         font-size: 1.7rem;
         letter-spacing: 0.2rem;
     }
+
+    .intro4-content li {
+        font-size: 1.7rem;
+        font-weight: 400;
+    }
+
 }
 
 @media screen and (max-width: 1024px) {
@@ -942,6 +956,11 @@ body.register, body.login {
         font-weight: 400;
     }
 
+    .intro4-content li {
+        margin-right: 12%;
+        font-size: 1.5rem;
+        font-weight: 400;
+    }
 }
 
 @media screen and (max-width: 320px) {
