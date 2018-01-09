@@ -1,31 +1,44 @@
+<%@ page import="team.web_first.javabean.User" %>
+<%@ page import="org.json.JSONObject" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%
+User user;
+user = (User) request.getSession().getAttribute("user");
+%>
+
 <html>
 <head>
     <title>Home</title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="shortcut icon" href="../images/title.png">
-    <link rel="icon" href="../images/title.png">
-    <link rel="Bookmark" href="../images/title.png">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-          rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="./images/title.png">
+    <link rel="icon" href="./images/title.png">
+    <link rel="Bookmark" href="./images/title.png">
+    <link
+            href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+            rel='stylesheet' type='text/css'>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="./css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
     <script>
-        /**
-         * 媒体导航栏适应
-         * */
-        function toggleBar() {
-            if (screen.width < 768) {
-                $(".navbar-toggle").click();
-            }
-        };
-        $(".display").click(toggleBar());
-        $(".quest").click(toggleBar());
         $(window).on('load', function () {
             window.scrollTo(0, 1);
+            document.addEventListener('touchstart', function (event) {
+                if (event.touches.length > 1) {
+                    event.preventDefault();
+                }
+            })
+            var lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                var now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false)
         });
     </script>
 </head>
@@ -49,9 +62,25 @@
                 </div>
                 <div class="collapse navbar-collapse" id="example-navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active display"><a href="javascript:void(0)"
-                                                      onclick="display();toggleBar();">Display</a></li>
-                        <li class="quest"><a href="javascript:void(0)" onclick="quest();toggleBar();">Questionnaire</a>
+                        <li class="active display">
+                            <a href="javascript:void(0)" onclick="display();toggleBar();">
+                                首页
+                            </a>
+                        </li>
+                        <li class="analysis">
+                            <a href="javascript:void(0)" onclick="analysis();toggleBar();">
+                                统计分析
+                            </a>
+                        </li>
+                        <li class="persAnalysis">
+                            <a href="javascript:void(0)" onclick="persAnalysis();toggleBar();">
+                                个人分析
+                            </a>
+                        </li>
+                        <li class="quest">
+                            <a href="javascript:void(0)" onclick="quest();toggleBar();">
+                                问卷调查
+                            </a>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button"
@@ -75,6 +104,7 @@
     <div class="display-content">
         <div class="jumbotron">
             <h1>交通安全的重要性</h1>
+            <br/>
             <p>年末全国民用汽车保有量19440万辆（包括三轮汽车和低速货车881万辆），
                 比上年末增长12.8%，其中私人汽车保有量16559万辆，增长15.0%。民用轿车保有量10876万辆，
                 增长14.4%，其中私人轿车10152万辆，增长15.5%。</p>
@@ -87,6 +117,18 @@
         </div>
         <div class="bar-content">
             <div class="bar" id="bar5"></div>
+        </div>
+    </div>
+    <div style="display: none" class="analysis-content">
+        <div class="jumbotron">
+            <h1>多因素统计分析图</h1>
+            <br/>
+            <p>
+                testtesttesttesttesttestestestsestestestessteste
+                testtesttesttesttesttestestestsestestestessteste
+                testtesttesttesttesttestestestsestestestessteste
+                testtesttesttesttesttestestestsestestestessteste
+            </p>
         </div>
         <div class="introduction1" id="introduction1">
             <div class="colla-intro1">
@@ -122,32 +164,25 @@
                 <h3><span>B</span>为危险驾驶行为</h3>
                 <h3><span>C</span>为驾驶能力自信</h3>
                 <h3><span>D</span>为人格特性</h3>
+                <h3 style="margin-left: 12%">例如，AB->C表示A,B对C的影响系数</h3>
             </div>
         </div>
-        <div class="clearfix"></div>
         <div class="bar-content">
             <div class="bar" id="bar3"></div>
         </div>
-        <div class="introduction2" id="introduction2">
-            <div class="colla-intro2">
-                <a class="toggle-intro btn btn-inverse btn-block" data-toggle="collapse" data-parent="#introduction2"
-                   href="#intro2-content">
-                    显示说明
-                </a>
-            </div>
-            <div class="intro2-content" id="intro2-content">
-                <h1>个人分析</h1>
-                <h3>
-                    通过关联规则挖掘算法对大量问卷结果的处理，得出以下结果:
-                    <ul>
-                        <li>危险驾驶行为得分体现出驾车出现危险的可能性，得分越高，越安全</li>
-                        <li>道路风险感知能力得分体现出对路况的适应能力和处理突发事件的能力，得分越高，能力越强</li>
-                        <li>驾驶能力自信得分体现出驾车的自信度，得分越高，开车时越自信</li>
-                    </ul>
-                </h3>
-            </div>
-            <hr/>
-            <h3><br/>请查看为阁下<span>Root</span>准备的个人调查分析结果<br/></h3>
+    </div>
+    <div style="display: none" class="persAnalysis-content">
+        <div class="jumbotron">
+            <h1>个人分析</h1>
+            <br/>
+            <p>
+                通过关联规则挖掘算法对大量问卷结果的处理，得出以下结果:
+            <ul>
+                <li>危险驾驶行为得分体现出驾车出现危险的可能性，得分越高，越安全</li>
+                <li>道路风险感知能力得分体现出对路况的适应能力和处理突发事件的能力，得分越高，能力越强</li>
+                <li>驾驶能力自信得分体现出驾车的自信度，得分越高，开车时越自信</li>
+            </ul>
+            </p>
         </div>
         <div class="bar-content">
             <div class="bar" id="bar1"></div>
@@ -188,322 +223,221 @@
         $.ajax(
             {
                 url: "/Urban_Road_Safety_Analysis/PersResultServlet",
-                timeout: 5000,
-                /*data: <%=new JSONObject(user)%>,*/
-                success: function (data) {
-                    var persResult = JSON.parse(data);
-                    bar1Chart.hideLoading();
-                    bar1Chart.setOption({
-                        title: {
-                            text: '个人测试结果'.split("").join("\n"),
-                            textStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)',
-                                fontSize: 17
-                            },
-                            top: '36%',
-                            left: '4%'
-                        },
-                        tooltip: {
-                            trigger: 'axis',
-                            axisPointer: {
-                                type: 'shadow'
-                            }
-                        },
-                        grid: {
-                            top: '10%',
-                            left: '9%',
-                            right: '10%',
-                            bottom: '1%',
-                            containLabel: true,
-                        },
-                        textStyle: {
-                            color: 'rgba(255, 255, 255, 0.3)'
-                        },
-                        xAxis: {
-                            type: 'category',
-                            data: ['道路风险感知能力', '危险驾驶行为', '驾驶自信度'],
-                            axisLabel: {
-                                interval: 0,
-                                formatter: function (value) {
-                                    var ret = "";//拼接加\n返回的类目项
-                                    var maxLength = 4;//每项显示文字个数
-                                    var valLength = value.length;//X轴类目项的文字个数
-                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
-                                    if (rowN > 1)//如果类目项的文字大于3,
-                                    {
-                                        for (var i = 0; i < rowN; i++) {
-                                            var temp = "";//每次截取的字符串
-                                            var start = i * maxLength;//开始截取的位置
-                                            var end = start + maxLength;//结束截取的位置
-                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
-                                            temp = value.substring(start, end) + "\n";
-                                            ret += temp; //凭借最终的字符串
-                                        }
-                                        return ret;
-                                    }
-                                    else {
-                                        return value;
-                                    }
-                                }
-                            }
-                        },
-                        yAxis: {
-                            type: 'value',
-                            min: 0,
-                            max: 100,
-                            minInterval: 30,
-                            maxInterval: 30,
-                            axisLabel: {
-                                formatter: function (value, index) {
-                                    switch (index) {
-                                        case 1:
-                                            return '待加强\n30';
-                                            break;
-                                        case 2:
-                                            return '良好\n60';
-                                            break;
-                                        case 3:
-                                            return '安全\n90';
-                                            break;
-                                        default:
-                                            return value;
-                                    }
-                                }
-                            },
-                            splitLine: {
-                                lineStyle: {
-                                    width: 1.5,
-                                    color: ['#b0afb3', '#950017', '#a7603d', '#37a82f', '#b0afb3']
-                                }
-                            }
-                        },
-                        series: [
-                            {
-                                name: '得分',
-                                type: 'bar',
-                                data: [persResult.abiOneScore, persResult.abiTwoScore, persResult.abiThrScore],
-                                label: {
-                                    normal:
-                                        {
-                                            show: true,
-                                            position: 'top',
-                                            distance: 20,
-                                            fontSize: 16,
-                                            lineHeight: 70,
-                                            formatter: function (params) {
-                                                var list = ['安全', '良好', '较危险', '很危险'];
-                                                if (params.dataIndex == 0) {
-                                                    return list[persResult.oneDegree] + '\n' + persResult.abiOneScore;
-                                                }
-                                                else if (params.dataIndex == 1) {
-                                                    return list[persResult.twoDegree] + '\n' + persResult.abiTwoScore;
-                                                }
-                                                else {
-                                                    return list[persResult.thrDegree] + '\n' + persResult.abiThrScore;
-                                                }
-                                            }
-                                        }
-                                },
-                                itemStyle: {
-                                    normal: {
-                                        color: function (params) {
-                                            var colorList = ['#51616d', '#003336', "#6D615B"];
-                                            return colorList[params.dataIndex];
-                                        }
-                                    }
-                                },
-                                barCategoryGap: '60%',
-                            },
-                            {
-                                name: '得分',
-                                type: 'line',
-                                itemStyle: {
-                                    normal: {
-                                        color: '#dcdcdc'
-                                    }
-                                },
-                                data: [persResult.abiOneScore, persResult.abiTwoScore, persResult.abiThrScore],
-                            }
-                        ]
-
-                    })
-                    ;
+                data:null,
+            success: function (data) {
+            var persResult = JSON.parse(data);
+            bar1Chart.hideLoading();
+            bar1Chart.setOption({
+                backgroundColor: '#1A1A1A',
+                title: {
+                    text: '个人测试结果'.split("").join("\n"),
+                    textStyle: {
+                        shadowColor: '#000000',
+                        shadowBlur: 5,
+                        shadowOffsetX: 3,
+                        shadowOffsetY: 3,
+                        color: '#e4e4e4',
+                        fontSize: 17
+                    },
+                    top: '36%',
+                    left: '4%'
                 },
-                error: function () {
-                    var data = {
-                        "twoDegree": 2,
-                        "abiThrScore": 54.606,
-                        "thrDegree": 2,
-                        "abiTwoScore": 54.225,
-                        "oneDegree": 2,
-                        "abiOneScore": 44.951
-                    };
-                    var persResult = data;
-                    bar1Chart.hideLoading();
-                    bar1Chart.setOption({
-                        backgroundColor: '#1A1A1A',
-                        title: {
-                            text: '个人测试结果'.split("").join("\n"),
-                            textStyle: {
-                                shadowColor: '#000000',
-                                shadowBlur: 5,
-                                shadowOffsetX: 3,
-                                shadowOffsetY: 3,
-                                color: '#e4e4e4',
-                                fontSize: 17
-                            },
-                            top: '36%',
-                            left: '4%'
-                        },
-                        tooltip:
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    top: '10%',
+                    left: '9%',
+                    right: '10%',
+                    bottom: '1%',
+                    containLabel: true,
+                },
+                textStyle: {
+                    shadowColor: '#000000',
+                    shadowBlur: 5,
+                    shadowOffsetX: 3,
+                    shadowOffsetY: 3,
+                    color: '#e4e4e4'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['道路风险感知能力', '危险驾驶行为', '驾驶自信度'],
+                    axisLabel: {
+                        interval: 0,
+                        formatter: function (value) {
+                            var ret = "";//拼接加\n返回的类目项
+                            var maxLength = 4;//每项显示文字个数
+                            var valLength = value.length;//X轴类目项的文字个数
+                            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                            if (rowN > 1)//如果类目项的文字大于3,
                             {
-                                trigger: 'axis',
-                                axisPointer:
-                                    {
-                                        type: 'shadow'
-                                    }
-                            },
-                        grid: {
-                            top: '10%',
-                            left:
-                                '9%',
-                            right:
-                                '10%',
-                            bottom:
-                                '1%',
-                            containLabel:
-                                true,
-                        },
-                        textStyle: {
-                            shadowColor: '#000000',
-                            shadowBlur: 5,
-                            shadowOffsetX: 3,
-                            shadowOffsetY: 3,
-                            color: '#e4e4e4',
-                        },
-                        xAxis: {
-                            type: 'category',
-                            data:
-                                ['道路风险感知能力', '危险驾驶行为', '驾驶自信度'],
-                            axisLabel:
-                                {
-                                    interval: 0,
-                                    formatter:
-
-                                        function (value) {
-                                            var ret = "";//拼接加\n返回的类目项
-                                            var maxLength = 4;//每项显示文字个数
-                                            var valLength = value.length;//X轴类目项的文字个数
-                                            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
-                                            if (rowN > 1)//如果类目项的文字大于3,
-                                            {
-                                                for (var i = 0; i < rowN; i++) {
-                                                    var temp = "";//每次截取的字符串
-                                                    var start = i * maxLength;//开始截取的位置
-                                                    var end = start + maxLength;//结束截取的位置
-                                                    //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
-                                                    temp = value.substring(start, end) + "\n";
-                                                    ret += temp; //凭借最终的字符串
-                                                }
-                                                return ret;
-                                            }
-                                            else {
-                                                return value;
-                                            }
-                                        }
+                                for (var i = 0; i < rowN; i++) {
+                                    var temp = "";//每次截取的字符串
+                                    var start = i * maxLength;//开始截取的位置
+                                    var end = start + maxLength;//结束截取的位置
+                                    //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                    temp = value.substring(start, end) + "\n";
+                                    ret += temp; //凭借最终的字符串
                                 }
-                        },
-                        yAxis: {
-                            type: 'value',
-                            min:
-                                0,
-                            max:
-                                100,
-                            minInterval:
-                                30,
-                            maxInterval:
-                                30,
-                            axisLabel:
+                                return ret;
+                            }
+                            else {
+                                return value;
+                            }
+                        }
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    min: 0,
+                    max: 100,
+                    minInterval: 30,
+                    maxInterval: 30,
+                    axisLabel: {
+                        formatter: function (value, index) {
+                            switch (index) {
+                                case 1:
+                                    return '待加强\n30';
+                                    break;
+                                case 2:
+                                    return '良好\n60';
+                                    break;
+                                case 3:
+                                    return '安全\n90';
+                                    break;
+                                default:
+                                    return value;
+                            }
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            width: 1.5,
+                            color: ['#b0afb3', '#950017', '#a7603d', '#37a82f', '#b0afb3']
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: '得分',
+                        type: 'bar',
+                        data: [persResult.abiOneScore, persResult.abiTwoScore, persResult.abiThrScore],
+                        label: {
+                            normal:
                                 {
-                                    formatter: function (value, index) {
-                                        switch (index) {
-                                            case 1:
-                                                return '待加强\n30';
-                                                break;
-                                            case 2:
-                                                return '良好\n60';
-                                                break;
-                                            case 3:
-                                                return '安全\n90';
-                                                break;
-                                            default:
-                                                return value;
+                                    show: true,
+                                    position: 'top',
+                                    distance: 20,
+                                    fontSize: 16,
+                                    lineHeight: 70,
+                                    formatter: function (params) {
+                                        var list = ['安全', '良好', '较危险', '很危险'];
+                                        if (params.dataIndex == 0) {
+                                            return list[persResult.oneDegree] + '\n' + persResult.abiOneScore;
+                                        }
+                                        else if (params.dataIndex == 1) {
+                                            return list[persResult.twoDegree] + '\n' + persResult.abiTwoScore;
+                                        }
+                                        else {
+                                            return list[persResult.thrDegree] + '\n' + persResult.abiThrScore;
                                         }
                                     }
                                 }
-                            ,
-                            splitLine: {
-                                lineStyle: {
-                                    width: 1.5,
-                                    color:
-                                        ['#b0afb3', '#950017', '#a7603d', '#37a82f', '#b0afb3']
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: function (params) {
+                                    var colorList = ['#51616d', '#003336', "#6D615B"];
+                                    return colorList[params.dataIndex];
                                 }
                             }
                         },
-                        series: [
-                            {
-                                name: '得分',
-                                type: 'bar',
-                                data: [persResult.abiOneScore, persResult.abiTwoScore, persResult.abiThrScore],
-                                label: {
-                                    normal:
-                                        {
-                                            show: true,
-                                            position: 'top',
-                                            distance: 20,
-                                            fontSize: 16,
-                                            lineHeight: 70,
-                                            formatter: function (params) {
-                                                var list = ['安全', '良好', '较危险', '很危险'];
-                                                if (params.dataIndex == 0) {
-                                                    return list[persResult.oneDegree] + '\n' + persResult.abiOneScore;
-                                                }
-                                                else if (params.dataIndex == 1) {
-                                                    return list[persResult.twoDegree] + '\n' + persResult.abiTwoScore;
-                                                }
-                                                else {
-                                                    return list[persResult.thrDegree] + '\n' + persResult.abiThrScore;
-                                                }
-                                            }
-                                        }
-                                },
-                                itemStyle: {
-                                    normal: {
-                                        color: function (params) {
-                                            var colorList = ['#51616d', '#003336', "#6D615B"];
-                                            return colorList[params.dataIndex];
-                                        }
-                                    }
-                                },
-                                barCategoryGap: '60%',
-                            },
-                            {
-                                name: '得分',
-                                type: 'line',
-                                itemStyle: {
-                                    normal: {
-                                        color: '#dcdcdc'
-                                    }
-                                },
-                                data: [persResult.abiOneScore, persResult.abiTwoScore, persResult.abiThrScore],
+                        barCategoryGap: '60%',
+                    },
+                    {
+                        name: '得分',
+                        type: 'line',
+                        itemStyle: {
+                            normal: {
+                                color: '#dcdcdc'
                             }
-                        ]
+                        },
+                        data: [persResult.abiOneScore, persResult.abiTwoScore, persResult.abiThrScore],
+                    }
+                ]
 
-                    })
-                    ;
+            })
+            ;
+        },
+        error: function (data) {
+            bar1Chart.hideLoading();
+            bar1Chart.setOption({
+                backgroundColor: '#1A1A1A',
+                title: {
+                    text: '请先完成个人测试',
+                    textStyle: {
+                        shadowColor: '#000000',
+                        shadowBlur: 5,
+                        shadowOffsetX: 3,
+                        shadowOffsetY: 3,
+                        color: '#e4e4e4',
+                        fontSize: 17,
+                    },
+                    top: '2%',
+                    left: '43%'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                textStyle: {
+                    shadowColor: '#000000',
+                    shadowBlur: 5,
+                    shadowOffsetX: 3,
+                    shadowOffsetY: 3,
+                    color: '#e4e4e4',
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['道路风险感知能力', '危险驾驶行为'],
+                    axisLabel: {
+                        interval: 0,
+                        formatter: function (value) {
+                            var ret = "";//拼接加\n返回的类目项
+                            var maxLength = 4;//每项显示文字个数
+                            var valLength = value.length;//X轴类目项的文字个数
+                            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                            if (rowN > 1)//如果类目项的文字大于3,
+                            {
+                                for (var i = 0; i < rowN; i++) {
+                                    var temp = "";//每次截取的字符串
+                                    var start = i * maxLength;//开始截取的位置
+                                    var end = start + maxLength;//结束截取的位置
+                                    //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                    temp = value.substring(start, end) + "\n";
+                                    ret += temp; //凭借最终的字符串
+                                }
+                                return ret;
+                            }
+                            else {
+                                return value;
+                            }
+                        }
+                    }
+                },
+                yAxis: {
+                    type: 'value'
                 }
-            }
-        )
+            });
+            $("#bar1").attr("onclick", "quest()");
+        }
+    }
+    )
     });
     //ba2
     $(function () {
@@ -520,7 +454,6 @@
         datas[3] = new Array();
         var results;
         bar2Chart.showLoading();
-        pieChart.showLoading();
         $.ajax({
             url: "/Urban_Road_Safety_Analysis/ResultServlet",
             success: function (data) {
@@ -547,17 +480,26 @@
                 bar2Chart.hideLoading();
                 bar2Chart.setOption(
                     {
+                        backgroundColor: '#1A1A1A',
                         title: {
                             text: '两因素相关系数'.split("").join("\n"),
                             textStyle: {
-                                color: '#656565',
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
 
                             },
                             top: '35%',
                             left: '2%'
                         },
                         textStyle: {
-                            color: 'rgba(255, 255, 255, 0.3)'
+                            shadowColor: '#000000',
+                            shadowBlur: 5,
+                            shadowOffsetX: 3,
+                            shadowOffsetY: 3,
+                            color: '#e4e4e4',
                         },
                         tooltip: {
                             trigger: 'axis',
@@ -566,7 +508,11 @@
                         legend: {
                             top: '3%',
                             textStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)'
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
                             },
                             data: ['人格特性', '驾驶能力自信', '危险驾驶行为', '道路风险感知能力']
                         },
@@ -667,73 +613,23 @@
                     }
                 );
             },
-            error: function () {
-                var results = [
-                    {
-                        "confidence": 0.105,
-                        "name2": "道路风险感知能力",
-                        "name1": "危险驾驶行为"
-                    },
-                    {
-                        "confidence": 0.345,
-                        "name2": "道路风险感知能力",
-                        "name1": "驾驶能力自信"
-                    },
-                    {
-                        "confidence": 0.309,
-                        "name2": "道路风险感知能力",
-                        "name1": "人格特性"
-                    },
-                    {
-                        "confidence": 0.392,
-                        "name2": "危险驾驶行为",
-                        "name1": "驾驶能力自信"
-                    },
-                    {
-                        "confidence": 0.313,
-                        "name2": "危险驾驶行为",
-                        "name1": "人格特性"
-                    },
-                    {
-                        "confidence": 0.497,
-                        "name2": "驾驶能力自信",
-                        "name1": "人格特性"
-                    }
-                ];
-                for (i = 0; i < 4; i++) {
-                    for (j = 0; j < 4; j++) {
-                        if (i != j) {
-                            for (k = 0, len = results.length; k < len; k++) {
-                                if (results[k].name1 == maps[i] && results[k].name2 == maps[j]) {
-                                    datas[j][i] = results[k].confidence;
-                                    datas[i][j] = results[k].confidence;
-                                }
-                                if (results[k].name1 == maps[j] && results[k].name2 == maps[i]) {
-                                    datas[j][i] = results[k].confidence;
-                                    datas[i][j] = results[k].confidence;
-                                }
-                            }
-                        }
-                        else {
-                            datas[i][j] = '';
-                        }
-                    }
-                }
+            error: function (data) {
                 bar2Chart.hideLoading();
                 bar2Chart.setOption(
                     {
                         backgroundColor: '#1A1A1A',
                         title: {
-                            text: '两因素相关系数'.split("").join("\n"),
+                            text: 'Load Fail',
                             textStyle: {
                                 shadowColor: '#000000',
                                 shadowBlur: 5,
                                 shadowOffsetX: 3,
                                 shadowOffsetY: 3,
                                 color: '#e4e4e4',
+
                             },
-                            top: '35%',
-                            left: '2%'
+                            top: '2%',
+                            left: '43%',
                         },
                         textStyle: {
                             shadowColor: '#000000',
@@ -745,17 +641,6 @@
                         tooltip: {
                             trigger: 'axis',
                             axisPointer: {type: 'shadow'}
-                        },
-                        legend: {
-                            top: '3%',
-                            textStyle: {
-                                shadowColor: '#000000',
-                                shadowBlur: 5,
-                                shadowOffsetX: 3,
-                                shadowOffsetY: 3,
-                                color: '#e4e4e4',
-                            },
-                            data: ['人格特性', '驾驶能力自信', '危险驾驶行为', '道路风险感知能力']
                         },
                         grid: {
                             top: '20%',
@@ -795,162 +680,189 @@
                         yAxis: {
                             type: 'value'
                         },
-                        series: [
-                            {
-                                name: '危险驾驶行为',
-                                type: 'bar',
-                                stack: '系数',
-                                label: {
-                                    normal: {
-                                        show: true,
-                                    }
-                                },
-                                data: datas[0],
-                                itemStyle: {
-                                    normal: {color: '#003336'}
-                                }
-                            }, {
-                                name: '人格特性',
-                                type: 'bar',
-                                stack: '系数',
-                                label: {
-                                    normal: {
-                                        show: true,
-                                    }
-                                },
-                                data: datas[2],
-                                itemStyle: {
-                                    normal: {color: '#e79169'}
-                                }
-                            }, {
-                                name: '驾驶能力自信',
-                                type: 'bar',
-                                stack: '系数',
-                                label: {
-                                    normal: {
-                                        show: true,
-                                    }
-                                },
-                                data: datas[1],
-                                itemStyle: {
-                                    normal: {color: '#51616d'}
-                                }
-                            }, {
-                                name: '道路风险感知能力',
-                                type: 'bar',
-                                stack: '系数',
-                                label: {
-                                    normal: {
-                                        show: true,
-                                    }
-                                },
-                                barCategoryGap: '40%',
-                                data: datas[3],
-                                itemStyle: {
-                                    normal: {color: '#77a8ad'}
-                                }
-                            }
-                        ]
+
                     }
                 );
-            }
+            },
         });
     });
     //bar3
     $(function () {
-        bar3Chart.setOption(
-            {
-                backgroundColor: '#1A1A1A',
-                title: {
-                    text: '三因素相关系数'.split("").join("\n"),
-                    textStyle: {
-                        shadowColor: '#000000',
-                        shadowBlur: 5,
-                        shadowOffsetX: 3,
-                        shadowOffsetY: 3,
-                        color: '#e4e4e4',
-                    },
-                    top: '20%',
-                    left: '2%'
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {type: 'shadow'}
-                },
-                grid: {
-                    top: '10%',
-                    left: '10%',
-                    right: '10%',
-                    bottom: '20%',
-                    containLabel: true
-                },
-                textStyle: {
-                    shadowColor: '#000000',
-                    shadowBlur: 5,
-                    shadowOffsetX: 3,
-                    shadowOffsetY: 3,
-                    color: '#e4e4e4',
-                },
-                xAxis: {
-                    type: 'category',
-                    data: [
-                        'BC\n↓\nA', 'BD\n↓\nA', 'CD\n↓\nA',
-                        'AC\n↓\nB', 'AD\n↓\nB', 'CD\n↓\nB',
-                        'AB\n↓\nC', 'AD\n↓\nC', 'BD\n↓\nC',
-                        'AB\n↓\nD', 'AC\n↓\nD', 'BC\n↓\nD'
-                    ],
-                    axisLabel: {
-                        interval: 0,
-                        formatter: function (value) {
-                            var ret = "";//拼接加\n返回的类目项
-                            var maxLength = 2;//每项显示文字个数
-                            var valLength = value.length;//X轴类目项的文字个数
-                            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
-                            if (rowN > 1)//如果类目项的文字大于3,
-                            {
-                                for (var i = 0; i < rowN; i++) {
-                                    var temp = "";//每次截取的字符串
-                                    var start = i * maxLength;//开始截取的位置
-                                    var end = start + maxLength;//结束截取的位置
-                                    //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
-                                    temp = value.substring(start, end) + "\n";
-                                    ret += temp; //凭借最终的字符串
-                                }
-                                return ret;
-                            }
-                            else {
-                                return value;
-                            }
-                        }
-                    }
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [
+        bar3Chart.showLoading();
+        $.ajax({
+            url: "/Urban_Road_Safety_Analysis/Result2Servlet",
+            success: function (data) {
+                var results = JSON.parse(data);
+                bar3Chart.hideLoading();
+                bar3Chart.setOption(
                     {
-                        itemStyle: {
-                            normal: {
-                                color: '#a80001'
+                        backgroundColor: '#1A1A1A',
+                        title: {
+                            text: '三因素相关系数'.split("").join("\n"),
+                            textStyle: {
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
+                            },
+                            top: '20%',
+                            left: '2%'
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {type: 'shadow'}
+                        },
+                        grid: {
+                            top: '10%',
+                            left: '10%',
+                            right: '10%',
+                            bottom: '20%',
+                            containLabel: true
+                        },
+                        textStyle: {
+                            shadowColor: '#000000',
+                            shadowBlur: 5,
+                            shadowOffsetX: 3,
+                            shadowOffsetY: 3,
+                            color: '#e4e4e4',
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: [
+                                'BC\n↓\nA', 'BD\n↓\nA', 'CD\n↓\nA',
+                                'AC\n↓\nB', 'AD\n↓\nB', 'CD\n↓\nB',
+                                'AB\n↓\nC', 'AD\n↓\nC', 'BD\n↓\nC',
+                                'AB\n↓\nD', 'AC\n↓\nD', 'BC\n↓\nD'
+                            ],
+                            axisLabel: {
+                                interval: 0,
+                                formatter: function (value) {
+                                    var ret = "";//拼接加\n返回的类目项
+                                    var maxLength = 2;//每项显示文字个数
+                                    var valLength = value.length;//X轴类目项的文字个数
+                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                                    if (rowN > 1)//如果类目项的文字大于3,
+                                    {
+                                        for (var i = 0; i < rowN; i++) {
+                                            var temp = "";//每次截取的字符串
+                                            var start = i * maxLength;//开始截取的位置
+                                            var end = start + maxLength;//结束截取的位置
+                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                            temp = value.substring(start, end) + "\n";
+                                            ret += temp; //凭借最终的字符串
+                                        }
+                                        return ret;
+                                    }
+                                    else {
+                                        return value;
+                                    }
+                                }
                             }
                         },
-                        type: 'bar',
-                        data: [0.21,
-                            0.218,
-                            0.241,
-                            0.165,
-                            0.137,
-                            0.327,
-                            0.129,
-                            0.156,
-                            0.254,
-                            0.12,
-                            0.182,
-                            0.242]
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                itemStyle: {
+                                    normal: {
+                                        color: '#a80001'
+                                    }
+                                },
+                                type: 'bar',
+                                data: results
+                            }
+                        ]
                     }
-                ]
+                )
+            },
+            error: function () {
+                bar3Chart.hideLoading();
+                bar3Chart.setOption(
+                    {
+                        backgroundColor: '#1A1A1A',
+                        title: {
+                            text: 'Load Fail'.split("").join("\n"),
+                            textStyle: {
+                                shadowColor: '#000000',
+                                shadowBlur: 5,
+                                shadowOffsetX: 3,
+                                shadowOffsetY: 3,
+                                color: '#e4e4e4',
+                            },
+                            top: '20%',
+                            left: '2%'
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {type: 'shadow'}
+                        },
+                        grid: {
+                            top: '10%',
+                            left: '10%',
+                            right: '10%',
+                            bottom: '20%',
+                            containLabel: true
+                        },
+                        textStyle: {
+                            shadowColor: '#000000',
+                            shadowBlur: 5,
+                            shadowOffsetX: 3,
+                            shadowOffsetY: 3,
+                            color: '#e4e4e4',
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: [
+                                'BC\n↓\nA', 'BD\n↓\nA', 'CD\n↓\nA',
+                                'AC\n↓\nB', 'AD\n↓\nB', 'CD\n↓\nB',
+                                'AB\n↓\nC', 'AD\n↓\nC', 'BD\n↓\nC',
+                                'AB\n↓\nD', 'AC\n↓\nD', 'BC\n↓\nD'
+                            ],
+                            axisLabel: {
+                                interval: 0,
+                                formatter: function (value) {
+                                    var ret = "";//拼接加\n返回的类目项
+                                    var maxLength = 2;//每项显示文字个数
+                                    var valLength = value.length;//X轴类目项的文字个数
+                                    var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                                    if (rowN > 1)//如果类目项的文字大于3,
+                                    {
+                                        for (var i = 0; i < rowN; i++) {
+                                            var temp = "";//每次截取的字符串
+                                            var start = i * maxLength;//开始截取的位置
+                                            var end = start + maxLength;//结束截取的位置
+                                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                                            temp = value.substring(start, end) + "\n";
+                                            ret += temp; //凭借最终的字符串
+                                        }
+                                        return ret;
+                                    }
+                                    else {
+                                        return value;
+                                    }
+                                }
+                            }
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                itemStyle: {
+                                    normal: {
+                                        color: '#a80001'
+                                    }
+                                },
+                                type: 'bar',
+                                data: []
+                            }
+                        ]
+                    }
+                )
             }
-        )
+        })
     });
     //bar4
     $(function () {
@@ -958,7 +870,8 @@
             {
                 backgroundColor: '#1A1A1A',
                 title: {
-                    text: '2016年 汽车保有量超过200万的城市',
+                    text: '汽车保有量城市',
+                    subtext: '2016年',
                     left: 'center',
                     top: 10,
                     textStyle: {
@@ -1130,7 +1043,7 @@
         pieChart.setOption({
             backgroundColor: '#1A1A1A',
             title: {
-                text: '平均全国各类事故死亡人数比例图',
+                text: '平均各类事故死亡人数',
                 left: 'center',
                 top: 10,
                 textStyle: {
@@ -1195,10 +1108,7 @@
         });
     });
 
-    /**
-     * 分辨率改变 视图重绘
-     * */
-    window.onresize = function () {
+    function resize() {
         bar1Chart.resize();
         bar2Chart.resize();
         bar3Chart.resize();
@@ -1208,20 +1118,70 @@
     }
 
     /**
+     * 分辨率改变 视图重绘
+     * */
+    window.onresize = function () {
+        resize();
+    }
+
+    /**
      * 容器切换
      * */
     function display() {
         $(".quest-panel").fadeOut();
+        $(".analysis-content").fadeOut();
+        $(".persAnalysis-content").fadeOut();
         $(".quest").attr("class", "quest");
+        $(".analysis").attr("class", "analysis");
+        $(".persAnalysis").attr("class", "persAnalysis");
         $(".display-content").fadeIn();
         $(".display").attr("class", "active display");
+        resize();
     };
 
     function quest() {
         $(".display-content").fadeOut();
+        $(".analysis-content").fadeOut();
+        $(".persAnalysis-content").fadeOut();
         $(".display").attr("class", "display");
+        $(".analysis").attr("class", "analysis");
+        $(".persAnalysis").attr("class", "persAnalysis");
         $(".quest-panel").fadeIn();
         $(".quest").attr("class", "active quest");
+        resize();
+    };
+
+    function analysis() {
+        $(".display-content").fadeOut();
+        $(".quest-panel").fadeOut();
+        $(".persAnalysis-content").fadeOut();
+        $(".display").attr("class", "display");
+        $(".quest").attr("class", "quest");
+        $(".persAnalysis").attr("class", "persAnalysis");
+        $(".analysis-content").fadeIn();
+        $(".analysis").attr("class", "active analysis");
+        resize();
+    }
+
+    function persAnalysis() {
+        $(".display-content").fadeOut();
+        $(".quest-panel").fadeOut();
+        $(".analysis-content").fadeOut();
+        $(".display").attr("class", "display");
+        $(".quest").attr("class", "quest");
+        $(".analysis").attr("class", "analysis");
+        $(".persAnalysis-content").fadeIn();
+        $(".persAnalysis").attr("class", "active persAnalysis");
+        resize();
+    }
+
+    /**
+     * 媒体导航栏适应
+     * */
+    function toggleBar() {
+        if (screen.width < 768) {
+            $(".navbar-toggle").click();
+        }
     };
 
     /**
@@ -1239,11 +1199,12 @@
         })
     });
     $("#quest-is").click(function quest_is() {
-        if (questions[questNum] != null) {
-            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        if (questions[questNum + 1] != null) {
             options[questNum] = true;
             questNum++;
+            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
         } else {
+            options[questNum] = true;
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options, "userId": '<%=user.getUserID()%>'};
             $.ajax({
@@ -1251,7 +1212,7 @@
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                    location.replace("index?id=<%=user.getUserID()%>>");
+                    location.replace("index?id=<%=user.getUserID()%>");
                 },
                 error: function () {
                     alert("上传失败！");
@@ -1260,11 +1221,12 @@
         }
     });
     $("#quest-not").click(function quest_not() {
-        if (questions[questNum] != null) {
-            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
+        if (questions[questNum + 1] != null) {
             options[questNum] = false;
             questNum++;
+            $(".quest-text").text((questNum + 1) + ". " + questions[questNum]);
         } else {
+            options[questNum] = false;
             $(".question").empty().html("<h3 class='text-center'>已完成，谢谢</h3>");
             result = {"options": options, "userId": '<%=user.getUserID()%>'};
             $.ajax({
@@ -1272,7 +1234,7 @@
                 data: result,
                 success: function () {
                     alert("上传成功！");
-                    location.replace("index?id=<%=user.getUserID()%>>");
+                    location.replace("index?id=<%=user.getUserID()%>");
                 },
                 error: function () {
                     alert("上传失败！");

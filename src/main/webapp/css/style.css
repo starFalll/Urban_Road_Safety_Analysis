@@ -154,6 +154,23 @@ input[type=checkbox], input[type=radio] {
     border-radius: 6px;
 }
 
+.jumbotron h1 {
+    font-weight: 500;
+    letter-spacing: 0.2rem;
+}
+
+.jumbotron p {
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+}
+
+.jumbotron li {
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+}
+
 .container-fluid {
     padding: 0 25% 0 25%;
 }
@@ -411,35 +428,6 @@ body.register, body.login {
     text-align: left;
 }
 
-.introduction2 h3 {
-    line-height: 35px;
-    color: #ffffff;
-    text-align: center;
-}
-
-.introduction2 h3 span {
-    font-size: larger;
-    margin: 0 2% 0 2%;
-}
-
-.intro2-content {
-    margin: 5% 5% 2% 5%;
-}
-
-.intro2-content h1 {
-    margin-left: 12%;
-    margin-bottom: 3%;
-    color: #ffffff;
-    text-align: left;
-}
-
-.intro2-content h3 {
-    margin-left: 8%;
-    line-height: 35px;
-    color: #ffffff;
-    text-align: left;
-}
-
 .toggle-intro {
     display: none;
 }
@@ -487,8 +475,20 @@ body.register, body.login {
         margin: 4% -2% 1% -2%;
     }
 
-    .intro2-content {
-        margin: 5% 0 1% 0;
+    .jumbotron h1 {
+        font-size: 5rem;
+    }
+
+    .intro1-content {
+        margin-left: 0;
+    }
+
+    .intro1-content h1 {
+        font-size: 3rem;
+    }
+
+    .introduction3 {
+        margin-left: 2%;
     }
 }
 
@@ -501,21 +501,32 @@ body.register, body.login {
         margin-right: 2%;
     }
 
-    button#focus-single, button#focus-multiple, button#focus-coords, button#focus-init {
-        font-size: 0.875em;
+    .jumbotron h1 {
+        font-size: 4rem;
     }
 
-    .intro1-content {
-        margin: 4% -5% 1% -5%;
+    .jumbotron p {
+        font-size: 1.7rem;
+        font-weight: 400;
     }
 
-    .intro2-content {
-        margin: 5% -6% 1% -6%;
+    .jumbotron li {
+        font-size: 1.7rem;
+        font-weight: 400;
     }
-}
 
-@media screen and (max-width: 1280px) {
+    .intro1-content h1 {
+        font-size: 3rem;
+    }
 
+    .intro1-content h3 {
+        font-size: 1.7rem;
+    }
+
+    .introduction3 h3 {
+        font-size: 1.7rem;
+        letter-spacing: 0.2rem;
+    }
 }
 
 @media screen and (max-width: 1024px) {
@@ -857,24 +868,6 @@ body.register, body.login {
         padding: 3% 10%;
     }
 
-    .intro1-content {
-        margin: 10% 2% 1% 2%;
-    }
-
-    .intro1-content h1 {
-        font-size: 20px;
-        margin-bottom: 3%;
-        color: #ffffff;
-        text-align: center;
-    }
-
-    .intro1-content h3 {
-        font-size: 18px;
-        line-height: 27px;
-        color: #ffffff;
-        text-align: center;
-    }
-
     .toggle-intro {
         text-align: center;
         color: white;
@@ -882,44 +875,36 @@ body.register, body.login {
         display: block;
     }
 
-    .intro2-content {
-        display: none;
-        margin: 5% 5% 2% 5%;
+    .jumbotron {
+        margin-left: 10%;
     }
 
-    .intro2-content h1 {
-        font-size: 20px;
-        margin-bottom: 3%;
-        color: #ffffff;
-        text-align: center;
+    .jumbotron h1 {
+        font-size: 2.5rem;
     }
 
-    .intro2-content h3 {
-        font-size: 18px;
-        line-height: 27px;
-        color: #ffffff;
-        text-align: center;
+    .jumbotron p {
+        font-size: 1.5rem;
+        font-weight: 400;
     }
 
-    .introduction2 h3 {
-        margin: 0 20%;
-        line-height: 35px;
-        color: #ffffff;
-        text-align: center;
-    }
-
-    .introduction2 h3 span {
-        font-size: larger;
-        margin: 0 2% 0 2%;
+    .jumbotron li {
+        font-size: 1.5rem;
+        font-weight: 400;
     }
 
     .intro1-content {
         display: none;
-        margin: 5% 5% 2% 5%;
+        margin: 5% -1% 2% -1%;
+    }
+
+    .introduction1 h1 {
+        font-size: 2.5rem;
     }
 
     .intro1-content h1 {
-        font-size: 20px;
+        font-size: 2rem;
+        margin-left: 0;
         margin-bottom: 3%;
         color: #ffffff;
         text-align: center;
@@ -930,6 +915,7 @@ body.register, body.login {
         line-height: 27px;
         color: #ffffff;
         text-align: center;
+        font-weight: 400;
     }
 
     .introduction1 h3 {
@@ -937,11 +923,23 @@ body.register, body.login {
         line-height: 35px;
         color: #ffffff;
         text-align: center;
+        font-weight: 400;
     }
 
-    .introduction1 h3 span {
-        font-size: larger;
-        margin: 0 2% 0 2%;
+    .intro3-header h1 {
+        font-size: 2.7rem;
+        font-weight: 500;
+    }
+
+    .intro3-content h3 {
+        font-size: 1.7rem;
+        line-height: 25px;
+        font-weight: 400;
+    }
+
+    .intro3-content h3 span {
+        line-height: 10px;
+        font-weight: 400;
     }
 
 }
