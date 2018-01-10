@@ -1518,7 +1518,26 @@
                     )
                 },
                 error: function () {
-                    location.reload(true);
+                    pie2Chart.hideLoading();
+                    pie2Chart.setOption(
+                        {
+                            backgroundColor: '#1A1A1A',
+                            title: {
+                                text: '请先完成个人测试',
+                                textStyle: {
+                                    shadowColor: '#000000',
+                                    shadowBlur: 5,
+                                    shadowOffsetX: 3,
+                                    shadowOffsetY: 3,
+                                    color: '#e4e4e4',
+                                    fontSize: 17,
+                                },
+                                top: '2%',
+                                left: '43%'
+                            }
+                        }
+                    )
+                    $("#pie2").attr("onclick", "quest()");
                 }
             }
         )
