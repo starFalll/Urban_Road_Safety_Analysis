@@ -1,6 +1,8 @@
 package team.web_first.algorithms;
 
 import org.apache.ibatis.session.SqlSession;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import team.web_first.javabean.NewData;
 import team.web_first.javabean.PersResult;
 import team.web_first.javabean.Result;
@@ -156,12 +158,12 @@ public class DescribeResult {
         String[] FourTables = {"道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性"};
 
         double dangerousDrivingScore = 0, riskPerceptionScore = 0, confidenceScore = 0;
-        
+
 
         //dangerousDrivingScore += calresults[1];
         //riskPerceptionScore += calresults[0];
         //confidenceScore += calresults[2];
-        double[] confidencesall={0,0,0,0};//对应"道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性"的置信度总和,例子如下：
+        double[] confidencesall = {0, 0, 0, 0};//对应"道路风险感知能力", "危险驾驶行为", "驾驶能力自信", "人格特性"的置信度总和,例子如下：
         /**
          * 例:数据库中数据如下
          * +-------------+--------------------+--------------------------+------------+
@@ -173,18 +175,17 @@ public class DescribeResult {
          | 00000000004 | 驾驶能力自信       | 危险驾驶行为             |      0.392 |
          | 00000000005 | 人格特性           | 危险驾驶行为             |      0.313 |
          | 00000000006 | 人格特性           | 驾驶能力自信             |      0.497 |
-            则道路风险感知能力的置信度总和为:0.105+0.345+0.309
+         则道路风险感知能力的置信度总和为:0.105+0.345+0.309
          */
 
-        for(int i=0;i<dataresultrecord.size();i++){
-            for(int k=0;k<4;k++){
-                if(dataresultrecord.get(i).get(0).equals(FourTables[k])){
+        for (int i = 0; i < dataresultrecord.size(); i++) {
+            for (int k = 0; k < 4; k++) {
+                if (dataresultrecord.get(i).get(0).equals(FourTables[k])) {
                     Double confidence = new Double(dataresultrecord.get(i).get(2));
-                    confidencesall[k]+=confidence;
-                }
-                else if(dataresultrecord.get(i).get(1).equals(FourTables[k])){
+                    confidencesall[k] += confidence;
+                } else if (dataresultrecord.get(i).get(1).equals(FourTables[k])) {
                     Double confidence = new Double(dataresultrecord.get(i).get(2));
-                    confidencesall[k]+=confidence;
+                    confidencesall[k] += confidence;
                 }
             }
         }
@@ -194,7 +195,7 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(1).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        dangerousDrivingScore += calresults[k] * confidence/confidencesall[1];
+                        dangerousDrivingScore += calresults[k] * confidence / confidencesall[1];
 
                     }
                 }
@@ -203,7 +204,7 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(0).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        dangerousDrivingScore += calresults[k] * confidence/confidencesall[1];
+                        dangerousDrivingScore += calresults[k] * confidence / confidencesall[1];
 
                     }
                 }
@@ -212,7 +213,7 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(1).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        riskPerceptionScore += calresults[k] * confidence/confidencesall[0];
+                        riskPerceptionScore += calresults[k] * confidence / confidencesall[0];
 
                     }
                 }
@@ -221,7 +222,7 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(0).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        riskPerceptionScore += calresults[k] * confidence/confidencesall[0];
+                        riskPerceptionScore += calresults[k] * confidence / confidencesall[0];
 
                     }
                 }
@@ -230,7 +231,7 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(1).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        confidenceScore += calresults[k] * confidence/confidencesall[2];
+                        confidenceScore += calresults[k] * confidence / confidencesall[2];
 
                     }
                 }
@@ -239,7 +240,7 @@ public class DescribeResult {
                 for (int k = 0; k < 4; k++) {
                     if (dataresultrecord.get(i).get(0).equals(FourTables[k])) {
                         Double confidence = new Double(dataresultrecord.get(i).get(2));
-                        confidenceScore += calresults[k] * confidence/confidencesall[2];
+                        confidenceScore += calresults[k] * confidence / confidencesall[2];
 
                     }
                 }
@@ -250,8 +251,8 @@ public class DescribeResult {
          * UI展示接口
          */
         double riskPerceptiongrade = riskPerceptionScore * 100;
-        double dangerousDrivinggrade = dangerousDrivingScore  * 100;
-        double confidencegrade = confidenceScore  * 100;
+        double dangerousDrivinggrade = dangerousDrivingScore * 100;
+        double confidencegrade = confidenceScore * 100;
         System.out.println("您的道路风险感知能力得分为:" + riskPerceptiongrade + "\n您的危险驾驶行为得分为:" + dangerousDrivinggrade
 
                 + "\n您的驾驶能力自信的分为:" + confidencegrade);
@@ -309,7 +310,7 @@ public class DescribeResult {
      * 登录用户的两种因素对另一种因素的影响
      * 对于每一种因素，计算出它影响最大的两种因素
      */
-    protected void getPersResultTwo() {
+    public String getPersResultTwo() {
         List<List<String>> dataresultrecord;
 
         int[] total = {0, 0, 0, 0};//计数器，计算A/B/C/D在最新插入的一条数据中的数量
@@ -365,13 +366,18 @@ public class DescribeResult {
 
             }
         }
+        JSONObject pRes2 = new JSONObject();
+        JSONArray pRes2Score = new JSONArray();
+        JSONArray pRes2Result = new JSONArray();
         double max = 0;
         int re1 = 0, re2 = 0;
         for (int i = 0; i < 3; i++) {
             for (int k = 0; k < 4; k++) {
                 for (int m = 0; m < 4; m++) {
-                    if(influenceScores[i][k][m]!=0)
-                    System.out.println("您的"+FourTables[i] + " 受 " + FourTables[k] + " 和 " + FourTables[m] + " 的影响系数为"+influenceScores[i][k][m]);
+                    if (influenceScores[i][k][m] != 0) {
+                        System.out.println("您的" + FourTables[i] + " 受 " + FourTables[k] + " 和 " + FourTables[m] + " 的影响系数为" + influenceScores[i][k][m]);
+                        pRes2Score.put(influenceScores[i][k][m]);
+                    }
                     if (influenceScores[i][k][m] > max) {
                         max = influenceScores[i][k][m];
                         re1 = k;
@@ -380,10 +386,15 @@ public class DescribeResult {
                 }
 
             }
-            System.out.println("\n您的"+FourTables[i] + " 受 " + FourTables[re1] + " 和 " + FourTables[re2] + " 影响最大为"+influenceScores[i][re1][re2]+"\n\n");
-            max=0;
-            re1=0;re2=0;
+            System.out.println("\n您的" + FourTables[i] + " 受 " + FourTables[re1] + " 和 " + FourTables[re2] + " 影响最大为" + influenceScores[i][re1][re2] + "\n\n");
+            pRes2Result.put("您的" + FourTables[i] + " 受 " + FourTables[re1] + " 和 " + FourTables[re2] + " 影响最大为" + influenceScores[i][re1][re2]);
+            max = 0;
+            re1 = 0;
+            re2 = 0;
         }
+        pRes2.put("score", pRes2Score);
+        pRes2.put("res", pRes2Result);
+        return pRes2.toString();
     }
 
     public static void main(String[] args) {

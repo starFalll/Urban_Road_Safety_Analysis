@@ -1,7 +1,9 @@
 <%@ page import="team.web_first.javabean.User" %>
-<%@ page import="org.json.JSONObject" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
+    /**
+     * 获得session用户对象
+     * */
     User user;
     user = (User) request.getSession().getAttribute("user");
 %>
@@ -124,10 +126,8 @@
             <h1>多因素统计分析图</h1>
             <br/>
             <p>
-                testtesttesttesttesttestestestsestestestessteste
-                testtesttesttesttesttestestestsestestestessteste
-                testtesttesttesttesttestestestsestestestessteste
-                testtesttesttesttesttestestestsestestestessteste
+                横轴表示四种不同的因素，纵轴表示一种因素和另外三种因素之间的相关系数，相关系数越高，两种因素相互影响越大。
+                三因素系数图中，横轴表示两种因素对第三种因素，纵轴表示三因素的相关系数，相关系数越大，这两种因素对第三种因素的影响越大。
             </p>
         </div>
         <div class="introduction1" id="introduction1">
@@ -157,7 +157,7 @@
         <div class="introduction3">
             <hr/>
             <div class="intro3-header ">
-                <h1>在三因数系数图中</h1>
+                <h1>在三因素系数图中</h1>
             </div>
             <div class="intro3-content ">
                 <h3><span>A</span>为道路风险感知能力</h3>
@@ -187,6 +187,19 @@
         <div class="bar-content">
             <div class="bar" id="bar1"></div>
         </div>
+        <br/>
+        <hr/>
+        <div class="intro4-content">
+            <ul>
+                <li id="pA"></li>
+                <li id="pD"></li>
+                <li id="pC"></li>
+            </ul>
+        </div>
+        <br/>
+        <div class="pie-content">
+            <div class="pie" id="pie2"></div>
+        </div>
     </div>
     <div style="display: none" class="quest-panel panel panel-default">
         <div class="panel-heading">
@@ -208,29 +221,27 @@
 </div>
 <script>
 
-    /**
-     * 绘制图表
-     * */
+    //绘制图表
     var bar1Chart = echarts.init(document.getElementById('bar1'));
     var bar2Chart = echarts.init(document.getElementById('bar2'));
     var bar3Chart = echarts.init(document.getElementById('bar3'));
     var bar4Chart = echarts.init(document.getElementById('bar4'));
     var bar5Chart = echarts.init(document.getElementById('bar5'));
     var pieChart = echarts.init(document.getElementById('pie'));
+    var pie2Chart = echarts.init(document.getElementById('pie2'));
     //bar1
     $(function () {
         bar1Chart.showLoading();
         $.ajax(
             {
                 url: "/Urban_Road_Safety_Analysis/PersResultServlet",
-                data:<%=new JSONObject(user)%>,
                 success: function (data) {
                     var persResult = JSON.parse(data);
                     bar1Chart.hideLoading();
                     bar1Chart.setOption({
                         backgroundColor: '#1A1A1A',
                         title: {
-                            text: '个人测试结果'.split("").join("\n"),
+                            text: '个人测试得分'.split("").join("\n"),
                             textStyle: {
                                 shadowColor: '#000000',
                                 shadowBlur: 5,
@@ -458,10 +469,10 @@
             url: "/Urban_Road_Safety_Analysis/ResultServlet",
             success: function (data) {
                 results = JSON.parse(data);
-                for (i = 0; i < 4; i++) {
-                    for (j = 0; j < 4; j++) {
+                for (var i = 0; i < 4; i++) {
+                    for (var j = 0; j < 4; j++) {
                         if (i != j) {
-                            for (k = 0, len = results.length; k < len; k++) {
+                            for (var k = 0, len = results.length; k < len; k++) {
                                 if (results[k].name1 == maps[i] && results[k].name2 == maps[j]) {
                                     datas[j][i] = results[k].confidence;
                                     datas[i][j] = results[k].confidence;
@@ -1107,6 +1118,415 @@
             ]
         });
     });
+    //pie2
+    $(function () {
+        pie2Chart.showLoading();
+        $.ajax(
+            {
+                url: "/Urban_Road_Safety_Analysis/PersResult2Servlet",
+                timeout: 5000,
+                success: function (data) {
+                    var pRes2s = JSON.parse(data);
+                    var pRes2sScore = pRes2s.score;
+                    var pRes2sResult = pRes2s.res;
+                    $("#pA").text(pRes2sResult[0]);
+                    $("#pD").text(pRes2sResult[1]);
+                    $("#pC").text(pRes2sResult[2]);
+                    pie2Chart.hideLoading();
+                    pie2Chart.setOption(
+                        {
+                            baseOption: {
+                                backgroundColor: '#1A1A1A',
+                                title: [
+                                    {
+                                        text: '各因素受双因素的影响',
+                                        left: 'center',
+                                        top: 10,
+                                        textStyle: {
+                                            fontWeight: 400,
+                                            fontSize: 30,
+                                            shadowColor: '#000000',
+                                            shadowBlur: 5,
+                                            shadowOffsetX: 3,
+                                            shadowOffsetY: 3,
+                                            color: '#e4e4e4',
+                                        },
+                                    },
+                                    {
+                                        text: '道路风险感知能力',
+                                    }, {
+                                        text: '危险驾驶行为',
+                                    }, {
+                                        text: '驾驶能力自信',
+                                    }
+                                ],
+                                series: [{
+                                    name: 'A',
+                                    type: 'pie',
+                                    roseType: 'radius',
+                                    label: {
+                                        normal: {
+                                            show: false
+                                        },
+                                        emphasis: {
+                                            show: true,
+                                            formatter: '{b}\n{c}',
+                                            textBorderColor: '#101010',
+                                            textBorderWidth: 1,
+                                            textShadowColor: '#101010',
+                                            textShadowBlur: 4,
+                                            textShadowOffsetX: 2,
+                                            textShadowOffsetY: 2
+                                        }
+                                    },
+                                    lableLine: {
+                                        normal: {
+                                            show: false
+                                        },
+                                        emphasis: {
+                                            show: true
+                                        }
+                                    },
+                                    data: [
+                                        {value: pRes2sScore[0], name: '危险驾驶行为&\n驾驶能力自信'},
+                                        {value: pRes2sScore[1], name: '危险驾驶行为&\n人格特性'},
+                                        {value: pRes2sScore[2], name: '驾驶能力自信&\n人格特性'}
+                                    ]
+                                }, {
+                                    name: 'D',
+                                    type: 'pie',
+                                    roseType: 'radius',
+                                    label: {
+                                        normal: {
+                                            show: false
+                                        },
+                                        emphasis: {
+                                            show: true,
+                                            formatter: '{b}\n{c}',
+                                            textBorderColor: '#101010',
+                                            textBorderWidth: 1,
+                                            textShadowColor: '#101010',
+                                            textShadowBlur: 4,
+                                            textShadowOffsetX: 2,
+                                            textShadowOffsetY: 2
+                                        }
+                                    },
+                                    lableLine: {
+                                        normal: {
+                                            show: false
+                                        },
+                                        emphasis: {
+                                            show: true
+                                        }
+                                    },
+                                    data: [
+                                        {value: pRes2sScore[3], name: '道路风险感知能力&\n驾驶能力自信'},
+                                        {value: pRes2sScore[4], name: '道路风险感知能力&\n人格特性'},
+                                        {value: pRes2sScore[5], name: '驾驶能力自信&\n人格特性'}
+                                    ]
+                                },
+                                    {
+                                        name: 'C',
+                                        type: 'pie',
+                                        roseType: 'radius',
+                                        label: {
+                                            normal: {
+                                                show: false
+                                            },
+                                            emphasis: {
+                                                show: true,
+                                                formatter: '{b}\n{c}',
+                                                textBorderColor: '#101010',
+                                                textBorderWidth: 1,
+                                                textShadowColor: '#101010',
+                                                textShadowBlur: 4,
+                                                textShadowOffsetX: 2,
+                                                textShadowOffsetY: 2
+                                            }
+                                        },
+                                        lableLine: {
+                                            normal: {
+                                                show: false
+                                            },
+                                            emphasis: {
+                                                show: true
+                                            }
+                                        },
+                                        data: [
+                                            {value: pRes2sScore[6], name: '道路风险感知能力&\n危险驾驶行为'},
+                                            {value: pRes2sScore[7], name: '道路风险感知能力&\n人格特性'},
+                                            {value: pRes2sScore[8], name: '危险驾驶行为&\n人格特性'}
+                                        ]
+                                    }
+                                ],
+                            },
+                            media: [
+                                {
+                                    query: {
+                                        minWidth: 815,
+                                        maxWidth: 1450
+                                    },
+                                    option: {
+                                        title: [
+                                            {},
+                                            {
+                                                left: '18%',
+                                                top: '20%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 20,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                },
+                                            },
+                                            {
+                                                left: '44%',
+                                                top: '20%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 20,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                },
+                                            },
+                                            {
+                                                left: '69%',
+                                                top: '20%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 20,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                },
+                                            }
+                                        ],
+                                        series: [
+                                            {
+                                                radius: [20, 110],
+                                                center: ['25%', '50%'],
+                                            },
+                                            {
+                                                radius: [20, 110],
+                                                center: ['50%', '50%']
+                                            },
+                                            {
+                                                radius: [20, 110],
+                                                center: ['75%', '50%'],
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    query: {
+                                        minWidth: 614,
+                                        maxWidth: 815
+                                    },
+                                    option: {
+                                        title: [
+                                            {},
+                                            {
+                                                left: '25%',
+                                                top: '15%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 15,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                }
+                                            },
+                                            {
+                                                left: '60%',
+                                                top: '15%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 15,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                }
+                                            },
+                                            {
+                                                left: '62%',
+                                                top: '77%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 15,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                }
+                                            }
+                                        ],
+                                        series: [
+                                            {
+                                                radius: [15, 90],
+                                                center: ['33%', '40%'],
+                                            },
+                                            {
+                                                radius: [15, 90],
+                                                center: ['66%', '40%']
+                                            },
+                                            {
+                                                radius: [15, 90],
+                                                center: ['48%', '80%'],
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    query: {
+                                        minWidth: 320,
+                                        maxWidth: 614
+                                    },
+                                    option: {
+                                        title: [
+                                            {},
+                                            {
+                                                left: '19%',
+                                                top: '15%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 15,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                }
+                                            },
+                                            {
+                                                left: '56%',
+                                                top: '15%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 15,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                }
+                                            },
+                                            {
+                                                left: '62%',
+                                                top: '77%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 15,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                }
+                                            }
+                                        ],
+                                        series: [
+                                            {
+                                                radius: [7, 60],
+                                                center: ['33%', '40%'],
+                                            },
+                                            {
+                                                radius: [7, 60],
+                                                center: ['66%', '40%']
+                                            },
+                                            {
+                                                radius: [7, 60],
+                                                center: ['48%', '80%'],
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    option: {
+                                        title: [
+                                            {},
+                                            {
+                                                left: '18%',
+                                                top: '20%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 20,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                },
+                                            },
+                                            {
+                                                left: '44%',
+                                                top: '20%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 20,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                },
+                                            },
+                                            {
+                                                left: '69%',
+                                                top: '20%',
+                                                textStyle: {
+                                                    fontWeight: 400,
+                                                    fontSize: 20,
+                                                    shadowColor: '#000000',
+                                                    shadowBlur: 5,
+                                                    shadowOffsetX: 3,
+                                                    shadowOffsetY: 3,
+                                                    color: '#e4e4e4',
+                                                },
+                                            }
+                                        ],
+                                        series: [
+                                            {
+                                                radius: [20, 110],
+                                                center: ['25%', '50%'],
+                                            },
+                                            {
+                                                radius: [20, 110],
+                                                center: ['50%', '50%']
+                                            },
+                                            {
+                                                radius: [20, 110],
+                                                center: ['75%', '50%'],
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    )
+                },
+                error: function () {
+                    location.reload(true);
+                }
+            }
+        )
+    })
+
+    /**
+     * 分辨率改变 视图重绘
+     * */
 
     function resize() {
         bar1Chart.resize();
@@ -1115,11 +1535,9 @@
         bar4Chart.resize();
         bar5Chart.resize();
         pieChart.resize();
+        pie2Chart.resize();
     }
 
-    /**
-     * 分辨率改变 视图重绘
-     * */
     window.onresize = function () {
         resize();
     }
