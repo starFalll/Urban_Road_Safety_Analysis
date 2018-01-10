@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * PersResult2Servlet
+ * 处理个人分析2 的Servlet
+ * @author a9043
+ */
 @WebServlet(name = "PersResult2Servlet", urlPatterns = "/PersResult2Servlet")
 public class PersResult2Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,9 +39,12 @@ public class PersResult2Servlet extends HttpServlet {
             int recordId = userMapper.getRecord(user.getUserID());
 
             /**
-             * 记录判断
+             * 进行记录判断
              */
             if (recordId != 0) {
+                /**
+                 * 有记录 调用describeResult处理并返回分析结果
+                 */
                 DescribeResult describeResult = new DescribeResult(recordId);
                 String pRes2 = describeResult.getPersResultTwo();
                 request.getSession().setAttribute("user", user);
@@ -44,14 +52,16 @@ public class PersResult2Servlet extends HttpServlet {
                 response.getWriter().write(pRes2);
             } else {
                 /**
-                 * 查询得到无记录
+                 * 查询得到无记录则
+                 * 返回错误状态码
                  */
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         } catch (Exception e) {
             e.printStackTrace();
             /**
-             * 会话无用户
+             * 会话无用户则
+             * 返回欢迎页
              */
             response.sendRedirect("/Urban_Road_Safety_Analysis/welcome.html");
         } finally {

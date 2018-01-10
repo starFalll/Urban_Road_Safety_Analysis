@@ -17,6 +17,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+
+/**
+ * ResultServlet
+ * 获得总分析数据1
+ * @author a9043
+ */
 @WebServlet(name = "ResultServlet", urlPatterns = "/ResultServlet")
 public class ResultServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,7 +31,8 @@ public class ResultServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /**
-         * 获得 Result[] results
+         * 查询数据库
+         * 获得 总分析数据 results
          */
         JSONArray resJson = new JSONArray();
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlsession();
@@ -34,7 +41,7 @@ public class ResultServlet extends HttpServlet {
 
 
         /**
-         * results 转换成 JSONObject
+         * results 转换成 JSON Object
          */
         for (Result result : results) {
             JSONObject ele = new JSONObject();
@@ -45,7 +52,7 @@ public class ResultServlet extends HttpServlet {
         }
 
         /**
-         * 传递json字符串
+         * response返回JSON 对象字符串
          */
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(resJson.toString());

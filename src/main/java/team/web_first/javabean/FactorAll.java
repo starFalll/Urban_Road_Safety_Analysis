@@ -21,11 +21,6 @@ public class FactorAll implements Serializable {
 
     private boolean D1, D2, D3, D4, D5, D6;
 
-    /**
-     * 和算法的接口，勿删
-     *
-     * @return
-     */
     public boolean[] getAllBooleanValue() {
         boolean[] All = {A1, A2, A3, A4, A5, A6, B1, B2, B3, B4, B5, B6, C1, C2, C3, C4, C5, C6, D1, D2, D3, D4, D5, D6};
         return All;
