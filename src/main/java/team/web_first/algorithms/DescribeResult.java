@@ -11,6 +11,7 @@ import team.web_first.mapper.FactorMapper;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -375,6 +376,8 @@ public class DescribeResult {
             for (int k = 0; k < 4; k++) {
                 for (int m = 0; m < 4; m++) {
                     if (influenceScores[i][k][m] != 0) {
+                        DecimalFormat df= new DecimalFormat("0.0000");
+                        influenceScores[i][k][m]=new Double(df.format(influenceScores[i][k][m]));
                         System.out.println("您的" + FourTables[i] + " 受 " + FourTables[k] + " 和 " + FourTables[m] + " 的影响系数为" + influenceScores[i][k][m]);
                         pRes2Score.put(influenceScores[i][k][m]);
                     }
