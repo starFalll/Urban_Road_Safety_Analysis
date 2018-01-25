@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
+ * LoginServlet
  * Servlet implementation class LoginServlet
  * 登录处理 Servlet
+ * @author a9043
  */
 @WebServlet(name = "login", urlPatterns = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -37,19 +39,25 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        /**
+         * 移除前用户对象
+         * 设定request&response字符集为UTF-8
+         */
         request.getSession().removeAttribute("user");
         request.getSession().removeAttribute("persResult");
-        // TODO Auto-generated method stub
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset = UTF-8");
         response.setCharacterEncoding("UTF-8");
-        //设定字符集
 
         String userName = "";
         String userPassword;
         String userEncryptPassword = "";
-        //创建临时对象
 
+        /**
+         * 获得登录参数
+         * 用户名&密码
+         * 对登录密码进行加密
+         */
         try {
             userName = request.getParameter("username");
             userPassword = request.getParameter("password");
@@ -58,7 +66,13 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("/Urban_Road_Safety_Analysis/login.html?checkUnValid=1");
             e.printStackTrace();
         }
-        //取得参数创建临时对象
+
+        /**
+         * 对参数内容检验
+         * 是否合法用户
+         * 是则进入主页
+         * 否则返回欢迎页面
+         */
         User checkedUser;
         try (SqlSession sqlSession = SqlSessionFactoryUtil.openSqlsession()) {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);

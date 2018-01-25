@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * Servlet implementation class QuestServlet
  * 问卷处理 Servlet
- * AJAX 方式
+ * @author a9043
  */
 
 @WebServlet(name = "QuestServlet", urlPatterns = "/QuestServlet")
@@ -34,7 +34,9 @@ public class QuestServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //获得选项参数
+        /**
+         * 获得选项参数 paramValues
+         */
         String[] paramValues = request.getParameterValues("options[]");
         boolean[] aValues = new boolean[NUM];
         boolean[] bValues = new boolean[NUM];
@@ -42,11 +44,15 @@ public class QuestServlet extends HttpServlet {
         boolean[] dValues = new boolean[NUM];
         SqlSession sqlSession = null;
 
-        //打开SQL session
+        /**
+         * 获得Sqlsession 准备插入数据
+         */
         sqlSession = SqlSessionFactoryUtil.openSqlsession();
         FactorMapper factorMapper = sqlSession.getMapper(FactorMapper.class);
 
-        //转换参数
+        /**
+         * 对获得的参数进行处理
+         */
         for (int i = 0; i < NUM; i++) {
             aValues[i] = Boolean.valueOf(paramValues[i]);
         }
@@ -64,7 +70,9 @@ public class QuestServlet extends HttpServlet {
         }
 
 
-        //写入数据库
+        /**
+         * 对处理后的参数生成相应的POJO
+         */
         FactorA factorA = new FactorA();
         factorA.setA1(aValues[0]);
         factorA.setA2(!aValues[1]);
@@ -97,10 +105,19 @@ public class QuestServlet extends HttpServlet {
         factorC.setC5(cValues[4]);
         factorC.setC6(cValues[5]);
 
+        /**
+         * 项数据库填入POJO
+         */
         factorMapper.addFactorA(factorA);
         factorMapper.addFactorB(factorB);
         factorMapper.addFactorC(factorC);
         factorMapper.addFactorD(factorD);
+
+        /**
+         * 检查改问卷调查是否匿名
+         * 是则无处理
+         * 否则挂钩ID写入数据库记录
+         */
         try {
             int userId = Integer.valueOf(request.getParameter("userId"));
             if (userId != 0) {
@@ -111,14 +128,12 @@ public class QuestServlet extends HttpServlet {
 
         }
 
-
-        //事务提交 关闭连接
         sqlSession.commit();
         sqlSession.close();
 
-        Apriori.run();
         /**
-         * 更新数据库
+         * 写入该次问卷调查后更新数据库总分析
          */
+        Apriori.run();
     }
 }

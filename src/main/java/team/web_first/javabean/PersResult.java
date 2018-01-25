@@ -2,7 +2,7 @@ package team.web_first.javabean;
 
 public class PersResult {
     double abiOneScore, abiTwoScore, abiThrScore;
-    int oneDegree, twoDegree,thrDegree;
+    int oneDegree, twoDegree, thrDegree;
 
     public int getOneDegree() {
         return oneDegree;

@@ -124,6 +124,7 @@
         <result property="secondChar" column="SecondCharacteristic"/>
         <result property="confidenceTwo" column="Twoconfidence"/>
     </resultMap>
+
     <!--获得所有FactorA 查询结果集-->
     <select id="showFactorA" resultMap="factorAMap">
         SELECT * FROM risk_perception;
@@ -205,7 +206,9 @@
         INSERT INTO data_result_two(Maincharacteristic,FirstCharacteristic,SecondCharacteristic,Twoconfidence) VALUES (#{mainChar},#{firstChar},#{secondChar},#{confidenceTwo})
     </insert>
 
+    <!--清空data_result -->
     <update id="tcDataResult">truncate table web_first.data_result</update>
 
+    <!--清空data_result_two -->
     <update id="tcDataResult2">truncate table web_first.data_result_two</update>
 </mapper>

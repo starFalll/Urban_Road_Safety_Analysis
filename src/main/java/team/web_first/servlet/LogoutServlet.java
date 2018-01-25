@@ -11,10 +11,12 @@ import org.apache.log4j.Logger;
 import team.web_first.algorithms.Log4jUtil;
 
 /**
+ * LogoutServlet
  * Servlet implementation class LogoutServlet
  * 登出处理 servlet
+ * 移除session中的User对象
+ * @author a9043
  */
-
 @WebServlet(name = "LogoutServlet", urlPatterns = "/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;

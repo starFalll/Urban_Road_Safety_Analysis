@@ -31,6 +31,7 @@
 		values(#{userName},#{userPassword},#{userCreateTime},#{userValidTime})
 	</insert>
 
+    <!--更新问卷挂钩id记录-->
     <insert id="addRecord" useGeneratedKeys="true" keyProperty="recId">
         INSERT INTO user_record(ur_id, ur_record_id) VALUES(#{userId},#{userRecordId})
     </insert>

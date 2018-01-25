@@ -17,8 +17,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
+ * RegisterServlet
  * Servlet implementation class RegisterServlet
  * 用户注册 Servlet
+ * @author a9043
  */
 @WebServlet(name = "RegisterServlet", urlPatterns = "/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
@@ -43,24 +45,26 @@ public class RegisterServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset = UTF-8");
         response.setCharacterEncoding("UTF-8");
-        //设定字符集
 
-        // TODO Auto-generated method stub
+        /**
+         * 设定账户创建日期,及有效日期
+         */
         Date userCurrentTime = new Date();
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(userCurrentTime);
-        calendar.add(Calendar.DATE, 30);
+        calendar.add(Calendar.DATE, 90);
         Date userValidTime = calendar.getTime();
-        //账户创建日期,及有效日期
 
         String userEncryptPassword;
         String userPassword;
         User tempUser = new User();
-        //创建临时账户对象
+        /**
+         * 获得参数并
+         * 处理成User 临时对象
+         */
         try {
             userPassword = request.getParameter("password");
             userEncryptPassword = UserPasswordEncrypt.encrypt(userPassword);
-
             tempUser.setUserName(request.getParameter("username"));
             tempUser.setUserPassword(userEncryptPassword);
             tempUser.setUserCreateTime(userCurrentTime);
@@ -69,8 +73,12 @@ public class RegisterServlet extends HttpServlet {
             response.sendRedirect("/Urban_Road_Safety_Analysis/login.html");
             e.printStackTrace();
         }
-        //账户密码加密
 
+        /**
+         * 检查该临时用户是否存在
+         * 是则返回信息并重定向login.html
+         * 否则保存用户记录并重定向到index Servlet
+         */
         SqlSession sqlSession = null;
         try {
             User checkedUser;

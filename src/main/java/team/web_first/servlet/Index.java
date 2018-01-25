@@ -8,7 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+/**
+ * Index
+ * Servlet 登录后主页处理Servlet
+ * 检查session中用户对象
+ * 有则服务器转发到 /WEB-INF/index.jsp 页面
+ * 无则退出
+ * @author a9043
+ */
 @WebServlet(name = "Index", urlPatterns = "/index")
 public class Index extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

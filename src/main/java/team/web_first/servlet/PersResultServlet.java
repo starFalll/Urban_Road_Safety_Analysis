@@ -14,7 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+/**
+ * PersResultServlet
+ * 处理 个人分析1 的Servlet
+ * @author a9043
+ */
 @WebServlet(name = "PersResultServlet", urlPatterns = "/PersResultServlet")
 public class PersResultServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

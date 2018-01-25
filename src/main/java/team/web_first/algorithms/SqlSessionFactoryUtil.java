@@ -8,6 +8,10 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * SqlSessionFactoryUtil
+ * 全局唯一SqlSessionFactory
+ */
 public class SqlSessionFactoryUtil {
     private static SqlSessionFactory sqlSessionFactory = null;
     private static final Class CLASS_LOCK = SqlSessionFactoryUtil.class;
